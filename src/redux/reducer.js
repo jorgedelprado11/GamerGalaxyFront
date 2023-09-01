@@ -1,13 +1,25 @@
-import {} from "./actions/actions-types";
+/** @format */
+
+import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
 
 const initialState = {
-  algo: [],
+  productos: [],
+  destacados: [],
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case algo:
-      return { ...state };
+    case GET_DESCUENTOS:
+      return { ...state, destacados: action.payload };
+
+    case GET_NAME:
+      console.log("reducer", action.payload);
+      return { ...state, productos: action.payload };
+
+    case CLEAN:
+      return {
+        destacados: [...destacados],
+      };
     default:
       return { ...state };
   }
