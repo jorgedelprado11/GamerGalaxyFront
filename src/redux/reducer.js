@@ -6,7 +6,7 @@ import {
 } from "./actions/actions-types";
 
 const initialState = {
-  productos: [],
+  productosAdmin: [],
   productoBorrados: [],
   copiaProductos: [],
   producto: {},
@@ -17,18 +17,18 @@ const rootReducer = (state = initialState, action) => {
     case GET_PRODUCTOS:
       return {
         ...state,
-        productos: action.payload,
+        productosAdmin: action.payload,
         copiaProductos: action.payload,
       };
 
     case GET_PRODUCTO_NOMBRE:
-      return { ...state, productos: action.payload };
+      return { ...state, productosAdmin: action.payload };
 
     case DELETE_PRODUCTO:
-      return { ...state, productos: action.payload };
+      return { ...state, productosAdmin: action.payload };
 
     case PUT_PRODUCTO:
-      return { ...state, productos: action.payload };
+      return { ...state, productosAdmin: action.payload };
 
     default:
       return { ...state };

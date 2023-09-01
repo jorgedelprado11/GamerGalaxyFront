@@ -43,7 +43,7 @@ const Modificador = ({ id }) => {
             className="w-36 pl-6 text-blue-500 ml-1"
           />
         </div>
-        <button type="submit" className="bg-green-700 h-7 text-xs ">
+        <button type="submit" className="bg-green-700 h-7 text-xs w-full mb-1">
           Guardar
         </button>
       </form>

@@ -11,7 +11,7 @@ import SearchbarAdmin from "../../components/SearchbarAdmin/SearchbarAdmin";
 import Modificador from "../../components/Modificador/Modificador";
 const Productos = () => {
   const [mostrarComponente, setMostrarComponente] = useState(false);
-  const productos = useSelector((state) => state.productos);
+  const productos = useSelector((state) => state.productosAdmin);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(obtenerProductos());
@@ -85,7 +85,7 @@ const Productos = () => {
             <td className="h-7 text-xs text-center border border-black">
               {producto.stock}
             </td>
-            <td className="h-8">
+            <td className="h-8 border border-black">
               <button
                 className="h-7 w-200 text-red-500 text-xs"
                 value={producto.id_producto}
@@ -97,7 +97,7 @@ const Productos = () => {
             <td>
               <button
                 onClick={toggleComponente}
-                className="h-7 w-200 text-blue-500 text-xs text-center"
+                className="h-7 w-200 text-blue-500 text-xs text-center w-full mt-1 "
               >
                 {mostrarComponente ? "Ocultar" : "Modificar"}
               </button>
