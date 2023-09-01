@@ -1,4 +1,11 @@
 
+import { NavLink } from "react-router-dom";
+
+import Admin from "./views/Admin/Admin";
+import Usuarios from "./views/Admin/Usuarios";
+import Productos from "./views/Admin/Productos";
+
+
 import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar"
@@ -11,6 +18,7 @@ import About from "./views/About/About";
 import Productos from "./views/Productos/Productos";
 
 
+
 function App() {
   const location = useLocation()
   return (
@@ -18,11 +26,17 @@ function App() {
       {location.pathname !== "/" && <Navbar />}
       <Routes>
 
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/Usuarios" element={<Usuarios />} />
+        <Route path="/admin/Productos" element={<Productos />} />
+
+
         <Route path="home" element={<Home />} />
         <Route path="ayuda" element={<Ayuda />} />
         <Route path="form" element={<Modal />} />
         <Route path="about" element={<About />} />
         <Route path="/productos" element={<Productos />} />
+
       </Routes>
     </div>
   );

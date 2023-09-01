@@ -1,6 +1,9 @@
 
 
 import {
+  DELETE_PRODUCTO,
+  GET_PRODUCTO_NOMBRE,
+  PUT_PRODUCTO,
   GET_PRODUCTS,
   GET_CATEGORIES,
   GET_SUBCATEGORIES,
@@ -13,6 +16,11 @@ import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
 
 
 let initialState = {
+  //admin
+  productosAdmin: [],
+  productoBorrados: [],
+  producto: {},
+  
   // estados globales de productos
   productos: [],
   backup: [],
@@ -27,6 +35,15 @@ let initialState = {
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case GET_PRODUCTO_NOMBRE:
+      return { ...state, productosAdmin: action.payload };
+
+    case DELETE_PRODUCTO:
+      return { ...state, productosAdmin: action.payload };
+
+    case PUT_PRODUCTO:
+      return { ...state, productosAdmin: action.payload };
 
     case GET_DESCUENTOS:
       return { ...state, destacados: action.payload };
@@ -48,6 +65,7 @@ const rootReducer = (state = initialState, action) => {
       ).slice(0, 12);
       return {
         ...state,
+        productosAdmin: action.payload,
         productos: [...destacados],
         backup: action.payload,
       };
@@ -82,6 +100,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         productos: [...filtered],
       };
+
 
     default:
       return { ...state };
