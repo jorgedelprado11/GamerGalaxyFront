@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<ProductForm />} /> {/* Corrección en el nombre del componente */}
+        <Route path="/admin/Productos/create" element={<ProductForm />} /> {/* Corrección en el nombre del componente */}
       </Routes>
     </>
   );
