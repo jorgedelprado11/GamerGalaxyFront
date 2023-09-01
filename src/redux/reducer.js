@@ -1,4 +1,5 @@
 
+
 import {
   GET_PRODUCTS,
   GET_CATEGORIES,
@@ -20,6 +21,7 @@ let initialState = {
   // estados categorias
   categorias: [],
   subCategorias: [],
+
 
 };
 
@@ -83,6 +85,7 @@ const rootReducer = (state = initialState, action) => {
 
     default:
       return { ...state };
+
   }
 };
 
