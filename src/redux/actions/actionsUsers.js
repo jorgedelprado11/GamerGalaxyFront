@@ -1,4 +1,3 @@
-
 import {
   GET_PRODUCTS,
   GET_CATEGORIES,
@@ -48,9 +47,7 @@ export const getProductByName = (nombre) => {
 
 export const clean = () => {
   return { type: CLEAN };
-
-
-
+};
 
 export const getProducts = () => {
   return async (dispatch) => {
@@ -101,5 +98,4 @@ export const orderByPrice = (order) => {
     type: ORDER_BY_PRICE,
     payload: order,
   };
-
 };

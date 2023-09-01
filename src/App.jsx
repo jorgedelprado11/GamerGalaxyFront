@@ -8,8 +8,6 @@ import Modal from "./views/Ayuda/Modal";
 import About from "./views/About/About";
 
 
-import Home from "./views/Home/Home";
-
 import Productos from "./views/Productos/Productos";
 
 

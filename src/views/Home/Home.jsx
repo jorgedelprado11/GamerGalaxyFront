@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDescuentos } from "../../redux/actions/actionsUsers";
@@ -56,7 +54,7 @@ const Home = () => {
 
   return (
     <div className="bg-cover bg-center h-screen flex flex-col items-center justify-center w-screen">
-      <SearchProduct />
+      
       {/* <button
         onClick={handlePrevPage}
         className="page"
@@ -87,7 +85,7 @@ const Home = () => {
         </div>
       </div>
     </div>
-
+  );
 };
 
 export default Home;

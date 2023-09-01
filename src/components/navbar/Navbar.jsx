@@ -3,6 +3,7 @@ import { ShoppingCartIcon, MagnifyingGlassIcon, UserCircleIcon } from "@heroicon
 import logo from "../../assets/logo.jpg";
 import { Link } from 'react-router-dom';
 import Modal from "../../views/Ayuda/Modal";
+import SearchProduct from "../Searchbar/Serchbar";
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,10 +14,11 @@ const Navbar = () => {
       <Link to={'/home'}>
         <img className="h-20" src={logo} alt="logo" />
         </Link>
-        <div className="flex w-[500px] justify-end">
+        <SearchProduct/>
+        {/* <div className="flex w-[500px] justify-end">
           <input className="bg-white-500 rounded-lg h-10 w-full border hover:border-black" type="text" placeholder='  Buscador' />
           <button className="absolute h-10 w-12"><MagnifyingGlassIcon className="h-8 w-8" /></button>
-        </div>
+        </div> */}
         <Link to={'/form'}>
         <button className="flex bg-blue-700 rounded-lg h-14 items-center w-64 justify-center text-white" onClick={() => setIsModalOpen(true)}><UserCircleIcon className="h-8 w-10"/>INICIAR SESIÓN</button>
         </Link>
