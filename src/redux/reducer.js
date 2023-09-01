@@ -1,3 +1,4 @@
+
 import {
   GET_PRODUCTS,
   GET_CATEGORIES,
@@ -5,19 +6,38 @@ import {
   GET_BY_CATEGORIES,
   ORDER_BY_PRICE,
 } from "./actions/actions-types";
+import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
+
+
+
 
 let initialState = {
   // estados globales de productos
   productos: [],
   backup: [],
+  destacados: [],
 
   // estados categorias
   categorias: [],
   subCategorias: [],
+
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case GET_DESCUENTOS:
+      return { ...state, destacados: action.payload };
+
+    case GET_NAME:
+      console.log("reducer", action.payload);
+      return { ...state, productos: action.payload };
+
+    case CLEAN:
+      return {
+        destacados: [...destacados],
+      };
+
     case GET_PRODUCTS:
       // console.log("desde el reducer", action.payload);
       //con esto traigo solo destacados y me guardo todo lo otro en el backup
