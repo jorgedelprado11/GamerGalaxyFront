@@ -1,7 +1,14 @@
-/** @format */
 
-import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions-types";
+import {
+  GET_PRODUCTS,
+  GET_CATEGORIES,
+  GET_BY_CATEGORIES,
+  GET_SUBCATEGORIES,
+  ORDER_BY_PRICE,
+} from "./actions-types";
 import axios from "axios";
+const URL = "http://localhost:3001";
+import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions-types";
 
 export const getDescuentos = () => {
   return async function (dispatch) {
@@ -41,4 +48,58 @@ export const getProductByName = (nombre) => {
 
 export const clean = () => {
   return { type: CLEAN };
+
+
+
+
+export const getProducts = () => {
+  return async (dispatch) => {
+    const { data } = await axios(`${URL}/productos`);
+    // console.log(data);
+
+    // console.log("desde el actions", data);
+    return dispatch({
+      type: GET_PRODUCTS,
+      payload: data,
+    });
+  };
+};
+export const getCategories = () => {
+  return async (dispatch) => {
+    const { data } = await axios(`${URL}/macroCategories`);
+    // console.log(data);
+
+    // console.log("desde el actions", data);
+    return dispatch({
+      type: GET_CATEGORIES,
+      payload: data,
+    });
+  };
+};
+
+export const getSubCategories = () => {
+  return async (dispatch) => {
+    const { data } = await axios(`${URL}/categorias`);
+    // console.log('subcategorias desde el action',data.categories);
+
+    // console.log("desde el actions", data);
+    return dispatch({
+      type: GET_SUBCATEGORIES,
+      payload: data.categories,
+    });
+  };
+};
+export const getByCategories = (categoria) => {
+  // console.log('categoria desde action', categoria)
+  return {
+    type: GET_BY_CATEGORIES,
+    payload: categoria,
+  };
+};
+export const orderByPrice = (order) => {
+  return {
+    type: ORDER_BY_PRICE,
+    payload: order,
+  };
+
 };
