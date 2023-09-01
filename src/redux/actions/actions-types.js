@@ -1,1 +1,7 @@
 //aca van las actions typo: ACA_VAN_LAS_ACTIONS = 'ACA VAN LAS ACTIONS'
+
+export const GET_CATEGORIES = "GET_CATEGORIES";
+export const GET_PRODUCTOS = "GET_PRODUCTOS";
+export const GET_PRODUCTO_NOMBRE = "GET_PRODUCTO_NOMBRE";
+export const PUT_PRODUCTO = "PUT_PRODUCTO";
+export const DELETE_PRODUCTO = "DELETE_PRUDUCTO";
