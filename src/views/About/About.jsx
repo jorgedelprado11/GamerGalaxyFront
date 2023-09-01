@@ -141,7 +141,7 @@ const About = () => {
                 />
                 <div>
                   <h3 class="text-base font-semibold leading-7 tracking-tight text-gray-900">
-                    Macarena Catillo Ruiz
+                    Macarena Castillo Ruiz
                   </h3>
                   <p class="text-sm font-semibold leading-6 text-indigo-600">
                     Developer
