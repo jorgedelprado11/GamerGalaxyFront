@@ -3,7 +3,7 @@ import Productos from "./Productos";
 import { NavLink } from "react-router-dom";
 const Admin = () => {
   return (
-    <div className="flex flex-col mb-5 text-right  ">
+    <div className="flex flex-col mb-5 text-right bg-slate-700  ">
       <div>
         <div className="flex justify-end mt-5 mr-7">
           <ul className="flex space-x-10">

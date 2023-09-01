@@ -4,6 +4,8 @@ import {
   getProductoPorNombre,
   obtenerProductos,
 } from "../../redux/actions/actionsAdmin";
+import { NavLink } from "react-router-dom";
+
 
 const SearchbarAdmin = () => {
   const dispatch = useDispatch();
@@ -31,18 +33,20 @@ const SearchbarAdmin = () => {
             className="h-10 rounded-lg p-3 text-blue-500"
             onChange={(e) => handleChange(e)}
           />
-          <button className="rounded-2xl h-11 bg-slate-400 ml-1" type="submit">
+          <button className="rounded-2xl  bg-slate-400 p-2 h-12 w-fit ml-1" type="submit">
             Search
           </button>
           <button
-            className="bg-slate-400 rounded-2xl h-11 ml-1"
+            className="rounded-2xl  bg-slate-400 p-2 h-12 w-fit ml-1"
             onClick={handleAll}
           >
             All
           </button>
-          <button className="bg-slate-400 rounded-2xl ml-1">
-            Crear Producto
-          </button>
+          <NavLink to="create">
+            <button className="rounded-2xl  bg-slate-400 p-2 h-12 w-fit ml-1">
+              Crear Producto
+            </button>
+          </NavLink>
         </form>
       </div>
     </div>

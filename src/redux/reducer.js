@@ -1,9 +1,10 @@
-
-
-import {FETCH_CATEGORIES_SUCCESS, CREATE_PRODUCT_SUCCESS} from './actions/actionsAdmin';
-
+import {
+  FETCH_CATEGORIES_SUCCESS,
+  CREATE_PRODUCT_SUCCESS,
+} from "./actions/actionsAdmin";
 
 import {
+  GET_PRODUCTOS,
   DELETE_PRODUCTO,
   GET_PRODUCTO_NOMBRE,
   PUT_PRODUCTO,
@@ -15,17 +16,14 @@ import {
 } from "./actions/actions-types";
 import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
 
-
-
-
 let initialState = {
   //admin
   productosAdmin: [],
   productoBorrados: [],
   producto: {},
   createdProduct: null,
-  categoriaAdmin: [],
-  
+  categories: [],
+
   // estados globales de productos
   productos: [],
   backup: [],
@@ -34,26 +32,29 @@ let initialState = {
   // estados categorias
   categorias: [],
   subCategorias: [],
-
-
-
 };
-export default function rootReducer( state = initialState, action){
-  
+export default function rootReducer(state = initialState, action) {
   switch (action.type) {
-
+    case GET_PRODUCTOS:
+      return {
+        ...state,
+        productosAdmin: action.payload,
+        copiaProductos: action.payload,
+      };
     case FETCH_CATEGORIES_SUCCESS:
-   console.log(action.payload)
-    return {...state, categories: action.payload.map((categoria)=>
-      {return{
-       categoriaAdmin:categoria.nombre,
-       id_categorias:categoria.id_categoria, 
-    }})};
-     
-      case CREATE_PRODUCT_SUCCESS:
-        return action.payload;
-      default:
-      return state;
+      console.log(action.payload);
+      return {
+        ...state,
+        categories: action.payload.map((categoria) => {
+          return {
+            categoria: categoria.nombre,
+            id_categorias: categoria.id_categoria,
+          };
+        }),
+      };
+
+    case CREATE_PRODUCT_SUCCESS:
+      return action.payload;
 
     case GET_PRODUCTO_NOMBRE:
       return { ...state, productosAdmin: action.payload };
@@ -79,9 +80,9 @@ export default function rootReducer( state = initialState, action){
     case GET_PRODUCTS:
       // console.log("desde el reducer", action.payload);
       //con esto traigo solo destacados y me guardo todo lo otro en el backup
-      let destacados = action.payload.filter(
-        (producto) => producto.calificacion === 2
-      ).slice(0, 12);
+      let destacados = action.payload
+        .filter((producto) => producto.calificacion === 2)
+        .slice(0, 12);
       return {
         ...state,
         productosAdmin: action.payload,
@@ -120,15 +121,7 @@ export default function rootReducer( state = initialState, action){
         productos: [...filtered],
       };
 
-
     default:
       return { ...state };
-
-
   }
 }
-
-
-
-
-

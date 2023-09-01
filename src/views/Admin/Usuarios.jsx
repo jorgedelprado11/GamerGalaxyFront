@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 
 const Usuarios = () => {
   return (
-    <div>
-      <div className="flex justify-end mt-5 mr-7">
+    <div className="flex flex-col items-center bg-slate-700 h-screen">
+      <div className="flex w-screen justify-end mt-5 mr-8">
         <ul className="flex space-x-10">
           <NavLink to="/admin/usuarios">
             <li className="h-10 text-center items-center text-blue-200">

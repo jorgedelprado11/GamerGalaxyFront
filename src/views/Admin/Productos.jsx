@@ -9,7 +9,7 @@ import {
 } from "../../redux/actions/actionsAdmin";
 import SearchbarAdmin from "../../components/SearchbarAdmin/SearchbarAdmin";
 import Modificador from "../../components/Modificador/Modificador";
-const Productos = () => {
+const ProductosAdmin = () => {
   const [mostrarComponente, setMostrarComponente] = useState(false);
   const productos = useSelector((state) => state.productosAdmin);
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const Productos = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center bg-slate-700 h-full">
       <div className="flex w-screen justify-end mt-5 mr-8">
         <ul className="flex space-x-10">
           <NavLink to="/admin/usuarios">
@@ -110,4 +110,4 @@ const Productos = () => {
   );
 };
 
-export default Productos;
+export default ProductosAdmin;
