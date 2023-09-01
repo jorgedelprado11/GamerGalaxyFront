@@ -1,5 +1,8 @@
 
 
+import {FETCH_CATEGORIES_SUCCESS, CREATE_PRODUCT_SUCCESS} from './actions/actionsAdmin';
+
+
 import {
   DELETE_PRODUCTO,
   GET_PRODUCTO_NOMBRE,
@@ -20,6 +23,8 @@ let initialState = {
   productosAdmin: [],
   productoBorrados: [],
   producto: {},
+  createdProduct: null,
+  categoriaAdmin: [],
   
   // estados globales de productos
   productos: [],
@@ -31,10 +36,24 @@ let initialState = {
   subCategorias: [],
 
 
-};
 
-const rootReducer = (state = initialState, action) => {
+};
+export default function rootReducer( state = initialState, action){
+  
   switch (action.type) {
+
+    case FETCH_CATEGORIES_SUCCESS:
+   console.log(action.payload)
+    return {...state, categories: action.payload.map((categoria)=>
+      {return{
+       categoriaAdmin:categoria.nombre,
+       id_categorias:categoria.id_categoria, 
+    }})};
+     
+      case CREATE_PRODUCT_SUCCESS:
+        return action.payload;
+      default:
+      return state;
 
     case GET_PRODUCTO_NOMBRE:
       return { ...state, productosAdmin: action.payload };
@@ -105,7 +124,11 @@ const rootReducer = (state = initialState, action) => {
     default:
       return { ...state };
 
-  }
-};
 
-export default rootReducer;
+  }
+}
+
+
+
+
+
