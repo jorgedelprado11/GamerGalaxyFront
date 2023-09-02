@@ -1,7 +1,5 @@
 import {
-  ShoppingCartIcon,
   MagnifyingGlassIcon,
-  UserCircleIcon,
 } from "@heroicons/react/24/solid";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -21,17 +19,17 @@ const SearchProduct = () => {
 
   return (
     <div className="flex w-[500px] justify-end">
-      
-        <input
-          type="text"
-          placeholder="  Buscador"
-          name="nombre"
-          value={nombre}
-          onChange={handleChange}
-          className="bg-white rounded-lg h-10 w-full border border-blue-500"
-        />
-       
-      
+
+      <input
+        type="text"
+        placeholder="  Buscador"
+        name="nombre"
+        value={nombre}
+        onChange={handleChange}
+        className="bg-white rounded-lg h-10 w-full border border-blue-500"
+      />
+
+
       <button className="absolute h-10 w-12">
         <MagnifyingGlassIcon className="h-8 w-8" />
       </button>

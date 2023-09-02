@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { ShoppingCartIcon, MagnifyingGlassIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { ShoppingCartIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import logo from "../../assets/logo.jpg";
 import { Link } from 'react-router-dom';
 import Modal from "../../views/Ayuda/Modal";
+import Footer from "./Footer";
 import SearchProduct from "../Searchbar/Serchbar";
 
 const Navbar = () => {
@@ -42,6 +43,7 @@ const Navbar = () => {
         </Link>
       </div>
       {isModalOpen && <Modal setOpen={setIsModalOpen} />}
+      <Footer/>
     </div>
   )
 }
