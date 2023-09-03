@@ -6,14 +6,18 @@ import {
 } from "../../redux/actions/actionsAdmin";
 import { NavLink } from "react-router-dom";
 
+//En el button de modificar
 
-const SearchbarAdmin = () => {
+const SearchbarAdmin = ({ currentPage, setCurrentPage }) => {
   const dispatch = useDispatch();
   const [input, setInput] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = (event) => {
     event.preventDefault();
+    setCurrentPage(1);
     dispatch(getProductoPorNombre(input));
+    setInput("");
   };
 
   const handleChange = (event) => {
@@ -22,6 +26,7 @@ const SearchbarAdmin = () => {
   const handleAll = () => {
     event.preventDefault();
     dispatch(obtenerProductos());
+    setCurrentPage(1);
   };
 
   return (
@@ -30,20 +35,24 @@ const SearchbarAdmin = () => {
         <form onSubmit={handleSearch}>
           <input
             placeholder="Search..."
-            className="h-10 rounded-lg p-3 text-blue-500"
+            className="h-12 p-2 rounded-lg text-blue-700"
             onChange={(e) => handleChange(e)}
+            value={input}
           />
-          <button className="rounded-2xl  bg-slate-400 p-2 h-12 w-fit ml-1" type="submit">
+          <button
+            className="rounded-lg bg-blue-500 hover:bg-blue-600 text-white p-2 h-12 ml-1"
+            type="submit"
+          >
             Search
           </button>
           <button
-            className="rounded-2xl  bg-slate-400 p-2 h-12 w-fit ml-1"
+            className="rounded-lg bg-blue-500 hover:bg-blue-600 text-white p-2 h-12 ml-1"
             onClick={handleAll}
           >
             All
           </button>
           <NavLink to="create">
-            <button className="rounded-2xl  bg-slate-400 p-2 h-12 w-fit ml-1">
+            <button className="rounded-lg bg-blue-500 hover:bg-blue-600 text-white p-2 h-12 ml-1">
               Crear Producto
             </button>
           </NavLink>

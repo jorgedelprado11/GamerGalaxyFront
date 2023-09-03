@@ -11,15 +11,22 @@ import {
 const productForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  /* const cld = new Cloudinary({cloud: {cloudName: 'dl0lr7gb1'}}); */
-  const [nombreProducto, setNombreProducto] = useState("");
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
-  const [precio, setPrecio] = useState();
-  const [calificacion, setCalificacion] = useState(1);
-  const [stock, setStock] = useState();
-  const [garantia, setGarantia] = useState();
-  const [iva, setIva] = useState();
   const categorias = useSelector((state) => state.categories);
+  /* const cld = new Cloudinary({cloud: {cloudName: 'dl0lr7gb1'}}); */
+
+  const [producto, setProducto] = useState({
+    nombre: "",
+    categoria: "",
+    precio: "",
+    calificacion: "",
+    stock: "",
+    garantia: "",
+    iva: "",
+  });
+
+  const [error, setError] = useState({});
+
+  const handleChange = () => {};
 
   // console.log('categorias form',categorias);
   useEffect(() => {
@@ -41,7 +48,7 @@ const productForm = () => {
 
     dispatch(createProduct(datosProducto));
     alert("producto creado");
-    navigate("/admin/productos");
+    navigate("/admin");
   };
 
   return (
@@ -59,20 +66,16 @@ const productForm = () => {
             <input
               type="text"
               placeholder="Nombre del producto"
-              value={nombreProducto}
-              onChange={(e) => setNombreProducto(e.target.value)}
+              value={producto.nombre}
+              onChange={handleChange}
               className="text-black mb-10 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
             />
           </div>
         </div>
         <div className="text-center">
           <select
-            value={categoriaSeleccionada}
-            onChange={(e) => {
-              const selectedValue = e.target.value;
-
-              setCategoriaSeleccionada(selectedValue);
-            }}
+            value={producto.categoria}
+            onChange={handleChange}
             className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
           >
             <option value="">Selecciona una categoría</option>
@@ -93,8 +96,8 @@ const productForm = () => {
           <input
             type="number"
             placeholder="Precio"
-            value={precio}
-            onChange={(e) => setPrecio(e.target.value)}
+            value={producto.precio}
+            onChange={handleChange}
             className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
           />
         </div>
@@ -104,10 +107,10 @@ const productForm = () => {
             <input
               type="number"
               placeholder="Calificación (1-5)"
-              value={calificacion}
               min="1"
               max="5"
-              onChange={(e) => setCalificacion(e.target.value)}
+              value={producto.calificacion}
+              onChange={handleChange}
               className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
             />
           </div>
@@ -120,8 +123,8 @@ const productForm = () => {
               type="number"
               className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
               placeholder="Stock"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
+              value={producto.stock}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -132,8 +135,8 @@ const productForm = () => {
             <input
               type="text"
               placeholder="Imagen"
-              value={garantia}
-              onChange={(e) => setGarantia(e.target.value)}
+              value={producto.imagen}
+              onChange={handleChange}
               className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
             />
           </div>
@@ -146,8 +149,8 @@ const productForm = () => {
               type="number"
               className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
               placeholder="Descuento"
-              value={iva}
-              onChange={(e) => setIva(e.target.value)}
+              value={producto.descuento}
+              onChange={handleChange}
             />
           </div>
         </div>
