@@ -69,7 +69,7 @@ export default function rootReducer(state = initialState, action) {
       return { ...state, destacados: action.payload };
 
     case GET_NAME:
-      console.log("reducer", action.payload);
+      // console.log("reducer", action.payload);
       return { ...state, productos: action.payload };
 
     case CLEAN:
@@ -80,9 +80,14 @@ export default function rootReducer(state = initialState, action) {
     case GET_PRODUCTS:
       // console.log("desde el reducer", action.payload);
       //con esto traigo solo destacados y me guardo todo lo otro en el backup
-      let destacados = action.payload
-        .filter((producto) => producto.calificacion === 2)
-        .slice(0, 12);
+      let destacados;
+
+      state.productos.length
+        ? (destacados = state.productos)
+        : (destacados = action.payload
+            .filter((producto) => producto.calificacion === 2)
+            .slice(0, 12));
+      
       return {
         ...state,
         productosAdmin: action.payload,

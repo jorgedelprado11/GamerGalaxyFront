@@ -18,7 +18,7 @@ export const getDescuentos = () => {
           (prod) => prod.calificacion === 5 && !prod.nombre.includes("Notebook")
         )
         .slice(0, 25);
-      console.log("action", destacados);
+      // console.log("action", destacados);
       dispatch({ type: GET_DESCUENTOS, payload: destacados });
     } catch (error) {
       console.error("Error al obtener los descuentos:", error);

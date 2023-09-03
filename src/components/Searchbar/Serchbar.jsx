@@ -6,35 +6,40 @@ import {
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { getProductByName, clean } from "../../redux/actions/actionsUsers";
+import { useNavigate } from "react-router-dom";
 
 const SearchProduct = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
 
   const handleChange = (e) => {
     setNombre(e.target.value);
-    // Llamar a la función de búsqueda en cada cambio del input
-    e.target.value
-      ? dispatch(getProductByName(e.target.value))
-      : dispatch(clean());
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    dispatch(getProductByName(nombre));
+    setNombre("");
+    navigate("/productos");
   };
 
   return (
-    <div className="flex w-[500px] justify-end">
-      
+    <div>
+      <form className="flex w-[400px] justify-end" onSubmit={handleSearch}>
         <input
           type="text"
-          placeholder="  Buscador"
+          placeholder="Buscador"
           name="nombre"
           value={nombre}
-          onChange={handleChange}
-          className="bg-white rounded-lg h-10 w-full border border-blue-500"
+          onChange={(event) => handleChange(event)}
+          className="bg-white rounded-lg h-10 w-full border border-blue-500 pl-4"
         />
-       
-      
-      <button className="absolute h-10 w-12">
-        <MagnifyingGlassIcon className="h-8 w-8" />
-      </button>
+
+        <button className="absolute h-10 w-12" type="submit">
+          <MagnifyingGlassIcon className="h-8 w-8" />
+        </button>
+      </form>
     </div>
   );
 };
