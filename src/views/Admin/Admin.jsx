@@ -1,29 +1,20 @@
 import React from "react";
-import Productos from "./Productos";
 import { NavLink } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import ProductosAdmin from "../Admin/Productos/Productos";
+import Dashboard from "./Dashboard/Dashboard";
+import Usuarios from "./Usuarios/Usuarios";
+import SidebarAdmin from "../../components/SidebarAdmin/SidebarAdmin";
 const Admin = () => {
   return (
-    <div className="flex flex-col mb-5 text-right bg-slate-700  ">
-      <div>
-        <div className="flex justify-end mt-5 mr-7">
-          <ul className="flex space-x-10">
-            <NavLink to="/admin/usuarios">
-              <li className="h-10 text-center items-center text-blue-200">
-                Usuarios
-              </li>
-            </NavLink>
-            <NavLink to="/admin/productos">
-              <li className="h-10 text-center items-center text-blue-200">
-                Productos
-              </li>
-            </NavLink>
-          </ul>
-        </div>
-        <h1 className="mt-10 text-white text-center text-4xl">Dashboard</h1>
-        <section className="mt-10 items-center flex flex-col">
-          <p className="text-white text-left">Zona de Graficos</p>
-          <img src="./graficos.avif" alt="" />
-        </section>
+    <div className="flex  text-right bg-slate-700 min-h-screen ">
+      <SidebarAdmin />
+      <div className="flex-1 bg-slate-700 h-screen ">
+        <Dashboard />
+        <Routes>
+          <Route path="/Usuarios" element={<Usuarios />} />
+          <Route path="/Productos" element={<ProductosAdmin />} />
+        </Routes>
       </div>
     </div>
   );

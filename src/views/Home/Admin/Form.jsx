@@ -4,159 +4,212 @@ import {
   fetchCategories,
   createProduct,
 } from "../../../redux/actions/actionsAdmin";
-/* import {Cloudinary} from "@cloudinary/url-gen"; */
-
+import validate from "./validation"; 
+import {Cloudinary} from "@cloudinary/url-gen";
+import { useNavigate } from "react-router-dom";
 const productForm = () => {
   const dispatch = useDispatch();
-  /* const cld = new Cloudinary({cloud: {cloudName: 'dl0lr7gb1'}}); */
-  const [nombreProducto, setNombreProducto] = useState("");
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
-  const [precio, setPrecio] = useState();
-  const [calificacion, setCalificacion] = useState(1);
-  const [stock, setStock] = useState();
-  const [garantia, setGarantia] = useState();
-  const [iva, setIva] = useState();
+  const navigate=useNavigate();
   const categorias = useSelector((state) => state.categories);
-
-  // console.log('categorias form',categorias);
+  const cld = new Cloudinary({cloud: {cloudName: 'dn6scmh6r'}});
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const [productData, setProductData] = useState({
+    nombre: "",
+    categoriaSeleccionada: "",
+    precio: "",
+    calificacion: 1,
+    stock: "",
+    imagen: "",
+    descuento: "",
+  });
+  const [errors, setErrors] = useState({}); 
 
-    const datosProducto = {
-      nombre: nombreProducto,
-      id_categoria: categoriaSeleccionada,
-      precio: precio,
-      calificacion: calificacion,
-      stock: stock,
-      imagen: garantia,
-      descuento: iva,
-    };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProductData({ ...productData, [name]: value });
 
-    dispatch(createProduct(datosProducto));
-    alert("producto creado");
+
+    const validationErrors = validate({ ...productData, [name]: value });
+    setErrors({ ...errors, [name]: validationErrors[name] });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const datosProducto = {
+      nombre: productData.nombre,
+      id_categoria: productData.categoriaSeleccionada,
+      precio: productData.precio,
+      calificacion: productData.calificacion,
+      stock: productData.stock,
+      imagen: productData.imagen,
+      descuento: productData.descuento,
+    };
+    const validationErrors = validate(productData);
+    setErrors(validationErrors); 
+
+    if (Object.keys(validationErrors).length === 0) {
+      console.log("Producto a enviar:", datosProducto);
+      dispatch(createProduct(datosProducto));
+      alert("Producto creado");
+      navigate("/admin")
+    }
+
+  };
+  const cancelar=()=>{
+    navigate("/admin")
+  }
+
   return (
-    <div className="flex justify-center items-center h-screen bg-blue-500">
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-md p-4 border-2 rounded-lg bg-slate-600 text-white text-center"
-      >
-        <h1 className="text-center mb-10 text-4xl text-white">
-          Crea tu producto
+    <div className="flex flex-col items-center min-h-screen bg-slate-700 pb-3">
+      <h1 className="text-center mb-10 text-4xl text-white ">
+      Crea tu producto
         </h1>
-        <div className="flex flex-col items-center">
-          <label>Nombre del producto</label>
+      <form 
+        onSubmit={handleSubmit}
+        className=" max-w-md p-4 border-2 rounded-lg bg-white text-white text-center shadow-custom-1 " 
+        >
+        <div className="flex flex-col text-start mt-1">
+          <label className="text-black">Nombre del producto:</label>
+
           <div className="text-center">
             <input
               type="text"
+              name="nombre"
               placeholder="Nombre del producto"
-              value={nombreProducto}
-              onChange={(e) => setNombreProducto(e.target.value)}
-              className="text-black mb-10 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+              value={productData.nombre}
+              onChange={handleInputChange}
+              className="text-black  border border-black mb-3 w-80 h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
             />
+            {errors.nombre && (
+              <div className="text-red-600">{errors.nombre}</div>
+            )}
           </div>
         </div>
-        <div className="text-center">
+        <div className="flex flex-col text-start">
+        <label className="text-black">Selecciona una categoría:</label>
           <select
-            value={categoriaSeleccionada}
-            onChange={(e) => {
-              const selectedValue = e.target.value;
-
-              setCategoriaSeleccionada(selectedValue);
-            }}
-            className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+            name="categoriaSeleccionada"
+            value={productData.categoriaSeleccionada}
+            onChange={handleInputChange}
+            className="text-black mb-2 border border-black w-80 h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
           >
-            <option value="">Selecciona una categoría</option>
+            <option value="" className="text-black" >Selecciona una categoría</option>
             {categorias?.map((categoria, index) => (
               <option
                 key={index}
                 value={categoria.id_categorias}
-                className="text-black mb-2 w-80 h-6rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+                className="text-black border border-black mb-2 w-80 h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
               >
                 {categoria.categoria}
               </option>
             ))}
           </select>
+          {errors.categoriaSeleccionada && (
+              <div className="text-red-600">{errors.categoriaSeleccionada}</div>
+            )}
         </div>
 
-        <div className="flex flex-col items-center">
-          <label className="mt-2">Precio</label>
+        <div className="flex flex-col text-start mt-1">
+          <label className="text-black">Precio:</label>
           <input
             type="number"
+            name="precio"
             placeholder="Precio"
-            value={precio}
-            onChange={(e) => setPrecio(e.target.value)}
-            className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+            value={productData.precio}
+            onChange={handleInputChange}
+            className="text-black mb-2 w-80 border border-black h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
           />
+           {errors.precio && (
+              <div className="text-red-600">{errors.precio}</div>
+            )}
         </div>
         <div className="text-center">
-          <div className="flex flex-col items-center">
-            <label className="mt-2">Calificación</label>
+          <div className="flex flex-col text-start mt-1">
+            <label className="text-black">Calificación:</label>
             <input
               type="number"
+              name="calificacion"
               placeholder="Calificación (1-5)"
-              value={calificacion}
+              value={productData.calificacion}
               min="1"
               max="5"
-              onChange={(e) => setCalificacion(e.target.value)}
-              className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+              onChange={handleInputChange}
+              className="text-black mb-2 w-80 border border-black h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
             />
+             {errors.calificacion && (
+              <div className="text-red-600">{errors.calificacion}</div>
+            )}
           </div>
+
         </div>
 
         <div className="text-center">
-          <div className="flex flex-col items-center">
-            <label>Stock</label>
+          <div className="flex flex-col text-start mt-1">
+            <label className="text-black">Stock:</label>
             <input
               type="number"
-              className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+              name="stock"
+              className="text-black mb-2 w-80 border border-black h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
               placeholder="Stock"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
+              value={productData.stock}
+              onChange={handleInputChange}
             />
+             {errors.stock && (
+              <div className="text-red-600">{errors.stock}</div>
+            )}
           </div>
         </div>
 
         <div className="text-center">
-          <div className="flex flex-col items-center ">
-            <label className="mt-2">Imagen</label>
+          <div className="flex flex-col text-start mt-1 ">
+            <label className="text-black">Imagen:</label>
             <input
               type="text"
+              name="imagen"
               placeholder="Imagen"
-              value={garantia}
-              onChange={(e) => setGarantia(e.target.value)}
-              className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+              value={productData.imagen}
+              onChange={handleInputChange}
+              className="text-black mb-2 w-80 border border-black h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
             />
+             {errors.imagen && (
+              <div className="text-red-600">{errors.imagen}</div>
+            )}
           </div>
         </div>
 
         <div className="text-center">
-          <div className="flex flex-col items-center">
-            <label>Descuento</label>
+          <div className="flex flex-col text-start mt-1">
+            <label className="text-black">Descuento:</label>
             <input
               type="number"
-              className="text-black mb-2 w-80 h-6 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+              name="descuento"
+              className="text-black mb-2 w-80 border border-black h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
               placeholder="Descuento"
-              value={iva}
-              onChange={(e) => setIva(e.target.value)}
+              value={productData.descuento}
+              onChange={handleInputChange}
             />
+             {errors.descuento && (
+              <div className="text-red-600">{errors.descuento}</div>
+            )}
           </div>
         </div>
 
         <div className="text-center">
           <div className="flex flex-col items-center">
-            <button type="submit" className="bg-green-700">
+            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-md w-full">
               Crear Producto
+            </button>
+            <button type="submit" onClick={cancelar} className="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-md w-full">
+              Cancelar
             </button>
           </div>
         </div>
       </form>
-    </div>
+      </div>
+
   );
 };
 

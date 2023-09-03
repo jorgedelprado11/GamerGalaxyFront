@@ -1,4 +1,12 @@
 import React from "react";
+import lucas from "../../assets/equipo/front/lucas.jpeg";
+import ronald from "../../assets/equipo/front/ronald.jpeg";
+import macarena from "../../assets/equipo/back/maca.jpeg";
+import nico1 from "../../assets/equipo/back/nico1.jpg";
+import nico2 from "../../assets/equipo/back/nico2.jpg";
+import andres from "../../assets/equipo/front/andres.jpeg";
+import gonzalo from "../../assets/equipo/front/gonzalo.jpeg";
+import jorge from "../../assets/equipo/front/jorge.jpeg"
 
 const About = () => {
   return (
@@ -19,7 +27,7 @@ const About = () => {
               <div class="flex items-center gap-x-6">
                 <img
                   class="h-16 w-16 rounded-full"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src={andres}
                   alt=""
                 />
                 <div>
@@ -36,7 +44,7 @@ const About = () => {
               <div class="flex items-center gap-x-6">
                 <img
                   class="h-16 w-16 rounded-full"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src={gonzalo}
                   alt=""
                 />
                 <div>
@@ -53,7 +61,7 @@ const About = () => {
               <div class="flex items-center gap-x-6">
                 <img
                   class="h-16 w-16 rounded-full"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src={jorge}
                   alt=""
                 />
                 <div>
@@ -70,8 +78,8 @@ const About = () => {
               <div class="flex items-center gap-x-6">
                 <img
                   class="h-16 w-16 rounded-full"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt=""
+                  src={lucas}
+                  alt="lucas"
                 />
                 <div>
                   <h3 class="text-base font-semibold leading-7 tracking-tight text-gray-900">
@@ -87,7 +95,7 @@ const About = () => {
               <div class="flex items-center gap-x-6">
                 <img
                   class="h-16 w-16 rounded-full"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src={ronald}
                   alt=""
                 />
                 <div>
@@ -119,7 +127,7 @@ const About = () => {
               <div class="flex items-center gap-x-6">
                 <img
                   class="h-16 w-16 rounded-full"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src={nico2}
                   alt=""
                 />
                 <div>
@@ -136,7 +144,7 @@ const About = () => {
               <div class="flex items-center gap-x-6">
                 <img
                   class="h-16 w-16 rounded-full"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src={macarena}
                   alt=""
                 />
                 <div>
@@ -153,7 +161,7 @@ const About = () => {
               <div class="flex items-center gap-x-6">
                 <img
                   class="h-16 w-16 rounded-full"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src={nico1}
                   alt=""
                 />
                 <div>

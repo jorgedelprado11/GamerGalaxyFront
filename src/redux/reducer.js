@@ -23,7 +23,7 @@ let initialState = {
   producto: {},
   createdProduct: null,
   categories: [],
-
+  productoCreado: {},
   // estados globales de productos
   productos: [],
   backup: [],
@@ -54,7 +54,7 @@ export default function rootReducer(state = initialState, action) {
       };
 
     case CREATE_PRODUCT_SUCCESS:
-      return action.payload;
+      return { ...state, productoCreado: action.payload };
 
     case GET_PRODUCTO_NOMBRE:
       return { ...state, productosAdmin: action.payload };
@@ -87,7 +87,7 @@ export default function rootReducer(state = initialState, action) {
         : (destacados = action.payload
             .filter((producto) => producto.calificacion === 2)
             .slice(0, 12));
-      
+
       return {
         ...state,
         productosAdmin: action.payload,

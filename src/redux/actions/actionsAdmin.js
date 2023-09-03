@@ -57,29 +57,55 @@ export const obtenerProductos = () => {
 };
 
 export const getProductoPorNombre = (nombre) => {
-  return async (dispatch) => {
+  if (Number(nombre)) {
     const endpoint = "http://localhost:3001/productos";
-    try {
-      const { data } = await axios(endpoint);
-      const dato = data.filter((dato) =>
-        dato.nombre.toLowerCase().includes(nombre.toLowerCase())
-      );
-      return dispatch({
-        type: GET_PRODUCTO_NOMBRE,
-        payload: dato,
-      });
-    } catch (error) {
-      alert("error:", error.message);
-    }
-  };
+    return async (dispatch) => {
+      try {
+        const { data } = await axios(`${endpoint}/${nombre}`);
+        return dispatch({
+          type: GET_PRODUCTO_NOMBRE,
+          payload: [data],
+        });
+      } catch (error) {
+        alert("No existe producto con ese Id");
+      }
+    };
+  } else {
+    return async (dispatch) => {
+      const endpoint = "http://localhost:3001/productos";
+      try {
+        const { data } = await axios(`${endpoint}?nombre=${nombre}`);
+        const { searchProduct } = data;
+        if (!searchProduct.length) {
+          alert("No existe producto con ese nombre");
+          return async (dispatch) => {
+            try {
+              const { data } = await axios(endpoint);
+              return dispatch({
+                type: GET_PRODUCTOS,
+                payload: data,
+              });
+            } catch (error) {
+              alert("No ingresó valores");
+            }
+          };
+        }
+        return dispatch({
+          type: GET_PRODUCTO_NOMBRE,
+          payload: searchProduct,
+        });
+      } catch (error) {
+        alert(`No ingresó valores`);
+      }
+    };
+  }
 };
 
 export const borrarProducto = (id) => async (dispatch) => {
   try {
     await axios.delete(`http://localhost:3001/productos/${id}`);
     const { data } = await axios("http://localhost:3001/productos");
-    console.log("Eliminando producto con ID:", id);
-    console.log("Productos actualizados:", data);
+
     dispatch({
       type: DELETE_PRODUCTO,
       payload: data,
@@ -96,8 +122,6 @@ export const modificarProducto = (id, data) => async (dispatch) => {
   try {
     await axios.put(`http://localhost:3001/productos/${id}`, informacion);
     const { data } = await axios("http://localhost:3001/productos");
-    console.log("Eliminando producto con ID:", id);
-    console.log("Productos actualizados:", data);
     dispatch({
       type: PUT_PRODUCTO,
       payload: data,
