@@ -22,12 +22,11 @@ function App() {
     <div>
       {!location.pathname.includes("/admin") && <Navbar />}
       <Routes>
-        <Route path="/admin/Productos/create" element={<ProductForm />} />{" "}
-        {/* Corrección en el nombre del componente */}
+       
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/Usuarios" element={<Usuarios />} />
         <Route path="/admin/Productos" element={<ProductosAdmin />} />
-        <Route path="/admin/Productos/create" element={<productForm />} />
+        <Route path="/admin/Productos/create" element={<ProductForm />} />
         <Route path="/home" element={<Home />} />
         <Route path="ayuda" element={<Ayuda />} />
         <Route path="form" element={<Modal />} />
