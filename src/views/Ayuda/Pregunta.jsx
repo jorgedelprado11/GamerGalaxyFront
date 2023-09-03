@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Pregunta({titulo, descripcion, funcion, expandir, propiedad}) {
+function Pregunta({ titulo, descripcion, funcion, expandir, propiedad }) {
     return (
         <div
             className={`bg-white rounded-lg p-4 flex items-center justify-center cursor-pointer transition-all ${expandir[propiedad] ? "h-30" : "h-10"

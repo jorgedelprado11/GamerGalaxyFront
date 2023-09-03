@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+// import { formatCurrency } from "../../../utils/format";
 
 const Card = ({ producto }) => {
   //Para crear la carta necesito: id, nombre, imagen, precio y boton agregar al carrito.

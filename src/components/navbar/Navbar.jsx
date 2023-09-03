@@ -3,7 +3,7 @@ import { ShoppingCartIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import logo from "../../assets/logo.jpg";
 import { Link } from 'react-router-dom';
 import Modal from "../../views/Ayuda/Modal";
-import Footer from "./Footer";
+import Footer from "../footer/Footer";
 import SearchProduct from "../Searchbar/Serchbar";
 
 const Navbar = () => {
@@ -12,19 +12,17 @@ const Navbar = () => {
     <div>
       {/* NAV ARRIBA */}
       <div className="flex bg-white justify-around h-28 items-center">
-      <Link to={'/home'}>
-        <img className="h-20" src={logo} alt="logo" />
+        <Link to={'/home'}>
+          <img className="h-20" src={logo} alt="logo" />
         </Link>
-        <SearchProduct/>
+        <SearchProduct />
         {/* <div className="flex w-[500px] justify-end">
           <input className="bg-white-500 rounded-lg h-10 w-full border hover:border-black" type="text" placeholder='  Buscador' />
           <button className="absolute h-10 w-12"><MagnifyingGlassIcon className="h-8 w-8" /></button>
         </div> */}
-        <Link to={'/form'}>
-        <button className="flex bg-blue-700 rounded-lg h-14 items-center w-64 justify-center text-white" onClick={() => setIsModalOpen(true)}><UserCircleIcon className="h-8 w-10"/>INICIAR SESIÓN</button>
-        </Link>
+        <button className="flex bg-blue-700 rounded-lg h-14 items-center w-64 justify-center text-white" onClick={() => setIsModalOpen(true)}><UserCircleIcon className="h-8 w-10" />INICIAR SESIÓN</button>
         <Link to={'/carro'}>
-        <button><ShoppingCartIcon className="h-10 w-10" /></button>
+          <button><ShoppingCartIcon className="h-10 w-10" /></button>
         </Link>
       </div>
       {/* DIV ABAJO */}
@@ -43,7 +41,6 @@ const Navbar = () => {
         </Link>
       </div>
       {isModalOpen && <Modal setOpen={setIsModalOpen} />}
-      <Footer/>
     </div>
   )
 }

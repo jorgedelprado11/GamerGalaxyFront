@@ -13,6 +13,7 @@ import Home from "./views/Home/Home";
 import Ayuda from "./views/Ayuda/Ayuda";
 import Modal from "./views/Ayuda/Modal";
 import About from "./views/About/About";
+import Footer from "./components/footer/Footer";
 
 import Productos from "./views/Productos/Productos";
 
@@ -34,6 +35,8 @@ function App() {
         <Route path="about" element={<About />} />
         <Route path="/productos" element={<Productos />} />
       </Routes>
+
+      {!location.pathname.includes("/admin") && <Footer />}
     </div>
   );
 }
