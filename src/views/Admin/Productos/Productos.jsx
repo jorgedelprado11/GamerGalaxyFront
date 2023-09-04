@@ -12,6 +12,7 @@ import SearchbarAdmin from "../../../components/SearchbarAdmin/SearchbarAdmin";
 import SidebarAdmin from "../../../components/SidebarAdmin/SidebarAdmin";
 import Modificador from "../../../components/Modificador/Modificador";
 import DeleteConfirmationModal from "../../../components/DeleteConfirmationAdmin/DeleteConfirmAdmin";
+import { formatCurrency } from './../../../../utils/format';
 
 const ProductosAdmin = () => {
   const [mostrarComponente, setMostrarComponente] = useState(false);
@@ -96,7 +97,7 @@ const ProductosAdmin = () => {
                   {producto.nombre}
                 </td>
                 <td className="h-5 text-xs text-center border border-black w-1/4">
-                  ${producto.precio}
+                  ${formatCurrency(producto.precio)}
                 </td>
                 <td className="h-5 text-xs text-center border border-black w-1/3">
                   {producto.stock}
