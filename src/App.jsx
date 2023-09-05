@@ -17,6 +17,7 @@ import About from "./views/About/About";
 import Productos from "./views/Productos/Productos";
 import ModificadorModalAdmin from "./components/ModificadorModalAdmin/ModificadorModalAdmin";
 import Footer from "./components/footer/Footer";
+import ArmaTuPc from "./views/ArmaTuPc/ArmaTuPc";
 
 function App() {
   const location = useLocation();
@@ -36,8 +37,9 @@ function App() {
         {/* <Route path="adminis" element={<ModificadorModalAdmin />} /> */}
         <Route path="about" element={<About />} />
         <Route path="/productos" element={<Productos />} />
+        <Route path="armatupc" element={<ArmaTuPc />} />
       </Routes>
-        {!location.pathname.includes("/admin") && <Footer />}
+      {!location.pathname.includes("/admin") && <Footer />}
     </div>
   );
 }
