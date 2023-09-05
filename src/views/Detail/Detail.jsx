@@ -1,3 +1,5 @@
+import { formatCurrency } from "../../../utils/format";
+
 function Detail({ setOpen, producto }) {
   return (
     <div>
@@ -53,7 +55,7 @@ function Detail({ setOpen, producto }) {
                         </div>
                         <div className="flex text-justify">
                           <h3 className="font-semibold">PRECIO: </h3>
-                          <p className="ml-2">${producto.precio}</p>
+                          <p className="ml-2">${formatCurrency(producto.precio)}</p>
                         </div>
                         <div className="flex text-justify">
                           <h3 className="font-semibold">STOCK: </h3>

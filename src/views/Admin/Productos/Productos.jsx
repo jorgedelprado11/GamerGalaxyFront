@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { formatCurrency } from "../../../../utils/format";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -96,7 +96,7 @@ const ProductosAdmin = () => {
                   {producto.nombre}
                 </td>
                 <td className="h-5 text-xs text-center border border-black w-1/4">
-                  ${producto.precio}
+                  ${formatCurrency(producto.precio)}
                 </td>
                 <td className="h-5 text-xs text-center border border-black w-1/3">
                   {producto.stock}

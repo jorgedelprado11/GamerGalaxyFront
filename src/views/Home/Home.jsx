@@ -2,8 +2,18 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDescuentos } from "../../redux/actions/actionsUsers";
 import { CardsContainer } from "../../components/CardsContainerHome/CardsContainerHome";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
+const {user, isAuthenticated} = useAuth0();
+
+useEffect(() => {
+  console.log(user);
+  console.log(isAuthenticated)
+},[user, isAuthenticated])
+
+
+
   const dispatch = useDispatch();
   const descuentos = useSelector((state) => state.destacados);
   //PAGINACIÓN

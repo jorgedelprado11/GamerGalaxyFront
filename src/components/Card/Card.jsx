@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Detail from "../../views/Detail/Detail";
+import { formatCurrency } from "../../../utils/format";
 
 const Card = ({ producto }) => {
   //Para crear la carta necesito: id, nombre, imagen, precio y boton agregar al carrito.
@@ -31,7 +32,7 @@ const Card = ({ producto }) => {
             {producto.nombre}
           </h4>
           <h5 className="mb-4 h-4 text-xl text-blue-700">
-            $ {producto.precio }
+            $ {formatCurrency(producto.precio) }
           </h5>
           <button className="text-sm text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500">
             AGREGAR AL CARRITO
