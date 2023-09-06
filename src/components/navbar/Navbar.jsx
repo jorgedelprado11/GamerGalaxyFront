@@ -31,7 +31,7 @@ const Navbar = () => {
           onClick={() => loginWithPopup()}
           >
           <UserCircleIcon className="h-8 w-10" />
-          INICIAR SESIÓN
+          Iniciar Sesión
         </button>
         : <LogoutButton />
           }

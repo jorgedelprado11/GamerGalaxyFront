@@ -5,12 +5,12 @@ import { CardsContainer } from "../../components/CardsContainerHome/CardsContain
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
-const {user, isAuthenticated} = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
 
-useEffect(() => {
-  console.log(user);
-  console.log(isAuthenticated)
-},[user, isAuthenticated])
+  useEffect(() => {
+    console.log(user);
+    console.log(isAuthenticated)
+  }, [user, isAuthenticated])
 
 
 
@@ -39,9 +39,8 @@ useEffect(() => {
         <button
           key={i}
           onClick={() => setCurrentPage(i)}
-          className={`w-8 h-8 rounded-full ${
-            i === currentPage ? "bg-blue-500" : "bg-gray-300"
-          }`}
+          className={`w-8 h-8 rounded-full ${i === currentPage ? "bg-blue-500" : "bg-gray-300"
+            }`}
         >
           {""}
         </button>
@@ -74,14 +73,14 @@ useEffect(() => {
           className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           disabled={currentPage === 1}
         >
-        {"◀"}
+          {"◀"}
         </button>
         <button
           onClick={handleNextPage}
           className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           disabled={currentPage === totalPages}
         >
-          { "▶"}
+          {"▶"}
         </button>
       </div>
 
