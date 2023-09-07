@@ -84,7 +84,7 @@ const Categorias = () => {
                     subcat.id_macroCategory === categoria.id_agrupador && (
                       <li className="ml-8" key={subcat.id_categoria}>
                         <button
-                          className="text-blue-900"
+                          className="text-blue-900 text-sm"
                           onClick={onClickCategories}
                           value={subcat.id_categoria}
                         >

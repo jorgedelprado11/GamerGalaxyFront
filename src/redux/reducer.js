@@ -13,6 +13,7 @@ import {
   GET_SUBCATEGORIES,
   GET_BY_CATEGORIES,
   ORDER_BY_PRICE,
+  FILTER_BY_MARCAS,
 } from "./actions/actions-types";
 import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
 
@@ -27,6 +28,8 @@ let initialState = {
   // estados globales de productos
   productos: [],
   backup: [],
+  filtrados: [],
+  backupFiltrados: [],
   destacados: [],
 
   // estados categorias
@@ -74,24 +77,23 @@ export default function rootReducer(state = initialState, action) {
 
     case CLEAN:
       return {
-        destacados: [...destacados],
+        destacados: state.destacados,
+        productos: state.backup,
       };
 
     case GET_PRODUCTS:
       // console.log("desde el reducer", action.payload);
       //con esto traigo solo destacados y me guardo todo lo otro en el backup
-      let destacados;
+      let productos;
 
-      state.productos.length
-        ? (destacados = state.productos)
-        : (destacados = action.payload
-            .filter((producto) => producto.calificacion === 2)
-            .slice(0, 12));
+      state.productos
+        ? (productos = state.productos)
+        : (productos = action.payload);
 
       return {
         ...state,
         productosAdmin: action.payload,
-        productos: [...destacados],
+        productos: [...productos],
         backup: action.payload,
       };
     case ORDER_BY_PRICE:
@@ -102,6 +104,23 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         productos: [...ordenados],
+      };
+    case FILTER_BY_MARCAS:
+      let filtrados;
+
+      state.backupFiltrados
+        ? (filtrados = state.backupFiltrados)
+        : (filtrados = state.productos);
+
+      filtrados = filtrados.filter((producto) =>
+        producto.nombre.toLowerCase().includes(action.payload.toLowerCase())
+      );
+      console.log("que onda", filtrados);
+      return {
+        ...state,
+        backupFiltrados: state.productos,
+        productos: [...filtrados],
+        filtrados: state.backupFiltrados,
       };
     //CATEGORIAS
     case GET_CATEGORIES:
@@ -124,6 +143,7 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         productos: [...filtered],
+        backupFiltrados: [...filtered],
       };
 
     default:

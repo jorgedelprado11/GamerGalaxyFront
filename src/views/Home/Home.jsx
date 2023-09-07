@@ -29,7 +29,7 @@ const Home = () => {
         <button
           key={i}
           onClick={() => setCurrentPage(i)}
-          className={`w-8 h-8 rounded-full ${
+          className={`w-4 h-4 rounded-full ${
             i === currentPage ? "bg-blue-500" : "bg-gray-300"
           }`}
         >
@@ -64,25 +64,24 @@ const Home = () => {
           className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           disabled={currentPage === 1}
         >
-        {"◀"}
+          {"◀"}
         </button>
         <button
           onClick={handleNextPage}
           className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           disabled={currentPage === totalPages}
         >
-          { "▶"}
+          {"▶"}
         </button>
-      </div>
-
-      <div className="mt-2 flex items-center flex-col">
-        <div className="flex items-center justify-center space-x-4">
-          {renderPageNumbers()}
-        </div>
-        <div className="flex items-center space-x-2">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <div key={i}></div>
-          ))}
+        <div className=" flex items-center flex-col">
+          <div className="flex items-center justify-center space-x-4">
+            {renderPageNumbers()}
+          </div>
+          <div className="flex items-center space-x-2 mb-1 ">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <span className="w-1 h-1 text-xs p-0 m-0" key={i}></span>
+            ))}
+          </div>
         </div>
       </div>
     </div>

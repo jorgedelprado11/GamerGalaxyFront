@@ -4,6 +4,7 @@ import {
   GET_BY_CATEGORIES,
   GET_SUBCATEGORIES,
   ORDER_BY_PRICE,
+  FILTER_BY_MARCAS,
 } from "./actions-types";
 import axios from "axios";
 const URL = "http://localhost:3001";
@@ -97,5 +98,11 @@ export const orderByPrice = (order) => {
   return {
     type: ORDER_BY_PRICE,
     payload: order,
+  };
+};
+export const filterByMarcas = (filter) => {
+  return {
+    type: FILTER_BY_MARCAS,
+    payload: filter,
   };
 };

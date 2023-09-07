@@ -8,7 +8,7 @@ export const formatCurrency = (price) => {
         j++
     }
     if (final[0] === ".") final.shift()
-    console.log(final.reverse())
+    final.reverse()
     return final.join("")
 }
 

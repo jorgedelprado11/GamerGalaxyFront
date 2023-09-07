@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Detail from "../../views/Detail/Detail";
 import { formatCurrency } from "./../../../utils/format";
 
 const Card = ({ producto }) => {
+  const location = useLocation();
   //Para crear la carta necesito: id, nombre, imagen, precio y boton agregar al carrito.
 
   //Tengo que crear un handler para agregar al carrito los productos
@@ -34,9 +35,15 @@ const Card = ({ producto }) => {
           <h5 className="mb-4 h-4 text-xl text-blue-700">
             $ {formatCurrency(producto.precio)}
           </h5>
-          <button className="text-sm text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500">
-            AGREGAR AL CARRITO
-          </button>
+          {location.pathname.includes("/armatupc") ? (
+            <button className="text-xs text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500">
+              SELECCIONAR PRODUCTO
+            </button>
+          ) : (
+            <button className="text-sm text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500">
+              AGREGAR AL CARRITO
+            </button>
+          )}
         </div>
       )}
       {isModalOpen && <Detail setOpen={setIsModalOpen} producto={producto} />}

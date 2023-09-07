@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="flex flex-col mt-20">
-      <footer className="h-fit w-full p-8 bg-blue-700 border-t border-gray-200 shadow md:flex md:items-center md:justify-between md:p-6">
+    <div className="flex flex-col ">
+      <footer className="h-fit w-full p-8 bg-blue-700 border-t border-blue-500 shadow md:flex md:items-center md:justify-between md:p-6">
         <span className="text-sm text-white sm:text-center">
           ©{" "}
           <a href="http://127.0.0.1:5173/home" className="hover:underline">
