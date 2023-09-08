@@ -6,8 +6,15 @@ import {
   GET_BY_CATEGORIES,
   GET_SUBCATEGORIES,
   ORDER_BY_PRICE,
+
+  FILTER_BY_MARCAS,
+  FILTER_ARMA_TU_PC,
+  FILTER_HARDCODE,
+  FILTER_HARDCODE2,
+
   ADD_TO_CART,
   REMOVE_FROM_CART,
+
 } from "./actions-types";
 
 import axios from "axios";
@@ -110,6 +117,35 @@ export const orderByPrice = (order) => {
     payload: order,
   };
 };
+
+export const filterByMarcas = (filter) => {
+  return {
+    type: FILTER_BY_MARCAS,
+    payload: filter,
+  };
+};
+
+export const filterArmaTuPc = (filter) => {
+  return {
+    type: FILTER_ARMA_TU_PC,
+    payload: filter,
+  };
+};
+
+export const filterHardCode = (filter) => {
+  return {
+    type: FILTER_HARDCODE,
+    payload: filter,
+  };
+};
+
+export const filterHardCode2 = (filter) => {
+  return {
+    type: FILTER_HARDCODE2,
+    payload: filter,
+  };
+};
+
 
 
 //Actions Users

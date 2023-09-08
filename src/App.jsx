@@ -22,6 +22,8 @@ import UserDireccion from "./views/userClient/Dirección/userDirección";
 import { UserFavoritos } from "./views/userClient/favoritos/userFavoritos";
 import { UserPedidos } from "./views/userClient/pedidos/userPedidos";
 
+import ArmaTuPc from "./views/ArmaTuPc/ArmaTuPc";
+
 function App() {
   const location = useLocation();
   return (
@@ -45,7 +47,13 @@ function App() {
         {/* <Route path="adminis" element={<ModificadorModalAdmin />} /> */}
         <Route path="about" element={<About />} />
         <Route path="/productos" element={<Productos />} />
+
+        <Route path="/armatupc" element={<ArmaTuPc />} />
+
+
+
         <Route path="/carrito" element={<Carrito />} />
+
       </Routes>
       {!location.pathname.includes("/admin") && <Footer />}
     </div>

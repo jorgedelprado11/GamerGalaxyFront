@@ -43,8 +43,11 @@ const Home = () => {
         <button
           key={i}
           onClick={() => setCurrentPage(i)}
-          className={`w-8 h-8 rounded-full ${i === currentPage ? "bg-blue-500" : "bg-gray-300"
-            }`}
+
+          className={`w-4 h-4 rounded-full ${
+            i === currentPage ? "bg-blue-500" : "bg-gray-300"
+          }`}
+
         >
           {""}
         </button>
@@ -87,13 +90,14 @@ const Home = () => {
           {"▶"}
         </button>
 
-        <div className="mt-0 flex items-center flex-col">
-          <div className="flex items-center justify-center space-x-4 mb-5">
+        <div className=" flex items-center flex-col">
+          <div className="flex items-center justify-center space-x-4">
             {renderPageNumbers()}
           </div>
-          <div className="flex items-center space-x-2 mb-5">
+          <div className="flex items-center space-x-2 mb-1 ">
             {Array.from({ length: totalPages }, (_, i) => (
-              <div key={i}></div>
+              <span className="w-1 h-1 text-xs p-0 m-0" key={i}></span>
+
             ))}
           </div>
         </div>

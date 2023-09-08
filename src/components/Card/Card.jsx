@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Detail from "../../views/Detail/Detail";
 
+
+import { Link, useLocation } from "react-router-dom";
+import Detail from "../../views/Detail/Detail";
+import { formatCurrency } from "./../../../utils/format";
+import ArmaTuPc from "../../views/ArmaTuPc/ArmaTuPc";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { formatCurrency } from "../../../utils/format";
 import { addToCart } from "../../redux/actions/actionsUsers";
 
 
 
-const Card = ({ producto }) => {
+
+const Card = ({ producto, handleClickPaquete }) => {
+  const location = useLocation();
   //Para crear la carta necesito: id, nombre, imagen, precio y boton agregar al carrito.
 
   //Tengo que crear un handler para agregar al carrito los productos
@@ -60,7 +64,17 @@ console.log(producto);
             $ {formatCurrency(producto.precio) }
 
           </h5>
-          <div className="flex flex-col items-center">
+
+          {location.pathname.includes("/armatupc") ? (
+            <button
+              className="text-xs text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500"
+              value={producto.id_producto}
+              onClick={(event) => handleClickPaquete(event)}
+            >
+              SELECCIONAR PRODUCTO
+            </button>
+          ) : (
+            <div className="flex flex-col items-center">
             <input
               type="number"
               value={quantity}
@@ -73,9 +87,12 @@ console.log(producto);
           >
             AGREGAR AL CARRITO
           </button>
+          )}
+
         </div>
         </div>
       )}
+
       {isModalOpen && <Detail setOpen={setIsModalOpen} producto={producto} />}
     </div>
   );

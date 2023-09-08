@@ -13,6 +13,7 @@ import SidebarAdmin from "../../../components/SidebarAdmin/SidebarAdmin";
 import Modificador from "../../../components/Modificador/Modificador";
 import DeleteConfirmationModal from "../../../components/DeleteConfirmationAdmin/DeleteConfirmAdmin";
 
+
 const ProductosAdmin = () => {
   const [mostrarComponente, setMostrarComponente] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,7 +41,7 @@ const ProductosAdmin = () => {
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = productos.slice(
+  const currentProducts = productos?.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );

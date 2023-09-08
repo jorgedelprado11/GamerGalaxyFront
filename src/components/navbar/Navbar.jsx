@@ -52,9 +52,11 @@ const Navbar = () => {
         <Link to={"/productos"}>
           <button className="hover:text-black">PRODUCTOS</button>
         </Link>
-        {/* <Link to={"/armatupc"}> */}
-        <button className="hover:text-black">ARMA TU PC</button>
-        {/* </Link> */}
+
+        <Link to={"/armatupc"}>
+          <button className="hover:text-black">ARMA TU PC</button>
+        </Link>
+
         <Link to={"/ayuda"}>
           <button className="hover:text-black">AYUDA</button>
         </Link>

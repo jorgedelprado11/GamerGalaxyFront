@@ -1,16 +1,15 @@
 import { useDispatch } from "react-redux";
-import { orderByPrice } from "../../redux/actions/actionsUsers";
+import { filterByMarcas } from "../../redux/actions/actionsUsers";
 import { useState } from "react";
 
-const OrdenadorPrecio = () => {
+const FiltrosMarcas = () => {
   const dispatch = useDispatch();
-
   const [select, setSelect] = useState("");
+
   const onSelectedChange = (event) => {
     event.preventDefault();
-    
-    dispatch(orderByPrice(event.target.value));
-
+    // console.log("marcas", event.target.value);
+    dispatch(filterByMarcas(event.target.value));
     setSelect("");
   };
 
@@ -24,14 +23,20 @@ const OrdenadorPrecio = () => {
           value={select}
         >
           <option value="" hidden>
-            Ordenar Por
+            Filtrar por Marca
           </option>
-          <option value="Ascendente">Menor precio</option>
-          <option value="Descendente">Mayor precio</option>
+          <option value="AMD">AMD</option>
+          <option value="Asrock">Asrock</option>
+          <option value="ASUS">ASUS</option>
+          <option value="Gigabyte">Gigabyte</option>
+          <option value="Intel">Intel</option>
+          <option value="LG">LG</option>
+          <option value="MSI">MSI</option>
+          <option value="Samsung">Samsung</option>
         </select>
       </div>
     </>
   );
 };
 
-export default OrdenadorPrecio;
+export default FiltrosMarcas;
