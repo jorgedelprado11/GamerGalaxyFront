@@ -40,7 +40,7 @@ function Preguntas() {
       <Pregunta
         titulo={"¿El precio que figura en la web es el precio final?"}
         descripcion={
-          "Todos los precios en la web incluyen el IVA, y se encuentran expresados en dolares."
+          "Todos los precios en la web incluyen el IVA, y se encuentran expresados en pesos argentinos."
         }
         funcion={() => handleExp(1)}
         expandir={expandir}

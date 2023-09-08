@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { formatCurrency } from "../../../../utils/format";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import SearchbarAdmin from "../../../components/SearchbarAdmin/SearchbarAdmin";
 import SidebarAdmin from "../../../components/SidebarAdmin/SidebarAdmin";
 import Modificador from "../../../components/Modificador/Modificador";
 import DeleteConfirmationModal from "../../../components/DeleteConfirmationAdmin/DeleteConfirmAdmin";
-import { formatCurrency } from "./../../../../utils/format";
+
 
 const ProductosAdmin = () => {
   const [mostrarComponente, setMostrarComponente] = useState(false);

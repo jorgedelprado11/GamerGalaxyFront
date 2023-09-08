@@ -1,9 +1,23 @@
+/** @format */
+
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDescuentos } from "../../redux/actions/actionsUsers";
 import { CardsContainer } from "../../components/CardsContainerHome/CardsContainerHome";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
+
+  const { user, isAuthenticated } = useAuth0();
+
+  useEffect(() => {
+    console.log(user);
+    console.log(isAuthenticated)
+  }, [user, isAuthenticated])
+
+
+
+
   const dispatch = useDispatch();
   const descuentos = useSelector((state) => state.destacados);
   //PAGINACIÓN
@@ -29,9 +43,11 @@ const Home = () => {
         <button
           key={i}
           onClick={() => setCurrentPage(i)}
+
           className={`w-4 h-4 rounded-full ${
             i === currentPage ? "bg-blue-500" : "bg-gray-300"
           }`}
+
         >
           {""}
         </button>
@@ -73,6 +89,7 @@ const Home = () => {
         >
           {"▶"}
         </button>
+
         <div className=" flex items-center flex-col">
           <div className="flex items-center justify-center space-x-4">
             {renderPageNumbers()}
@@ -80,6 +97,7 @@ const Home = () => {
           <div className="flex items-center space-x-2 mb-1 ">
             {Array.from({ length: totalPages }, (_, i) => (
               <span className="w-1 h-1 text-xs p-0 m-0" key={i}></span>
+
             ))}
           </div>
         </div>

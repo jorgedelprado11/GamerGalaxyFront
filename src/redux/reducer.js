@@ -1,3 +1,5 @@
+/** @format */
+
 import {
   FETCH_CATEGORIES_SUCCESS,
   CREATE_PRODUCT_SUCCESS,
@@ -13,10 +15,20 @@ import {
   GET_SUBCATEGORIES,
   GET_BY_CATEGORIES,
   ORDER_BY_PRICE,
+
   FILTER_ARMA_TU_PC,
   FILTER_BY_MARCAS,
   FILTER_HARDCODE,
   FILTER_HARDCODE2,
+
+
+  GET_DIRECCIÓN,
+  POST_USUARIO,
+
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+
+
 } from "./actions/actions-types";
 import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
 
@@ -34,11 +46,22 @@ let initialState = {
   filtrados: [],
   backupFiltrados: [],
   destacados: [],
+  /*
+  {
+    producto: producto,
+    cantidad: quantity,
+  }
+  */
+  carrito: [],
 
   // estados categorias
   categorias: [],
   subCategorias: [],
+  //estado direcciones de users
+  direccion: [],
+  usuarioCreado: [],
 };
+
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PRODUCTOS:
@@ -83,15 +106,41 @@ export default function rootReducer(state = initialState, action) {
         destacados: state.destacados,
         productos: state.backup,
       };
+    //carrito 
+    case ADD_TO_CART:
+      console.log("Producto agregado al carrito:", state.carrito);
+      const productoEncontrado = state.carrito.find(item => item.producto.id_producto === action.payload.producto.id_producto)
+      console.log(productoEncontrado)
+      const carritoFiltrado = state.carrito.filter(item => item.producto.id_producto !== action.payload.producto.id_producto)
+      
+      if (productoEncontrado) {
+        productoEncontrado.cantidad = Number(productoEncontrado.cantidad) + Number(action.payload.quantity)
+        return {
+          ...state,
+          carrito: [...carritoFiltrado, productoEncontrado]
+        }
+      }
+      return {
+        ...state,
+        carrito: [...state.carrito, { producto: action.payload.producto, cantidad: action.payload.quantity }],
+      };
+
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        carrito: state.carrito.filter((producto) => producto.producto.id_producto !== action.payload),
+      };
 
     case GET_PRODUCTS:
       // console.log("desde el reducer", action.payload);
       //con esto traigo solo destacados y me guardo todo lo otro en el backup
       let productos;
 
+
       state.productos?.length
         ? (productos = state.productos)
         : (productos = action.payload);
+
 
       return {
         ...state,
@@ -161,6 +210,18 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         productos: [...filtradosPc],
+      };
+    case GET_DIRECCIÓN:
+      console.log("reducer", action.payload);
+      return {
+        ...state,
+        direccion: action.payload,
+      };
+    case POST_USUARIO:
+      console.log("reducer", action.payload);
+      return {
+        ...state,
+        usuarioCreado: action.payload,
       };
 
     case FILTER_HARDCODE:
