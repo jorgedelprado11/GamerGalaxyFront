@@ -4,6 +4,8 @@ import {
   GET_BY_CATEGORIES,
   GET_SUBCATEGORIES,
   ORDER_BY_PRICE,
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
 } from "./actions-types";
 import axios from "axios";
 const URL = "http://localhost:3001";
@@ -99,3 +101,13 @@ export const orderByPrice = (order) => {
     payload: order,
   };
 };
+
+export const addToCart = (producto) => ({
+  type: ADD_TO_CART,
+  payload: producto,
+});
+
+export const removeFromCart = (productoId) => ({
+  type: REMOVE_FROM_CART,
+  payload: productoId,
+});
