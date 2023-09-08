@@ -87,9 +87,9 @@ console.log(producto);
           >
             AGREGAR AL CARRITO
           </button>
+          </div>
           )}
 
-        </div>
         </div>
       )}
 

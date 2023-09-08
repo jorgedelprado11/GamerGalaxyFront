@@ -28,7 +28,6 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
 
-
 } from "./actions/actions-types";
 import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
 
@@ -43,7 +42,7 @@ let initialState = {
   // estados globales de productos
   productos: [],
   backup: [],
-  filtrados: [],
+filtrados: [],
   backupFiltrados: [],
   destacados: [],
   /*
@@ -101,11 +100,11 @@ export default function rootReducer(state = initialState, action) {
       // console.log("reducer", action.payload);
       return { ...state, productos: action.payload };
 
-    case CLEAN:
-      return {
-        destacados: state.destacados,
-        productos: state.backup,
-      };
+    // case CLEAN:
+    //   return {
+    //     destacados: [state.destacados],
+    //   };
+
     //carrito 
     case ADD_TO_CART:
       console.log("Producto agregado al carrito:", state.carrito);
@@ -157,7 +156,7 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         productos: [...ordenados],
       };
-    case FILTER_BY_MARCAS:
+case FILTER_BY_MARCAS:
       let filtrados;
 
       state.backupFiltrados
@@ -195,7 +194,7 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         productos: [...filtered],
-        backupFiltrados: [...filtered],
+backupFiltrados: [...filtered],
       };
 
     // arma tu pc
@@ -224,7 +223,7 @@ export default function rootReducer(state = initialState, action) {
         usuarioCreado: action.payload,
       };
 
-    case FILTER_HARDCODE:
+case FILTER_HARDCODE:
       let filtradosMother = state.backup.filter(
         (producto) =>
           producto?.id_categoria == 5 &&

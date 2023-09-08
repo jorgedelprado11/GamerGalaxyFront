@@ -6,7 +6,7 @@ import {
   getSubCategories,
 } from "../../redux/actions/actionsUsers";
 
-const Categorias = ({ setCurrentPage }) => {
+const Categorias = ({ }) => {
   const dispatch = useDispatch();
   const categorias = useSelector((state) => state.categorias);
   const subCategorias = useSelector((state) => state.subCategorias);
@@ -37,7 +37,7 @@ const Categorias = ({ setCurrentPage }) => {
     event.preventDefault();
     // console.log(event.target.value);
     dispatch(getByCategories(event.target.value));
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
   const toggleMenu = (event) => {
     // console.log(event.target.value);
