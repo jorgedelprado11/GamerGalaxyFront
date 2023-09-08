@@ -12,7 +12,6 @@ import SearchbarAdmin from "../../../components/SearchbarAdmin/SearchbarAdmin";
 import SidebarAdmin from "../../../components/SidebarAdmin/SidebarAdmin";
 import Modificador from "../../../components/Modificador/Modificador";
 import DeleteConfirmationModal from "../../../components/DeleteConfirmationAdmin/DeleteConfirmAdmin";
-import { formatCurrency } from './../../../../utils/format';
 
 const ProductosAdmin = () => {
   const [mostrarComponente, setMostrarComponente] = useState(false);

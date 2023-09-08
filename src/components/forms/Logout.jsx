@@ -46,29 +46,12 @@ const LogoutButton = () => {
     >
       {isAuthenticated ? (
         <div>
-
-          <button className="cursor-pointer flex bg-blue-700 rounded-lg h-14 items-center w-64 justify-center text-white">
-            {" "}
-            <UserCircleIcon className="h-8 w-10" /> Hola, {userName}
-          </button>
-          {showOptions && (
-            <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <div
-                className="py-1"
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="options-menu"
-              >
-                <button
-                  onClick={() => navigate("/user")}
-
           <button className="cursor-pointer flex bg-blue-700 rounded-lg h-14 items-center w-64 justify-center text-white"> <UserCircleIcon className="h-8 w-10" /> Hola, {userName}</button>
           {showOptions && (
             <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                 <button
-                  onClick={()=>navigate("/profile")}
-
+                  onClick={()=>navigate("/user")}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
                   role="menuitem"
                 >
@@ -79,9 +62,7 @@ const LogoutButton = () => {
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full"
                   role="menuitem"
                 >
-
                   Cerrar Sesión         
-
                 </button>
               </div>
             </div>
@@ -95,6 +76,7 @@ const LogoutButton = () => {
     </div>
   );
 };
+
 
 
 export default LogoutButton;
