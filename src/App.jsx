@@ -17,6 +17,7 @@ import Productos from "./views/Productos/Productos";
 import ModificadorModalAdmin from "./components/ModificadorModalAdmin/ModificadorModalAdmin";
 import Footer from "./components/footer/Footer";
 import Profile from "./components/forms/Profile";
+import Carrito from "./components/carrito/Carrito";
 
 function App() {
   const location = useLocation();
@@ -36,7 +37,7 @@ function App() {
         <Route path="about" element={<About />} />
         <Route path="/productos" element={<Productos />} />
         <Route path="/profile" element={<Profile />} />
-
+        <Route path="/carrito" element={<Carrito />} />
       </Routes>
       {!location.pathname.includes("/admin") && <Footer />}
     </div>

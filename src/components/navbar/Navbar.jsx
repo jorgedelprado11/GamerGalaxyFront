@@ -35,7 +35,7 @@ const Navbar = () => {
         </button>
         : <LogoutButton />
           }
-        <Link to={"/carro"}>
+        <Link to={"/carrito"}>
           <button>
             <ShoppingCartIcon className="h-10 w-10" />
           </button>
