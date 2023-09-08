@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Detail from "../../views/Detail/Detail";
+
 import { useDispatch } from "react-redux";
 import { formatCurrency } from "../../../utils/format";
 import { addToCart } from "../../redux/actions/actionsUsers";
+
 
 
 const Card = ({ producto }) => {
@@ -54,7 +56,9 @@ console.log(producto);
             {producto.nombre}
           </h4>
           <h5 className="mb-4 h-4 text-xl text-blue-700">
+
             $ {formatCurrency(producto.precio) }
+
           </h5>
           <div className="flex flex-col items-center">
             <input
