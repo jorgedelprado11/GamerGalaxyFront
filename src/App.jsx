@@ -17,7 +17,7 @@ import About from "./views/About/About";
 import Productos from "./views/Productos/Productos";
 import ModificadorModalAdmin from "./components/ModificadorModalAdmin/ModificadorModalAdmin";
 import Footer from "./components/footer/Footer";
-import ArmaTuPcComponentes from "./views/ArmaTuPc/ArmaTuPcComponentes";
+
 import ArmaTuPc from "./views/ArmaTuPc/ArmaTuPc";
 
 function App() {
@@ -39,14 +39,8 @@ function App() {
         <Route path="about" element={<About />} />
         <Route path="/productos" element={<Productos />} />
         <Route path="/armatupc" element={<ArmaTuPc />} />
-        <Route
-          path="/armatupc/amd/componentes/"
-          element={<ArmaTuPcComponentes />}
-        />
-        <Route
-          path="/armatupc/intel/componentes/"
-          element={<ArmaTuPcComponentes />}
-        />
+
+
       </Routes>
       {!location.pathname.includes("/admin") && <Footer />}
     </div>

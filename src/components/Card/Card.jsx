@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Detail from "../../views/Detail/Detail";
 import { formatCurrency } from "./../../../utils/format";
+import ArmaTuPc from "../../views/ArmaTuPc/ArmaTuPc";
 
-const Card = ({ producto }) => {
+const Card = ({ producto, handleClickPaquete }) => {
   const location = useLocation();
   //Para crear la carta necesito: id, nombre, imagen, precio y boton agregar al carrito.
 
@@ -36,7 +37,11 @@ const Card = ({ producto }) => {
             $ {formatCurrency(producto.precio)}
           </h5>
           {location.pathname.includes("/armatupc") ? (
-            <button className="text-xs text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500">
+            <button
+              className="text-xs text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500"
+              value={producto.id_producto}
+              onClick={(event) => handleClickPaquete(event)}
+            >
               SELECCIONAR PRODUCTO
             </button>
           ) : (
@@ -46,6 +51,7 @@ const Card = ({ producto }) => {
           )}
         </div>
       )}
+
       {isModalOpen && <Detail setOpen={setIsModalOpen} producto={producto} />}
     </div>
   );

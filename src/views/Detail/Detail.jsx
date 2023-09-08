@@ -1,6 +1,7 @@
 import { formatCurrency } from "../../../utils/format";
 
 function Detail({ setOpen, producto }) {
+  // console.log("desde el detail", producto);
   return (
     <div>
       {setOpen ? (
@@ -61,7 +62,11 @@ function Detail({ setOpen, producto }) {
                         </div>
                         <div className="flex text-justify ">
                           <h3 className="font-semibold">STOCK: </h3>
-                          <p className= {`ml-2 ${producto.stock ? "" : "text-red-700"} `}>
+                          <p
+                            className={`ml-2 ${
+                              producto.stock ? "" : "text-red-700"
+                            } `}
+                          >
                             {producto.stock ? producto.stock : "Sin Stock"}
                           </p>
                         </div>

@@ -13,7 +13,10 @@ import {
   GET_SUBCATEGORIES,
   GET_BY_CATEGORIES,
   ORDER_BY_PRICE,
+  FILTER_ARMA_TU_PC,
   FILTER_BY_MARCAS,
+  FILTER_HARDCODE,
+  FILTER_HARDCODE2,
 } from "./actions/actions-types";
 import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
 
@@ -86,7 +89,7 @@ export default function rootReducer(state = initialState, action) {
       //con esto traigo solo destacados y me guardo todo lo otro en el backup
       let productos;
 
-      state.productos
+      state.productos.length
         ? (productos = state.productos)
         : (productos = action.payload);
 
@@ -146,6 +149,42 @@ export default function rootReducer(state = initialState, action) {
         backupFiltrados: [...filtered],
       };
 
+    // arma tu pc
+
+    case FILTER_ARMA_TU_PC:
+      let filtradosPc = state.backup.filter(
+        (producto) =>
+          producto?.id_categoria == 3 &&
+          producto.nombre.includes(action.payload)
+      );
+      // console.log('filtrados reducer',filtradosPc);
+      return {
+        ...state,
+        productos: [...filtradosPc],
+      };
+
+    case FILTER_HARDCODE:
+      let filtradosMother = state.backup.filter(
+        (producto) =>
+          producto?.id_categoria == 5 &&
+          producto.SpecificationValues[7].value.includes(action.payload)
+      );
+
+      return {
+        ...state,
+        productos: [...filtradosMother],
+      };
+    case FILTER_HARDCODE2:
+      let filtradosRam = state.backup.filter(
+        (producto) =>
+          producto?.id_categoria == 9 &&
+          producto.SpecificationValues[2].value.includes(action.payload)
+      );
+
+      return {
+        ...state,
+        productos: [...filtradosRam],
+      };
     default:
       return { ...state };
   }
