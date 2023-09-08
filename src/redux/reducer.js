@@ -15,8 +15,13 @@ import {
   GET_SUBCATEGORIES,
   GET_BY_CATEGORIES,
   ORDER_BY_PRICE,
+
   GET_DIRECCIÓN,
   POST_USUARIO,
+
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+
 } from "./actions/actions-types";
 import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
 
@@ -32,6 +37,13 @@ let initialState = {
   productos: [],
   backup: [],
   destacados: [],
+  /*
+  {
+    producto: producto,
+    cantidad: quantity,
+  }
+  */
+  carrito: [],
 
   // estados categorias
   categorias: [],
@@ -40,6 +52,7 @@ let initialState = {
   direccion: [],
   usuarioCreado: [],
 };
+
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PRODUCTOS:
@@ -83,6 +96,30 @@ export default function rootReducer(state = initialState, action) {
       return {
         destacados: [...destacados],
       };
+    //carrito 
+    case ADD_TO_CART:
+      console.log("Producto agregado al carrito:", state.carrito);
+      const productoEncontrado = state.carrito.find(item => item.producto.id_producto === action.payload.producto.id_producto)
+      console.log(productoEncontrado)
+      const carritoFiltrado = state.carrito.filter(item => item.producto.id_producto !== action.payload.producto.id_producto)
+      
+      if (productoEncontrado) {
+        productoEncontrado.cantidad = Number(productoEncontrado.cantidad) + Number(action.payload.quantity)
+        return {
+          ...state,
+          carrito: [...carritoFiltrado, productoEncontrado]
+        }
+      }
+      return {
+        ...state,
+        carrito: [...state.carrito, { producto: action.payload.producto, cantidad: action.payload.quantity }],
+      };
+
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        carrito: state.carrito.filter((producto) => producto.producto.id_producto !== action.payload),
+      };
 
     case GET_PRODUCTS:
       // console.log("desde el reducer", action.payload);
@@ -92,8 +129,8 @@ export default function rootReducer(state = initialState, action) {
       state.productos.length
         ? (destacados = state.productos)
         : (destacados = action.payload
-            .filter((producto) => producto.calificacion === 2)
-            .slice(0, 12));
+          .filter((producto) => producto.calificacion === 2)
+          .slice(0, 12));
 
       return {
         ...state,

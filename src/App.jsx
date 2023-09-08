@@ -10,12 +10,13 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Home from "./views/Home/Home";
 import Ayuda from "./views/Ayuda/Ayuda";
-import Modal from "./views/Ayuda/Modal";
 import About from "./views/About/About";
 
 import Productos from "./views/Productos/Productos";
 import ModificadorModalAdmin from "./components/ModificadorModalAdmin/ModificadorModalAdmin";
 import Footer from "./components/footer/Footer";
+import Profile from "./components/forms/Profile";
+import Carrito from "./components/carrito/Carrito";
 
 import UserClient from "./views/userClient/userClient";
 import UserDireccion from "./views/userClient/Dirección/userDirección";
@@ -36,6 +37,7 @@ function App() {
         <Route path={"/"} element={<Home />} />
         <Route path={"/home"} element={<Home />} />
         <Route path="ayuda" element={<Ayuda />} />
+
         <Route path="form" element={<Modal />} />
         {/*Routes de Users*/}
         <Route path="/user" element={<UserClient />} />
@@ -46,6 +48,8 @@ function App() {
         {/* <Route path="adminis" element={<ModificadorModalAdmin />} /> */}
         <Route path="about" element={<About />} />
         <Route path="/productos" element={<Productos />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/carrito" element={<Carrito />} />
       </Routes>
       {!location.pathname.includes("/admin") && <Footer />}
     </div>
