@@ -30,13 +30,13 @@ const ArmaTuPc = () => {
     );
     console.log("productardo", product[0]);
     setArmaTuPc([...armaTuPc, product[0]]);
-    i == 0 && dispatch(filterHardCode(product[0].SpecificationValues[4].value));
+    i == 0 && dispatch(filterHardCode(product[0].SpecificationValues[5].value));
     i == 1 &&
       dispatch(filterHardCode2(product[0].SpecificationValues[2].value));
     i++;
   };
 
-  // console.log("componentes arma tu pc desde el mismo", armaTuPc);
+  console.log("componentes arma tu pc desde el mismo", armaTuPc);
   // console.log('clic', click);
 
   useEffect(() => {
