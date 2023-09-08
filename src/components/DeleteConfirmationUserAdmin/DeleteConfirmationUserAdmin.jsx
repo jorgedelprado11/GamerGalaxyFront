@@ -2,7 +2,7 @@ import React from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const DeleteConfirmationModal = ({
+const DeleteConfirmationUserAdmin = ({
   isOpen,
   onCancel,
   onConfirm,
@@ -14,7 +14,7 @@ const DeleteConfirmationModal = ({
   }
 
   const eliminar = (id) => {
-    toast.error(`El producto ${id} ha sido eliminado`, {
+    toast.error(`El usuario ${id} ha sido eliminado`, {
       position: toast.POSITION.TOP_RIGHT,
       theme: "colored",
     });
@@ -23,7 +23,9 @@ const DeleteConfirmationModal = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="bg-white p-4 rounded-lg shadow-lg">
-        <p>¿Estás seguro de que quieres eliminar el producto {deleteNumber}?</p>
+        <p>
+          ¿Estás seguro de que quieres eliminar este usuario {deleteNumber}?
+        </p>
         <div className="mt-4 flex justify-end">
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mr-2"
@@ -49,4 +51,4 @@ const DeleteConfirmationModal = ({
   );
 };
 
-export default DeleteConfirmationModal;
+export default DeleteConfirmationUserAdmin;

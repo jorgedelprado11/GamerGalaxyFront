@@ -16,6 +16,14 @@ import {
   GET_BY_CATEGORIES,
   ORDER_BY_PRICE,
 
+  GET_USUARIOS,
+  GET_USUARIOS_NOMBRE,
+  GET_USUARIOS_ID,
+  DELETE_USUARIO,
+  PUT_USUARIOS_ID,
+  PUT_PRECIOS_ID,
+
+
   FILTER_ARMA_TU_PC,
   FILTER_BY_MARCAS,
   FILTER_HARDCODE,
@@ -39,6 +47,10 @@ let initialState = {
   createdProduct: null,
   categories: [],
   productoCreado: {},
+  usuarios: [],
+  usuariosBorrados: [],
+  usuarioNombre: [],
+  usuarioId: {},
   // estados globales de productos
   productos: [],
   backup: [],
@@ -93,6 +105,23 @@ export default function rootReducer(state = initialState, action) {
     case PUT_PRODUCTO:
       return { ...state, productosAdmin: action.payload };
 
+    case GET_USUARIOS:
+      return { ...state, usuarios: action.payload };
+
+    case DELETE_USUARIO:
+      return { ...state, usuarios: action.payload };
+
+    case GET_USUARIOS_NOMBRE:
+      return { ...state, usuarios: action.payload };
+
+    case GET_USUARIOS_ID:
+      console.log(action.payload);
+      return { ...state, usuarios: action.payload };
+
+    case PUT_USUARIOS_ID:
+      console.log("put-usuario", action.payload);
+      return { ...state, usuarios: action.payload };
+
     case GET_DESCUENTOS:
       return { ...state, destacados: action.payload };
 
@@ -104,6 +133,11 @@ export default function rootReducer(state = initialState, action) {
     //   return {
     //     destacados: [state.destacados],
     //   };
+
+
+    case PUT_PRECIOS_ID:
+      // console.log("reducer", action.payload);
+      return { ...state, productosAdmin: action.payload };
 
     //carrito 
     case ADD_TO_CART:

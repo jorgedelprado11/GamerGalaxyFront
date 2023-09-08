@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getProductoPorNombre,
-  obtenerProductos,
+  getUsuarioPorNombre,
+  getUsuarioPorId,
+  obtenerUsuarios,
 } from "../../redux/actions/actionsAdmin";
 import { NavLink } from "react-router-dom";
 
 //En el button de modificar
 
-const SearchbarAdmin = ({ currentPage, setCurrentPage }) => {
+const SearchbarUsersAdmin = ({ currentPage, setCurrentPage }) => {
   const dispatch = useDispatch();
   const [input, setInput] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,7 +17,7 @@ const SearchbarAdmin = ({ currentPage, setCurrentPage }) => {
   const handleSearch = (event) => {
     event.preventDefault();
     setCurrentPage(1);
-    dispatch(getProductoPorNombre(input));
+    dispatch(getUsuarioPorId(input));
     setInput("");
   };
 
@@ -25,13 +26,17 @@ const SearchbarAdmin = ({ currentPage, setCurrentPage }) => {
   };
   const handleAll = () => {
     event.preventDefault();
-    dispatch(obtenerProductos());
+    dispatch(obtenerUsuarios());
     setCurrentPage(1);
+  };
+
+  const createUser = () => {
+    alert("Crear usuario");
   };
 
   return (
     <div className="flex justify-center ">
-      <div className="m-8">
+      <div className="m-8 flex">
         <form onSubmit={handleSearch}>
           <input
             placeholder="Buscar..."
@@ -51,15 +56,16 @@ const SearchbarAdmin = ({ currentPage, setCurrentPage }) => {
           >
             Todos
           </button>
-          <NavLink to="create">
-            <button className="rounded-lg bg-blue-500 hover:bg-blue-600 text-white p-2 h-12 ml-1">
-              Crear Producto
-            </button>
-          </NavLink>
         </form>
+        <button
+          className="rounded-lg bg-blue-500 hover:bg-blue-600 text-white p-2 h-12 ml-1"
+          onClick={() => createUser()}
+        >
+          Crear Usuario
+        </button>
       </div>
     </div>
   );
 };
 
-export default SearchbarAdmin;
+export default SearchbarUsersAdmin;
