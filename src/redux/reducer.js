@@ -89,7 +89,7 @@ export default function rootReducer(state = initialState, action) {
       //con esto traigo solo destacados y me guardo todo lo otro en el backup
       let productos;
 
-      state.productos.length
+      state.productos?.length
         ? (productos = state.productos)
         : (productos = action.payload);
 

@@ -12,7 +12,7 @@ import {
 import CategoriasArmaTuPc from "../../components/CategoriasArmaTuPc/CategoriasArmaTuPc";
 let i = 0;
 
-const ArmaTuPc = ({ producto }) => {
+const ArmaTuPc = () => {
   const dispatch = useDispatch();
   const productos = useSelector((state) => state.productos);
   const [armaTuPc, setArmaTuPc] = useState([]);
@@ -36,7 +36,7 @@ const ArmaTuPc = ({ producto }) => {
     i++;
   };
 
-  console.log("componentes arma tu pc desde el mismo", armaTuPc);
+  // console.log("componentes arma tu pc desde el mismo", armaTuPc);
   // console.log('clic', click);
 
   useEffect(() => {
