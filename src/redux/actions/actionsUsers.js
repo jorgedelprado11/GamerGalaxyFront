@@ -1,3 +1,5 @@
+/** @format */
+
 import {
   GET_PRODUCTS,
   GET_CATEGORIES,
@@ -5,9 +7,16 @@ import {
   GET_SUBCATEGORIES,
   ORDER_BY_PRICE,
 } from "./actions-types";
+
 import axios from "axios";
 const URL = "http://localhost:3001";
-import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions-types";
+import {
+  GET_DESCUENTOS,
+  GET_NAME,
+  CLEAN,
+  GET_DIRECCIÓN,
+  POST_USUARIO,
+} from "./actions-types";
 
 export const getDescuentos = () => {
   return async function (dispatch) {
@@ -97,5 +106,73 @@ export const orderByPrice = (order) => {
   return {
     type: ORDER_BY_PRICE,
     payload: order,
+  };
+};
+
+//Actions Users
+
+export const postDireccion = (id, direccion) => async (dispatch) => {
+  const informacion = direccion;
+  try {
+    await axios.put(`http://localhost:3001/location/${id}`, informacion);
+    const { data } = await axios(`http://localhost:3001/users/${id}`);
+    dispatch({
+      type: GET_DIRECCIÓN,
+      payload: data,
+    });
+  } catch (error) {
+    console.error("Error al modificar:", error);
+  }
+};
+
+export const guardarUsuario = (user) => {
+  console.log("user", user);
+  let infoFormateada;
+  if (user.given_name) {
+    infoFormateada = {
+      username: user.nickname,
+      email: user.email,
+      password: "desconocido",
+      firstName: user.given_name,
+      lastName: user.family_name,
+      phoneNumber: "deconocido",
+    };
+  } else {
+    infoFormateada = {
+      username: user.nickname,
+      email: user.email,
+      password: "desconocido",
+      firstName: "desconocido",
+      lastName: "desconocido",
+      phoneNumber: "deconocido",
+    };
+  }
+
+  return async function (dispatch) {
+
+    const response = await axios.get("http://localhost:3001/users");
+    const datos = response.data.filter((use) =>
+      use.email.includes(infoFormateada.email)
+    );
+
+
+    if (!datos.length) {
+      const newUser = await axios.post(
+        `http://localhost:3001/users/createUser`,
+        infoFormateada
+      );
+      dispatch({
+        type: POST_USUARIO,
+        payload: newUser.data,
+      });
+    } else {
+      const { data } = await axios.get(
+        `http://localhost:3001/users/profile?username=${infoFormateada.username}`
+      );
+      dispatch({
+        type: POST_USUARIO,
+        payload: data,
+      });
+    }
   };
 };

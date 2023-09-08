@@ -1,9 +1,19 @@
+/** @format */
+
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDescuentos } from "../../redux/actions/actionsUsers";
 import { CardsContainer } from "../../components/CardsContainerHome/CardsContainerHome";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
+  //Auth0 iniciar Sesión
+  const { user, isAuthenticated } = useAuth0();
+  useEffect(() => {
+    console.log(user);
+    console.log(isAuthenticated);
+  }, [user, isAuthenticated]);
+
   const dispatch = useDispatch();
   const descuentos = useSelector((state) => state.destacados);
   //PAGINACIÓN
@@ -64,25 +74,25 @@ const Home = () => {
           className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           disabled={currentPage === 1}
         >
-        {"◀"}
+          {"◀"}
         </button>
         <button
           onClick={handleNextPage}
           className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           disabled={currentPage === totalPages}
         >
-          { "▶"}
+          {"▶"}
         </button>
-      </div>
 
-      <div className="mt-2 flex items-center flex-col">
-        <div className="flex items-center justify-center space-x-4">
-          {renderPageNumbers()}
-        </div>
-        <div className="flex items-center space-x-2">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <div key={i}></div>
-          ))}
+        <div className="mt-0 flex items-center flex-col">
+          <div className="flex items-center justify-center space-x-4 mb-5">
+            {renderPageNumbers()}
+          </div>
+          <div className="flex items-center space-x-2 mb-5">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <div key={i}></div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

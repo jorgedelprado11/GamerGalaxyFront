@@ -1,3 +1,5 @@
+/** @format */
+
 export const Card = ({ producto }) => {
   return (
     <div className="mt-16 p-2 bg-transparent relative duration-1000 flex flex-col justify-center items-center h-[300px] max-w-[16rem] group">
