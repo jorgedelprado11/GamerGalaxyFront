@@ -31,7 +31,6 @@ const productForm = () => {
     const { name, value } = e.target;
     setProductData({ ...productData, [name]: value });
 
-
     const validationErrors = validate({ ...productData, [name]: value });
     setErrors({ ...errors, [name]: validationErrors[name] });
   };
@@ -56,10 +55,10 @@ const productForm = () => {
       alert("Producto creado");
       navigate("/admin")
     }
-
+   
   };
   const cancelar=()=>{
-    navigate("/admin")
+    navigate("/admin/Productos")
   }
 
   return (

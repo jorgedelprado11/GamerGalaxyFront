@@ -1,6 +1,6 @@
 const validate = (state) => {
     const errors = {};
-
+  
     if (state.nombre === undefined) {
       errors.nombre = "*El campo nombre no puede estar vacío";
     } else if (state.nombre === "") {
@@ -45,6 +45,7 @@ const validate = (state) => {
   }else if (isNaN(state.stock) || state.stock < 0) {
       errors.stock = "*Stock debe ser mayor a 0";
     }
+
 
     if (state.categoriaSeleccionada.length===Number(0)) {
       errors.categoriaSeleccionada = "*El campo categoria no puede estar vacío";
