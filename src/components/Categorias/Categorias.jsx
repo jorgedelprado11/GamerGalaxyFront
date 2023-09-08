@@ -6,7 +6,7 @@ import {
   getSubCategories,
 } from "../../redux/actions/actionsUsers";
 
-const Categorias = () => {
+const Categorias = ({ setCurrentPage }) => {
   const dispatch = useDispatch();
   const categorias = useSelector((state) => state.categorias);
   const subCategorias = useSelector((state) => state.subCategorias);
@@ -37,6 +37,7 @@ const Categorias = () => {
     event.preventDefault();
     // console.log(event.target.value);
     dispatch(getByCategories(event.target.value));
+    setCurrentPage(1);
   };
   const toggleMenu = (event) => {
     // console.log(event.target.value);
@@ -84,7 +85,7 @@ const Categorias = () => {
                     subcat.id_macroCategory === categoria.id_agrupador && (
                       <li className="ml-8" key={subcat.id_categoria}>
                         <button
-                          className="text-blue-900"
+                          className="text-blue-900 text-sm"
                           onClick={onClickCategories}
                           value={subcat.id_categoria}
                         >

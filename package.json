@@ -10,10 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+
+
+
+    "@tremor/react": "^3.7.3",
+
+    "@auth0/auth0-react": "^2.2.1",
     "@cloudinary/react": "^1.11.2",
     "@cloudinary/url-gen": "^1.11.2",
     "@heroicons/react": "^2.0.18",
-    "@tremor/react": "^3.7.3",
+
     "axios": "^1.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

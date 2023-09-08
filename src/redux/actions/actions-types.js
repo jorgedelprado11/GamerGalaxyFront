@@ -11,11 +11,28 @@ export const GET_DESCUENTOS = "GET_DESCUENTOS";
 export const GET_NAME = "GET_NAME";
 export const CLEAN = "CLEAN";
 
+
+export const GET_DIRECCIÓN = "GET_DIRECCIÓN";
+export const POST_USUARIO = "POST_USUARIO";
+
+
+
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_BY_CATEGORIES = "GET_BY_CATEGORIES";
 export const ORDER_BY_PRICE = "ORDER_BY_PRICE";
 export const GET_SUBCATEGORIES = "GET_SUBCATEGORIES";
+export const FILTER_BY_MARCAS = "FILTER_BY_MARCAS";
+
+
+export const FILTER_ARMA_TU_PC = "FILTER_ARMA_TU_PC";
+export const FILTER_HARDCODE = "FILTER_HARDCODE";
+export const FILTER_HARDCODE2 = "FILTER_HARDCODE2";
+
+
+export const ADD_TO_CART = "ADD_TO_CART";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+
 
 export const GET_USUARIOS = "GET_USUARIOS";
 export const GET_USUARIOS_NOMBRE = "GET_USUARIOS_NOMBRE";

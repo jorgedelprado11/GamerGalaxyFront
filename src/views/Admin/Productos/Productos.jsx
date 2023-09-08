@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { formatCurrency } from "../../../../utils/format";
+
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +19,7 @@ import SearchbarAdmin from "../../../components/SearchbarAdmin/SearchbarAdmin";
 import SidebarAdmin from "../../../components/SidebarAdmin/SidebarAdmin";
 import Modificador from "../../../components/Modificador/Modificador";
 import DeleteConfirmationModal from "../../../components/DeleteConfirmationAdmin/DeleteConfirmAdmin";
+
 
 const ProductosAdmin = () => {
   const [mostrarComponente, setMostrarComponente] = useState(false);
@@ -59,7 +64,7 @@ const ProductosAdmin = () => {
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = productos.slice(
+  const currentProducts = productos?.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
