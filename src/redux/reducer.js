@@ -1,3 +1,5 @@
+/** @format */
+
 import {
   FETCH_CATEGORIES_SUCCESS,
   CREATE_PRODUCT_SUCCESS,
@@ -13,8 +15,13 @@ import {
   GET_SUBCATEGORIES,
   GET_BY_CATEGORIES,
   ORDER_BY_PRICE,
+
+  GET_DIRECCIÓN,
+  POST_USUARIO,
+
   ADD_TO_CART,
   REMOVE_FROM_CART,
+
 } from "./actions/actions-types";
 import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
 
@@ -41,6 +48,9 @@ let initialState = {
   // estados categorias
   categorias: [],
   subCategorias: [],
+  //estado direcciones de users
+  direccion: [],
+  usuarioCreado: [],
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -158,6 +168,18 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         productos: [...filtered],
+      };
+    case GET_DIRECCIÓN:
+      console.log("reducer", action.payload);
+      return {
+        ...state,
+        direccion: action.payload,
+      };
+    case POST_USUARIO:
+      console.log("reducer", action.payload);
+      return {
+        ...state,
+        usuarioCreado: action.payload,
       };
 
     default:

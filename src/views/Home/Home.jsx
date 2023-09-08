@@ -1,3 +1,5 @@
+/** @format */
+
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDescuentos } from "../../redux/actions/actionsUsers";
@@ -5,12 +7,14 @@ import { CardsContainer } from "../../components/CardsContainerHome/CardsContain
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
+
   const { user, isAuthenticated } = useAuth0();
 
   useEffect(() => {
     console.log(user);
     console.log(isAuthenticated)
   }, [user, isAuthenticated])
+
 
 
 
@@ -82,16 +86,16 @@ const Home = () => {
         >
           {"▶"}
         </button>
-      </div>
 
-      <div className="mt-2 flex items-center flex-col">
-        <div className="flex items-center justify-center space-x-4">
-          {renderPageNumbers()}
-        </div>
-        <div className="flex items-center space-x-2">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <div key={i}></div>
-          ))}
+        <div className="mt-0 flex items-center flex-col">
+          <div className="flex items-center justify-center space-x-4 mb-5">
+            {renderPageNumbers()}
+          </div>
+          <div className="flex items-center space-x-2 mb-5">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <div key={i}></div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

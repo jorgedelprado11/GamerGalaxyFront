@@ -1,6 +1,8 @@
+
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions/actionsUsers";
+
 
 export const Card = ({ producto }) => {
   const dispatch = useDispatch();

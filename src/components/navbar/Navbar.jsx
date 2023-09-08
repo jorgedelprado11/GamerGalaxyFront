@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+/** @format */
+import React from "react";
 import { ShoppingCartIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+
 import logo from "../../assets/logo.jpg";
 import { Link } from "react-router-dom";
 import SearchProduct from "../Searchbar/Serchbar";
+
 import { LoginButton } from "../forms/LoginButton";
 import LogoutButton from "../forms/Logout";
+
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = () => {
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const { loginWithPopup, user, isAuthenticated } = useAuth0();
+
   return (
     <div>
-      {/* NAV ARRIBA */}
       <div className="flex bg-white justify-around h-28 items-center">
         {/* <LoginButton />
         <LogoutButton /> */}
@@ -20,6 +24,7 @@ const Navbar = () => {
           <img className="h-20" src={logo} alt="logo" />
         </Link>
         <SearchProduct />
+
         {/* <div className="flex w-[500px] justify-end">
           <input className="bg-white-500 rounded-lg h-10 w-full border hover:border-black" type="text" placeholder='  Buscador' />
           <button className="absolute h-10 w-12"><MagnifyingGlassIcon className="h-8 w-8" /></button>
@@ -36,6 +41,7 @@ const Navbar = () => {
         : <LogoutButton />
           }
         <Link to={"/carrito"}>
+
           <button>
             <ShoppingCartIcon className="h-10 w-10" />
           </button>
