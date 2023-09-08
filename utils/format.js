@@ -12,4 +12,5 @@ export const formatCurrency = (price) => {
     return final.join("")
 }
 
+
 //esta funcion es para ponerle punto cada 3 cifras a los precios de los productos, no borrar, puede servir

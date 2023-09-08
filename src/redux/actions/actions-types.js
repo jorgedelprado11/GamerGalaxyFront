@@ -11,8 +11,10 @@ export const GET_DESCUENTOS = "GET_DESCUENTOS";
 export const GET_NAME = "GET_NAME";
 export const CLEAN = "CLEAN";
 
+
 export const GET_DIRECCIÓN = "GET_DIRECCIÓN";
 export const POST_USUARIO = "POST_USUARIO";
+
 
 
 export const GET_PRODUCTS = "GET_PRODUCTS";
@@ -32,4 +34,9 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 
 
-
+export const GET_USUARIOS = "GET_USUARIOS";
+export const GET_USUARIOS_NOMBRE = "GET_USUARIOS_NOMBRE";
+export const DELETE_USUARIO = "DELETE_USUARIO";
+export const GET_USUARIOS_ID = "GET_USUARIOS_ID";
+export const PUT_USUARIOS_ID = "PUT_USUARIOS_ID";
+export const PUT_PRECIOS_ID = "PUT_PRECIOS_ID";

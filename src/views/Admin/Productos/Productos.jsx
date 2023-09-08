@@ -1,12 +1,19 @@
 import React, { useState } from "react";
+
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { formatCurrency } from "../../../../utils/format";
+
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   obtenerProductos,
   borrarProducto,
+  cambiarPrecioSegunDolar,
 } from "../../../redux/actions/actionsAdmin";
+import ModificadorProductsModalAdmin from "../../../components/ModificadorProductsModalAdmin/ModificadorProductsModalAdmin";
 
 import SearchbarAdmin from "../../../components/SearchbarAdmin/SearchbarAdmin";
 import SidebarAdmin from "../../../components/SidebarAdmin/SidebarAdmin";
@@ -16,12 +23,15 @@ import DeleteConfirmationModal from "../../../components/DeleteConfirmationAdmin
 
 const ProductosAdmin = () => {
   const [mostrarComponente, setMostrarComponente] = useState(false);
+  const [modifyNumber, setModifyNumber] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(11);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deleteNumber, setDeleteNumber] = useState("");
   const [showModificador, setShowModificador] = useState({});
   const productos = useSelector((state) => state.productosAdmin);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [price, setPrice] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,6 +40,19 @@ const ProductosAdmin = () => {
 
   const onConfirm = (number) => {
     dispatch(borrarProducto(number));
+  };
+
+  const handleChange = (event) => {
+    // Actualiza el estado con el valor del input
+    setPrice(event.target.value);
+  };
+
+  const modifyPrice = (event) => {
+    event.preventDefault();
+    dispatch(cambiarPrecioSegunDolar(price / 100));
+    setPrice("");
+    // Accede al valor del input a través del estado 'price'
+    console.log(price);
   };
 
   const toggleComponente = (productId) => {
@@ -62,6 +85,25 @@ const ProductosAdmin = () => {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />
+          <form action="" onSubmit={modifyPrice} className="text-white">
+            <label htmlFor="" className="mr-3">
+              Aumentar en
+            </label>
+            <input
+              type="text"
+              id="price" // Agrega un id al input para asociarlo con el label
+              value={price}
+              placeholder="%"
+              onChange={handleChange} // Manejador de cambio para actualizar el estado
+              className="h-12 p-2 rounded-lg text-blue-700"
+            />
+            <button
+              type="submit"
+              className="rounded-lg bg-blue-500 hover:bg-blue-600 text-white p-2 h-12 ml-1"
+            >
+              Cambiar
+            </button>
+          </form>
           <table className="text-white border border-collapse border-black m-8 w-5/6 ">
             <thead>
               <th className=" border border-black text-center w-1/8">
@@ -97,7 +139,7 @@ const ProductosAdmin = () => {
                   {producto.nombre}
                 </td>
                 <td className="h-5 text-xs text-center border border-black w-1/4">
-                  ${formatCurrency(producto.precio)}
+                  ${producto.precio}
                 </td>
                 <td className="h-5 text-xs text-center border border-black w-1/3">
                   {producto.stock}
@@ -115,7 +157,7 @@ const ProductosAdmin = () => {
                   </button>
                 </td>
                 <td className="h-5 border border-black w-1/3">
-                  <button
+                  {/*                   <button
                     onClick={() => toggleComponente(producto.id_producto)}
                     className={
                       producto.stock === 0
@@ -126,13 +168,26 @@ const ProductosAdmin = () => {
                     {showModificador[producto.id_producto]
                       ? "Ocultar"
                       : "Modificar"}
+                  </button> */}
+                  <button
+                    //onClick={() => toggleComponente(producto.id_producto)} aqui se aplica el modal
+                    value={producto}
+                    className={
+                      "scroll-to-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg  w-full"
+                    }
+                    onClick={() => {
+                      setIsModalOpen(true);
+                      setModifyNumber(producto);
+                    }}
+                  >
+                    Editar
                   </button>
-                  {showModificador[producto.id_producto] && (
+                  {/*                   {showModificador[producto.id_producto] && (
                     <Modificador
                       id={producto.id_producto}
                       setShowModificador={setShowModificador}
                     />
-                  )}
+                  )} */}
                 </td>
               </tbody>
             ))}
@@ -187,11 +242,31 @@ const ProductosAdmin = () => {
           </div>
         </div>
 
+        {isModalOpen && (
+          <ModificadorProductsModalAdmin
+            setOpen={setIsModalOpen}
+            modifyNumber={modifyNumber}
+          />
+        )}
+
         <DeleteConfirmationModal
           isOpen={showDeleteConfirmation}
           onCancel={() => setShowDeleteConfirmation(false)}
           onConfirm={onConfirm}
           deleteNumber={deleteNumber}
+          setCurrentPage={setCurrentPage}
+        />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
         />
       </div>
     </div>
