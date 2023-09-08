@@ -1,4 +1,5 @@
 import React from "react";
+import { BarChart } from "@tremor/react";
 import { NavLink } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import ProductosAdmin from "../Admin/Productos/Productos";

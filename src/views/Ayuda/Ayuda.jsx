@@ -17,14 +17,12 @@ function Ayuda() {
   return (
     <div>
       <div className="max-w-4xl mx-auto mt-20 p-8 border border-gray-400 rounded-lg bg-blue-700">
-        <h1 className="text-white h-16 text-3xl ml-8">Preguntas Frecuentes</h1>
+        <h1 className="text-white h-16 text-3xl ">Preguntas Frecuentes</h1>
         <Preguntas />
       </div>
       <div>
         <div className="max-w-4xl mb-40 mt-20 mx-auto p-8 border border-gray-400 rounded-lg bg-blue-700">
-          <h1 className="text-white h-16 text-3xl ml-8">
-            Cual es tu consulta?
-          </h1>
+          <h1 className="text-white h-16 text-3xl ">¿Cuál es tu consulta?</h1>
           <select
             id="consultas"
             value={motivoConsulta}
