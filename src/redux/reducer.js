@@ -15,27 +15,20 @@ import {
   GET_SUBCATEGORIES,
   GET_BY_CATEGORIES,
   ORDER_BY_PRICE,
-
   GET_USUARIOS,
   GET_USUARIOS_NOMBRE,
   GET_USUARIOS_ID,
   DELETE_USUARIO,
   PUT_USUARIOS_ID,
   PUT_PRECIOS_ID,
-
-
   FILTER_ARMA_TU_PC,
   FILTER_BY_MARCAS,
   FILTER_HARDCODE,
   FILTER_HARDCODE2,
-
-
   GET_DIRECCIÓN,
   POST_USUARIO,
-
   ADD_TO_CART,
   REMOVE_FROM_CART,
-
 } from "./actions/actions-types";
 import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
 
@@ -54,9 +47,10 @@ let initialState = {
   // estados globales de productos
   productos: [],
   backup: [],
-filtrados: [],
+  filtrados: [],
   backupFiltrados: [],
   destacados: [],
+  productosArmaTuPc: [],
   /*
   {
     producto: producto,
@@ -131,37 +125,52 @@ export default function rootReducer(state = initialState, action) {
 
     // case CLEAN:
     //   return {
-    //     destacados: [state.destacados],
+    //     // productos: state.backup,
+    //     productosArmaTuPc: state.backup,
     //   };
-
 
     case PUT_PRECIOS_ID:
       // console.log("reducer", action.payload);
       return { ...state, productosAdmin: action.payload };
 
-    //carrito 
+    //carrito
     case ADD_TO_CART:
       console.log("Producto agregado al carrito:", state.carrito);
-      const productoEncontrado = state.carrito.find(item => item.producto.id_producto === action.payload.producto.id_producto)
-      console.log(productoEncontrado)
-      const carritoFiltrado = state.carrito.filter(item => item.producto.id_producto !== action.payload.producto.id_producto)
-      
+      const productoEncontrado = state.carrito.find(
+        (item) =>
+          item.producto.id_producto === action.payload.producto.id_producto
+      );
+      console.log(productoEncontrado);
+      const carritoFiltrado = state.carrito.filter(
+        (item) =>
+          item.producto.id_producto !== action.payload.producto.id_producto
+      );
+
       if (productoEncontrado) {
-        productoEncontrado.cantidad = Number(productoEncontrado.cantidad) + Number(action.payload.quantity)
+        productoEncontrado.cantidad =
+          Number(productoEncontrado.cantidad) + Number(action.payload.quantity);
         return {
           ...state,
-          carrito: [...carritoFiltrado, productoEncontrado]
-        }
+          carrito: [...carritoFiltrado, productoEncontrado],
+        };
       }
       return {
         ...state,
-        carrito: [...state.carrito, { producto: action.payload.producto, cantidad: action.payload.quantity }],
+        carrito: [
+          ...state.carrito,
+          {
+            producto: action.payload.producto,
+            cantidad: action.payload.quantity,
+          },
+        ],
       };
 
     case REMOVE_FROM_CART:
       return {
         ...state,
-        carrito: state.carrito.filter((producto) => producto.producto.id_producto !== action.payload),
+        carrito: state.carrito.filter(
+          (producto) => producto.producto.id_producto !== action.payload
+        ),
       };
 
     case GET_PRODUCTS:
@@ -169,17 +178,16 @@ export default function rootReducer(state = initialState, action) {
       //con esto traigo solo destacados y me guardo todo lo otro en el backup
       let productos;
 
-
       state.productos?.length
         ? (productos = state.productos)
         : (productos = action.payload);
-
 
       return {
         ...state,
         productosAdmin: action.payload,
         productos: [...productos],
         backup: action.payload,
+        productosArmaTuPc: action.payload,
       };
     case ORDER_BY_PRICE:
       let ordenados = state.productos;
@@ -190,7 +198,7 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         productos: [...ordenados],
       };
-case FILTER_BY_MARCAS:
+    case FILTER_BY_MARCAS:
       let filtrados;
 
       state.backupFiltrados
@@ -228,7 +236,7 @@ case FILTER_BY_MARCAS:
       return {
         ...state,
         productos: [...filtered],
-backupFiltrados: [...filtered],
+        backupFiltrados: [...filtered],
       };
 
     // arma tu pc
@@ -242,7 +250,7 @@ backupFiltrados: [...filtered],
       // console.log('filtrados reducer',filtradosPc);
       return {
         ...state,
-        productos: [...filtradosPc],
+        productosArmaTuPc: [...filtradosPc],
       };
     case GET_DIRECCIÓN:
       console.log("reducer", action.payload);
@@ -257,7 +265,7 @@ backupFiltrados: [...filtered],
         usuarioCreado: action.payload,
       };
 
-case FILTER_HARDCODE:
+    case FILTER_HARDCODE:
       let filtradosMother = state.backup.filter(
         (producto) =>
           producto?.id_categoria == 5 &&
@@ -266,7 +274,7 @@ case FILTER_HARDCODE:
 
       return {
         ...state,
-        productos: [...filtradosMother],
+        productosArmaTuPc: [...filtradosMother],
       };
     case FILTER_HARDCODE2:
       let filtradosRam = state.backup.filter(
@@ -277,7 +285,7 @@ case FILTER_HARDCODE:
 
       return {
         ...state,
-        productos: [...filtradosRam],
+        productosArmaTuPc: [...filtradosRam],
       };
     default:
       return { ...state };

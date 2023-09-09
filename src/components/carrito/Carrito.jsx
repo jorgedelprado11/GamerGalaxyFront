@@ -38,8 +38,8 @@ const Carrito = () => {
 
 
     return (
-        <div className="w-full my-8 flex flex-row">
-            <div className="mx-auto max-w-5xl w-[900px] h-screen justify-center px-6 md:flex md:space-x-6 xl:px-0">
+        <div className="w-full my-8 flex flex-row ">
+            <div className=" mx-auto max-w-5xl w-[900px] min-h-screen justify-center px-6 md:flex md:space-x-6 xl:px-0">
                 <div className="rounded-lg md:w-2/3">
                     {cart.map((producto) => (
                         <div

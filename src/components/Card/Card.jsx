@@ -23,14 +23,14 @@ const Card = ({ producto, handleClickPaquete }) => {
 
   const handleAddToCart = () => {
     setProductoEnCarrito(producto, () => {
-      console.log("Producto agregado al carrito:", productoEnCarrito);
+      // console.log("Producto agregado al carrito:", productoEnCarrito);
     });
     dispatch(addToCart({producto, quantity}));
     window.alert("Se ha agregado el producto al carrito exitosamente");
   };
 
   useEffect(()=> {
-console.log(producto);
+// console.log(producto);
   },[])
 
   const handleQuantityChange = (event) => {

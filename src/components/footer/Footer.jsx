@@ -20,17 +20,17 @@ const Footer = () => {
         <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-white dark:text-gray-400 sm:mt-0"></ul>
         <div className="flex justify-between items-center h-12">
           <Link to={"/admin"}>
-            <button className="mr-20 mt-4">
-              <a href="#" className="mr-4 hover:underline md:mr-10">
-                <ComputerDesktopIcon className="h-8 w-8 mt-2 text-white" />
-              </a>
+            <button className="mr-20 mt-4 hover:underline md:mr-10">
+            
+                <ComputerDesktopIcon className="h-8 w-8 mb-2 mr-4 text-white" />
+              
             </button>
           </Link>
           <Link to={"/productos"}>
-            <button className="text-white">
-              <a href="#" className="mr-4 hover:underline md:mr-6">
+            <button className="text-white mr-4 hover:underline md:mr-6">
+              
                 Todos los productos
-              </a>
+              
             </button>
           </Link>
         </div>

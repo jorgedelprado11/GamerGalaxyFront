@@ -10,11 +10,12 @@ import {
   getProducts,
 } from "../../redux/actions/actionsUsers";
 import CategoriasArmaTuPc from "../../components/CategoriasArmaTuPc/CategoriasArmaTuPc";
+import { Subtitle } from "@tremor/react";
 let i = 0;
 
 const ArmaTuPc = () => {
   const dispatch = useDispatch();
-  const productos = useSelector((state) => state.productos);
+  const productos = useSelector((state) => state.productosArmaTuPc);
   const [armaTuPc, setArmaTuPc] = useState([]);
   const [click, setClick] = useState(false);
 
@@ -36,8 +37,18 @@ const ArmaTuPc = () => {
     i++;
   };
 
-  console.log("componentes arma tu pc desde el mismo", armaTuPc);
+  const reiniciar = () => {
+    setArmaTuPc([]);
+    setClick(false);
+  };
+
+  // console.log("componentes arma tu pc desde el mismo", armaTuPc);
   // console.log('clic', click);
+
+  let subTotal = 0;
+  for (let i = 0; i < armaTuPc.length; i++) {
+    subTotal += +armaTuPc[i].precio;
+  }
 
   useEffect(() => {
     dispatch(getProducts());
@@ -55,13 +66,11 @@ const ArmaTuPc = () => {
           <div className="flex flex-col">
             <CategoriasArmaTuPc armaTuPc={armaTuPc} />
             <div className="flex flex-row h-8 pt-4 place-content-between">
-              <button className="p-2">Reiniciar</button>
               <button
-                className="p-2"
-                onClick={handleClickPaquete}
-                value="aca un valor"
+                className="p-2 border-4 bg-red-500 text-white font-bold w-full h-fit rounded-xl"
+                onClick={reiniciar}
               >
-                Comprar
+                Reiniciar
               </button>
             </div>
           </div>
@@ -69,7 +78,7 @@ const ArmaTuPc = () => {
             <div className="flex flex-row bg-white h-12 w-auto m-3 rounded-xl items-center place-content-between ">
               <div className="flex flex-row px-2">
                 <h3 className="px-2 ">SubTotal: </h3>
-                <p>$120000</p>
+                <p className="text-blue-600">$ {subTotal}</p>
               </div>
               <div className="flex flex-row pr-4 pl-2">
                 <h3 className="px-2 ">Pasos: </h3>
@@ -89,10 +98,21 @@ const ArmaTuPc = () => {
             ) : (
               <>
                 <OrdenadorPrecio />
-                <CardsContainer
-                  productos={productos}
-                  handleClickPaquete={handleClickPaquete}
-                />
+                {productos.length ? (
+                  <>
+                    {" "}
+                    <CardsContainer
+                      productos={productos}
+                      handleClickPaquete={handleClickPaquete}
+                    />
+                  </>
+                ) : (
+                  <p className="m-8">
+                    No existen productos compatibles con el producto que acabas
+                    de seleccionar. <br />
+                    Por favor presiona en el botón Reiniciar.
+                  </p>
+                )}
               </>
             )}
           </div>

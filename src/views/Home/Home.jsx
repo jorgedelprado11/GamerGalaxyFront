@@ -11,8 +11,8 @@ const Home = () => {
   const { user, isAuthenticated } = useAuth0();
 
   useEffect(() => {
-    console.log(user);
-    console.log(isAuthenticated)
+    // console.log(user);
+    // console.log(isAuthenticated)
   }, [user, isAuthenticated])
 
 
