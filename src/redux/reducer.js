@@ -23,8 +23,7 @@ import {
   PUT_PRECIOS_ID,
   FILTER_ARMA_TU_PC,
   FILTER_BY_MARCAS,
-  FILTER_HARDCODE,
-  FILTER_HARDCODE2,
+  FILTER_COMPONENTES_ARMATUPC,
   GET_DIRECCIÓN,
   POST_USUARIO,
   ADD_TO_CART,
@@ -252,6 +251,79 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         productos: [...filtradosPc],
       };
+
+    case FILTER_COMPONENTES_ARMATUPC:
+      let filterComponentes;
+      action.payload.i == 0
+        ? (filterComponentes = state.backup.filter(
+            (producto) =>
+              producto?.id_categoria == 5 &&
+              producto.SpecificationValues[7].value.includes(
+                action.payload.producto.SpecificationValues[5].value
+              )
+          ))
+        : action.payload.i == 1
+        ? (filterComponentes = state.backup.filter(
+            (producto) =>
+              producto?.id_categoria == 9 &&
+              producto.SpecificationValues[2].value.includes(
+                action.payload.producto.SpecificationValues[2].value
+              )
+          ))
+        : action.payload.i == 2
+        ? (filterComponentes = [
+            ...state.backup.filter((producto) => producto?.id_categoria == 12),
+            ...state.backup.filter(
+              (producto) =>
+                producto?.id_categoria == 13 &&
+                !producto.SpecificationValues[6].value.includes("M2")
+            ),
+          ])
+        : action.payload.i == 3
+        ? (filterComponentes = state.backup.filter(
+            (producto) => producto?.id_categoria == 15
+          ))
+        : action.payload.i == 4
+        ? (filterComponentes = [
+            ...state.backup.filter((producto) => producto?.id_categoria == 7),
+            ...state.backup.filter((producto) => producto?.id_categoria == 8),
+          ])
+        : action.payload.i == 5
+        ? (filterComponentes = state.backup.filter(
+            (producto) => producto?.id_categoria == 18
+          ))
+        : action.payload.i == 6 &&
+          (filterComponentes = state.backup.filter(
+            (producto) => producto?.id_categoria == 17
+          ));
+
+      return {
+        ...state,
+        productos: [...filterComponentes],
+      };
+
+    // case FILTER_HARDCODE:
+    //   let filtradosMother = state.backup.filter(
+    //     (producto) =>
+    //       producto?.id_categoria == 5 &&
+    //       producto.SpecificationValues[7].value.includes(action.payload)
+    //   );
+
+    //   return {
+    //     ...state,
+    //     productos: [...filtradosMother],
+    //   };
+    // case FILTER_HARDCODE2:
+    //   let filtradosRam = state.backup.filter(
+    //     (producto) =>
+    //       producto?.id_categoria == 9 &&
+    //       producto.SpecificationValues[2].value.includes(action.payload)
+    //   );
+
+    //   return {
+    //     ...state,
+    //     productos: [...filtradosRam],
+    //   };
     case GET_DIRECCIÓN:
       console.log("reducer", action.payload);
       return {
@@ -263,29 +335,6 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         usuarioCreado: action.payload,
-      };
-
-    case FILTER_HARDCODE:
-      let filtradosMother = state.backup.filter(
-        (producto) =>
-          producto?.id_categoria == 5 &&
-          producto.SpecificationValues[7].value.includes(action.payload)
-      );
-
-      return {
-        ...state,
-        productos: [...filtradosMother],
-      };
-    case FILTER_HARDCODE2:
-      let filtradosRam = state.backup.filter(
-        (producto) =>
-          producto?.id_categoria == 9 &&
-          producto.SpecificationValues[2].value.includes(action.payload)
-      );
-
-      return {
-        ...state,
-        productos: [...filtradosRam],
       };
     default:
       return { ...state };

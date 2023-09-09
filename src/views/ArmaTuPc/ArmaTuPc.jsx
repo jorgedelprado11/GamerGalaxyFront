@@ -3,20 +3,23 @@ import CardsContainer from "../../components/CardsContainer/CardsContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
+  addToCart,
   filterArmaTuPc,
-  filterHardCode,
-  filterHardCode2,
+  filterComponentesArmaTuPc,
   getProducts,
 } from "../../redux/actions/actionsUsers";
 import CategoriasArmaTuPc from "../../components/CategoriasArmaTuPc/CategoriasArmaTuPc";
 import { formatCurrency } from "../../../utils/format";
+import { useNavigate } from "react-router";
 let i = 0;
 
 const ArmaTuPc = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const productos = useSelector((state) => state.productos);
   const [armaTuPc, setArmaTuPc] = useState([]);
   const [click, setClick] = useState(false);
+  const quantity = 1;
 
   // console.log("log de productos", productos);
   const handleClickMarca = (event) => {
@@ -28,11 +31,12 @@ const ArmaTuPc = () => {
     let product = productos.filter(
       (producto) => producto.id_producto == event.target.value
     );
-    console.log("productardo", product[0]);
+
     setArmaTuPc([...armaTuPc, product[0]]);
-    i == 0 && dispatch(filterHardCode(product[0].SpecificationValues[5].value));
-    i == 1 &&
-      dispatch(filterHardCode2(product[0].SpecificationValues[2].value));
+
+    let producto = product[0];
+    i < 7 && dispatch(filterComponentesArmaTuPc({ producto, i }));
+
     i++;
   };
 
@@ -40,6 +44,17 @@ const ArmaTuPc = () => {
     setArmaTuPc([]);
     setClick(false);
     i = 0;
+  };
+
+  // todo el carrito
+
+  const agregarAlCarro = () => {
+    armaTuPc.map((producto) => dispatch(addToCart({ producto, quantity })));
+
+    setArmaTuPc([]);
+    setClick(false);
+    i = 0;
+    navigate("/carrito");
   };
 
   // console.log("componentes arma tu pc desde el mismo", armaTuPc);
@@ -92,12 +107,28 @@ const ArmaTuPc = () => {
                   <h3 className="font-semibold text-lg">Productos</h3>
                   <h3 className="font-semibold text-lg">Precio</h3>
                 </div>
-                {armaTuPc.map((product) => (
-                  <div className="flex flex-row justify-between mt-1">
-                    <p className="mr-8">{product.nombre}</p>
-                    <span>$ {formatCurrency(product.precio)}</span>
+                <div className="border-b-4 border-blue-600 my-2">
+                  {armaTuPc.map((product) => (
+                    <div className="flex flex-row justify-between mt-1">
+                      <p className="mr-8">{product.nombre}</p>
+                      <span>$ {formatCurrency(product.precio)}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col items-end justify-end">
+                  <div className="flex flex-row my-2">
+                    <h3 className="font-bold mr-4">SubTotal: </h3>{" "}
+                    <p className="text-blue-600">
+                      $ {formatCurrency(subTotal)}
+                    </p>
                   </div>
-                ))}
+                  <button
+                    className="p-2 mb-4 border-4 bg-blue-600 text-white font-bold w-fit h-fit rounded-xl"
+                    onClick={() => agregarAlCarro()}
+                  >
+                    Agregar todos los productos al Carrito
+                  </button>
+                </div>
               </div>
             ) : (
               <>

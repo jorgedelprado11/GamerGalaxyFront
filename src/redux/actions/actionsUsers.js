@@ -9,8 +9,7 @@ import {
 
   FILTER_BY_MARCAS,
   FILTER_ARMA_TU_PC,
-  FILTER_HARDCODE,
-  FILTER_HARDCODE2,
+  FILTER_COMPONENTES_ARMATUPC,
 
   ADD_TO_CART,
   REMOVE_FROM_CART,
@@ -132,19 +131,13 @@ export const filterArmaTuPc = (filter) => {
   };
 };
 
-export const filterHardCode = (filter) => {
+export const filterComponentesArmaTuPc = (producto) => {
   return {
-    type: FILTER_HARDCODE,
-    payload: filter,
+    type: FILTER_COMPONENTES_ARMATUPC,
+    payload: producto,
   };
 };
 
-export const filterHardCode2 = (filter) => {
-  return {
-    type: FILTER_HARDCODE2,
-    payload: filter,
-  };
-};
 
 
 
