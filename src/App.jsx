@@ -13,7 +13,7 @@ import Ayuda from "./views/Ayuda/Ayuda";
 import About from "./views/About/About";
 
 import Productos from "./views/Productos/Productos";
-import ModificadorModalAdmin from "./components/ModificadorModalAdmin/ModificadorModalAdmin";
+
 import Footer from "./components/footer/Footer";
 import Carrito from "./components/carrito/Carrito";
 
@@ -50,10 +50,7 @@ function App() {
 
         <Route path="/armatupc" element={<ArmaTuPc />} />
 
-
-
         <Route path="/carrito" element={<Carrito />} />
-
       </Routes>
       {!location.pathname.includes("/admin") && <Footer />}
     </div>

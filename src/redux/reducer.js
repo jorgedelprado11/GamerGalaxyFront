@@ -123,11 +123,12 @@ export default function rootReducer(state = initialState, action) {
       // console.log("reducer", action.payload);
       return { ...state, productos: action.payload };
 
-    // case CLEAN:
-    //   return {
-    //     // productos: state.backup,
-    //     productosArmaTuPc: state.backup,
-    //   };
+    /*     case CLEAN:
+      return {
+        ...state,
+        productos: state.backup,
+        productosArmaTuPc: state.backup,
+      }; */
 
     case PUT_PRECIOS_ID:
       // console.log("reducer", action.payload);
