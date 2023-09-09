@@ -57,12 +57,12 @@ const ArmaTuPc = () => {
     navigate("/carrito");
   };
 
-  // console.log("componentes arma tu pc desde el mismo", armaTuPc);
+  console.log("componentes arma tu pc desde el mismo", armaTuPc);
   // console.log('clic', click);
 
   let subTotal = 0;
   for (let i = 0; i < armaTuPc.length; i++) {
-    subTotal += +armaTuPc[i].precio;
+    subTotal += +Math.floor(armaTuPc[i].precio);
   }
 
   useEffect(() => {
@@ -111,7 +111,7 @@ const ArmaTuPc = () => {
                   {armaTuPc.map((product) => (
                     <div className="flex flex-row justify-between mt-1">
                       <p className="mr-8">{product.nombre}</p>
-                      <span>$ {formatCurrency(product.precio)}</span>
+                      <span>$ {formatCurrency(Math.floor(product.precio))}</span>
                     </div>
                   ))}
                 </div>

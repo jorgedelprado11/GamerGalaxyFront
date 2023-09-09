@@ -17,7 +17,7 @@ import {
 } from "./actions-types";
 
 import axios from "axios";
-const URL = "http://localhost:3001";
+
 import {
   GET_DESCUENTOS,
   GET_NAME,
@@ -29,7 +29,7 @@ import {
 export const getDescuentos = () => {
   return async function (dispatch) {
     try {
-      const response = await axios.get("http://localhost:3001/productos");
+      const response = await axios.get("/productos");
       let destacados = response.data
         .filter(
           (prod) => prod.calificacion === 5 && !prod.nombre.includes("Notebook")
@@ -45,7 +45,7 @@ export const getDescuentos = () => {
 
 export const getProductByName = (nombre) => {
   return async (dispatch) => {
-    const endpoint = "http://localhost:3001/productos";
+    const endpoint = "/productos";
     try {
       const { data } = await axios(endpoint);
 
@@ -68,7 +68,7 @@ export const clear = () => {
 
 export const getProducts = () => {
   return async (dispatch) => {
-    const { data } = await axios(`${URL}/productos`);
+    const { data } = await axios(`/productos`);
     // console.log(data);
 
     // console.log("desde el actions", data);
@@ -80,7 +80,7 @@ export const getProducts = () => {
 };
 export const getCategories = () => {
   return async (dispatch) => {
-    const { data } = await axios(`${URL}/macroCategories`);
+    const { data } = await axios(`/macroCategories`);
     // console.log(data);
 
     // console.log("desde el actions", data);
@@ -93,7 +93,7 @@ export const getCategories = () => {
 
 export const getSubCategories = () => {
   return async (dispatch) => {
-    const { data } = await axios(`${URL}/categorias`);
+    const { data } = await axios(`/categorias`);
     // console.log('subcategorias desde el action',data.categories);
 
     // console.log("desde el actions", data);
@@ -146,8 +146,8 @@ export const filterComponentesArmaTuPc = (producto) => {
 export const postDireccion = (id, direccion) => async (dispatch) => {
   const informacion = direccion;
   try {
-    await axios.put(`http://localhost:3001/location/${id}`, informacion);
-    const { data } = await axios(`http://localhost:3001/users/${id}`);
+    await axios.put(`/location/${id}`, informacion);
+    const { data } = await axios(`/users/${id}`);
     dispatch({
       type: GET_DIRECCIÓN,
       payload: data,
@@ -182,7 +182,7 @@ export const guardarUsuario = (user) => {
 
   return async function (dispatch) {
 
-    const response = await axios.get("http://localhost:3001/users");
+    const response = await axios.get("/users");
     const datos = response.data.filter((use) =>
       use.email.includes(infoFormateada.email)
     );
@@ -190,7 +190,7 @@ export const guardarUsuario = (user) => {
 
     if (!datos.length) {
       const newUser = await axios.post(
-        `http://localhost:3001/users/createUser`,
+        `/users/createUser`,
         infoFormateada
       );
       dispatch({
@@ -199,7 +199,7 @@ export const guardarUsuario = (user) => {
       });
     } else {
       const { data } = await axios.get(
-        `http://localhost:3001/users/profile?username=${infoFormateada.username}`
+        `/users/profile?username=${infoFormateada.username}`
       );
       dispatch({
         type: POST_USUARIO,

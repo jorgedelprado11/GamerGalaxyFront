@@ -20,7 +20,7 @@ const Carrito = () => {
   const calcularTotal = () => {
     let tot = 0;
     for (const item of cart) {
-      tot += item.producto.precio * item.cantidad;
+      tot += Math.floor(item.producto.precio) * item.cantidad;
     }
     setTotal(tot);
   };
@@ -53,7 +53,7 @@ const Carrito = () => {
                     Cantidad: {producto.cantidad}
                   </p>
                   <p className="mt-1 text-xs text-gray-700">
-                    Precio por item: ${formatCurrency(producto.producto.precio)}
+                    Precio por item: ${formatCurrency(Math.floor(producto.producto.precio))}
                   </p>
                   <div className="h-20 w- flex items-end justify-end">
                   <button

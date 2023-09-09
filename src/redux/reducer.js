@@ -258,8 +258,8 @@ export default function rootReducer(state = initialState, action) {
         ? (filterComponentes = state.backup.filter(
             (producto) =>
               producto?.id_categoria == 5 &&
-              producto.SpecificationValues[7].value.includes(
-                action.payload.producto.SpecificationValues[5].value
+              producto.SpecificationValues[1].value.includes(
+                action.payload.producto.SpecificationValues[1].value
               )
           ))
         : action.payload.i == 1
@@ -267,7 +267,7 @@ export default function rootReducer(state = initialState, action) {
             (producto) =>
               producto?.id_categoria == 9 &&
               producto.SpecificationValues[2].value.includes(
-                action.payload.producto.SpecificationValues[2].value
+                action.payload.producto.SpecificationValues[6].value
               )
           ))
         : action.payload.i == 2
@@ -276,7 +276,7 @@ export default function rootReducer(state = initialState, action) {
             ...state.backup.filter(
               (producto) =>
                 producto?.id_categoria == 13 &&
-                !producto.SpecificationValues[6].value.includes("M2")
+                !producto.SpecificationValues[0].value.includes("M2")
             ),
           ])
         : action.payload.i == 3

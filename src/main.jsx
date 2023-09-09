@@ -1,5 +1,5 @@
 /** @format */
-
+import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
@@ -8,8 +8,9 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 
-import { Auth0Provider } from '@auth0/auth0-react';
+import { Auth0Provider } from "@auth0/auth0-react";
 
+axios.defaults.baseURL = "https://back-end-pf-production.up.railway.app/";
 
 //tenemos que crear el store y ahi recien utilizamos el provider, sino tira error
 
@@ -21,9 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           domain="dev-k6q8xoldvm16po76.us.auth0.com"
           clientId="reJbt5ReATHQwr9PAtX7zVIA6wLBgB48"
           authorizationParams={{
-
-            redirect_uri: window.location.origin
-
+            redirect_uri: window.location.origin,
           }}
         >
           <App />

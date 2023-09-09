@@ -61,7 +61,7 @@ const Card = ({ producto, handleClickPaquete }) => {
           </h4>
           <h5 className="mb-4 h-4 text-xl text-blue-700">
 
-            $ {formatCurrency(producto.precio) }
+            $ {formatCurrency(Math.floor(producto.precio)) }
 
           </h5>
 

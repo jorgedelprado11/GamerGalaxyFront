@@ -16,7 +16,7 @@ export const CREATE_PRODUCT_SUCCESS = "CREATE_PRODUCT_SUCCESS";
 
 export const fetchCategories = () => async (dispatch) => {
   try {
-    const { data } = await axios.get("http://localhost:3001/categorias");
+    const { data } = await axios.get("/categorias");
     const { categories } = data;
 
     return dispatch({ type: FETCH_CATEGORIES_SUCCESS, payload: categories });
@@ -37,7 +37,7 @@ export const createProduct = (productData) => async (dispatch) => {
   };
 
   try {
-    await axios.post("http://localhost:3001/productos", datoFormateado);
+    await axios.post("/productos", datoFormateado);
     return dispatch({ type: CREATE_PRODUCT_SUCCESS, payload: "hola" });
   } catch (error) {
     alert(error.message);
@@ -45,7 +45,7 @@ export const createProduct = (productData) => async (dispatch) => {
 };
 
 export const obtenerProductos = () => {
-  const endpoint = "http://localhost:3001/productos";
+  const endpoint = "/productos";
 
   return async (dispatch) => {
     try {
@@ -63,7 +63,7 @@ export const obtenerProductos = () => {
 
 export const getProductoPorNombre = (nombre) => {
   if (Number(nombre)) {
-    const endpoint = "http://localhost:3001/productos";
+    const endpoint = "/productos";
     return async (dispatch) => {
       try {
         const { data } = await axios(`${endpoint}/${nombre}`);
@@ -77,7 +77,7 @@ export const getProductoPorNombre = (nombre) => {
     };
   } else {
     return async (dispatch) => {
-      const endpoint = "http://localhost:3001/productos";
+      const endpoint = "/productos";
       try {
         const { data } = await axios(`${endpoint}?nombre=${nombre}`);
         console.log("data-->", data);
@@ -108,8 +108,8 @@ export const getProductoPorNombre = (nombre) => {
 
 export const borrarProducto = (id) => async (dispatch) => {
   try {
-    await axios.delete(`http://localhost:3001/productos/${id}`);
-    const { data } = await axios("http://localhost:3001/productos");
+    await axios.delete(`/productos/${id}`);
+    const { data } = await axios("/productos");
 
     dispatch({
       type: DELETE_PRODUCTO,
@@ -124,8 +124,8 @@ export const modificarProducto = (id, data) => async (dispatch) => {
   const informacion = data;
   console.log(id);
   try {
-    await axios.put(`http://localhost:3001/productos/${id}`, informacion);
-    const { data } = await axios("http://localhost:3001/productos");
+    await axios.put(`/productos/${id}`, informacion);
+    const { data } = await axios("/productos");
     dispatch({
       type: PUT_PRODUCTO,
       payload: data,
@@ -136,7 +136,7 @@ export const modificarProducto = (id, data) => async (dispatch) => {
 };
 
 export const obtenerUsuarios = () => {
-  const endpoint = "http://localhost:3001/users";
+  const endpoint = "/users";
 
   return async (dispatch) => {
     try {
@@ -155,7 +155,7 @@ export const obtenerUsuarios = () => {
 //Pedir ruta por query
 export const getUsuarioPorNombre = (name) => {
   console.log("info-->", info);
-  const endpoint = "http://localhost:3001/users/profile";
+  const endpoint = "/users/profile";
 
   return async (dispatch) => {
     try {
@@ -176,8 +176,8 @@ export const getUsuarioPorNombre = (name) => {
 
 export const borrarUsuario = (id) => async (dispatch) => {
   try {
-    await axios.delete(`http://localhost:3001/users/${id}`);
-    const { data } = await axios("http://localhost:3001/users");
+    await axios.delete(`/users/${id}`);
+    const { data } = await axios("/users");
 
     dispatch({
       type: DELETE_USUARIO,
@@ -190,7 +190,7 @@ export const borrarUsuario = (id) => async (dispatch) => {
 
 export const getUsuarioPorId = (id) => async (dispatch) => {
   try {
-    const { data } = await axios(`http://localhost:3001/users/${id}`);
+    const { data } = await axios(`/users/${id}`);
     console.log(data);
 
     dispatch({
@@ -206,8 +206,8 @@ export const modificarUsuario = (id, data) => async (dispatch) => {
   const informacion = data;
 
   try {
-    await axios.put(`http://localhost:3001/users/${id}`, informacion);
-    const { data } = await axios("http://localhost:3001/users");
+    await axios.put(`/users/${id}`, informacion);
+    const { data } = await axios("/users");
     dispatch({
       type: PUT_USUARIOS_ID,
       payload: data,
@@ -219,18 +219,18 @@ export const modificarUsuario = (id, data) => async (dispatch) => {
 
 export const cambiarPrecioSegunDolar = (value) => async (dispatch) => {
   try {
-    const { data } = await axios("http://localhost:3001/productos");
+    const { data } = await axios("/productos");
     console.log(data);
     for (const producto of data) {
       for (const key in producto) {
         if (key === "id_producto") {
-          await axios.put(`http://localhost:3001/productos/${producto[key]}`, {
+          await axios.put(`/productos/${producto[key]}`, {
             precio: value * producto["precio"] + producto["precio"],
           });
         }
       }
     }
-    const response = await axios("http://localhost:3001/productos");
+    const response = await axios("/productos");
     dispatch({
       type: PUT_PRECIOS_ID,
       payload: response.data,
