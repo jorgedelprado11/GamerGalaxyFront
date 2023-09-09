@@ -5,9 +5,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 import SidebarAdmin from "../../../components/SidebarAdmin/SidebarAdmin";
 import DeleteConfirmationUserAdmin from "../../../components/DeleteConfirmationUserAdmin/DeleteConfirmationUserAdmin";
-import ModificarRolUserAdmin from "../../../components/ModificarRolUserAdmin/ModificarRolUserAdmin";
+
 import SearchbarUsersAdmin from "../../../components/SearchbarUsersAdmin/SearchbarUsersAdmin";
 import ModificadorUserModalAdmin from "../../../components/ModificadorUserModalAdmin/ModificadorUserModalAdmin";
+import ModificadorRoleUserModalAdmin from "../../../components/ModificadorRoleUserModalAdmin/ModificadorRoleUserModalAdmin";
 import {
   obtenerUsuarios,
   borrarUsuario,
@@ -22,6 +23,8 @@ const Usuarios = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [usuariosPerPage] = useState(11);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isModalRoleOpen, setIsModalRoleOpen] = useState(false);
   const indexOfLastUser = currentPage * usuariosPerPage;
   const indexOfFirstProduct = indexOfLastUser - usuariosPerPage;
   const currentUsuarios = usuarios.slice(indexOfFirstProduct, indexOfLastUser);
@@ -86,9 +89,7 @@ const Usuarios = () => {
                 <td className="h-5 text-xs text-center border border-black w-1/2">
                   {user.phoneNumber}
                 </td>
-                {/*                 <td className="h-5 text-xs text-center border border-black w-1/2">
-                  {user.Role?.description}
-                </td> */}
+
                 <td className="h-5 border border-black w-1/3">
                   <button
                     className="rounded-lg bg-red-500 hover:bg-red-600 text-white p-2 h-12 ml-1"
@@ -104,7 +105,6 @@ const Usuarios = () => {
 
                 <td className="h-5 border border-black w-1/3">
                   <button
-                    //onClick={() => toggleComponente(producto.id_producto)} aqui se aplica el modal
                     value={user}
                     className={
                       "scroll-to-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg  w-full"
@@ -119,13 +119,16 @@ const Usuarios = () => {
                 </td>
                 <td className="h-5 border border-black w-1/3">
                   <button
-                    //onClick={() => toggleComponente(producto.id_producto)} aqui se aplica el modal
-
+                    value={user}
+                    onClick={() => {
+                      setIsModalRoleOpen(true);
+                      setModifyNumber(user);
+                    }}
                     className={
                       "scroll-to-button bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-lg  w-full"
                     }
                   >
-                    {user.Role?.description}
+                    {user.Role ? user.Role.description : "user"}
                   </button>
                 </td>
               </tbody>
@@ -185,6 +188,13 @@ const Usuarios = () => {
           />
         )}
 
+        {isModalRoleOpen && (
+          <ModificadorRoleUserModalAdmin
+            setOpen={setIsModalRoleOpen}
+            modifyNumber={modifyNumber}
+          />
+        )}
+
         <DeleteConfirmationUserAdmin
           isOpen={showDeleteConfirmation}
           onCancel={() => setShowDeleteConfirmation(false)}
@@ -192,14 +202,6 @@ const Usuarios = () => {
           deleteNumber={deleteNumber}
           setCurrentPage={setCurrentPage}
         />
-
-        {/*         <ModificarRolUserAdmin
-          isOpen={showDeleteConfirmation}
-          onCancel={() => setShowDeleteConfirmation(false)}
-          onConfirm={onConfirm}
-          deleteNumber={deleteNumber}
-          setCurrentPage={setCurrentPage}
-        /> */}
 
         <ToastContainer
           position="bottom-center"
