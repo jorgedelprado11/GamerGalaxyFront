@@ -9,7 +9,7 @@ export const DELETE_PRODUCTO = "DELETE_PRUDUCTO";
 
 export const GET_DESCUENTOS = "GET_DESCUENTOS";
 export const GET_NAME = "GET_NAME";
-export const CLEAN = "CLEAN";
+export const CLEAR = "CLEAR";
 
 
 export const GET_DIRECCIÓN = "GET_DIRECCIÓN";

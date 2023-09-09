@@ -22,7 +22,7 @@ const URL = "http://localhost:3001";
 import {
   GET_DESCUENTOS,
   GET_NAME,
-  CLEAN,
+  CLEAR,
   GET_DIRECCIÓN,
   POST_USUARIO,
 } from "./actions-types";
@@ -63,8 +63,8 @@ export const getProductByName = (nombre) => {
   };
 };
 
-export const clean = () => {
-  return { type: CLEAN };
+export const clear = () => {
+  return { type: CLEAR };
 };
 
 export const getProducts = () => {

@@ -29,8 +29,10 @@ import {
   POST_USUARIO,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  GET_DESCUENTOS,
+  GET_NAME,
+  CLEAR,
 } from "./actions/actions-types";
-import { GET_DESCUENTOS, GET_NAME, CLEAN } from "./actions/actions-types";
 
 let initialState = {
   //admin
@@ -50,7 +52,6 @@ let initialState = {
   filtrados: [],
   backupFiltrados: [],
   destacados: [],
-  productosArmaTuPc: [],
   /*
   {
     producto: producto,
@@ -123,11 +124,11 @@ export default function rootReducer(state = initialState, action) {
       // console.log("reducer", action.payload);
       return { ...state, productos: action.payload };
 
-    // case CLEAN:
-    //   return {
-    //     // productos: state.backup,
-    //     productosArmaTuPc: state.backup,
-    //   };
+    case CLEAR:
+      return {
+        ...state,
+        productos: state.backup,
+      };
 
     case PUT_PRECIOS_ID:
       // console.log("reducer", action.payload);
@@ -187,7 +188,6 @@ export default function rootReducer(state = initialState, action) {
         productosAdmin: action.payload,
         productos: [...productos],
         backup: action.payload,
-        productosArmaTuPc: action.payload,
       };
     case ORDER_BY_PRICE:
       let ordenados = state.productos;
@@ -250,7 +250,7 @@ export default function rootReducer(state = initialState, action) {
       // console.log('filtrados reducer',filtradosPc);
       return {
         ...state,
-        productosArmaTuPc: [...filtradosPc],
+        productos: [...filtradosPc],
       };
     case GET_DIRECCIÓN:
       console.log("reducer", action.payload);
@@ -274,7 +274,7 @@ export default function rootReducer(state = initialState, action) {
 
       return {
         ...state,
-        productosArmaTuPc: [...filtradosMother],
+        productos: [...filtradosMother],
       };
     case FILTER_HARDCODE2:
       let filtradosRam = state.backup.filter(
@@ -285,7 +285,7 @@ export default function rootReducer(state = initialState, action) {
 
       return {
         ...state,
-        productosArmaTuPc: [...filtradosRam],
+        productos: [...filtradosRam],
       };
     default:
       return { ...state };

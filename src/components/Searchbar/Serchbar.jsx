@@ -5,7 +5,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { getProductByName, clean } from "../../redux/actions/actionsUsers";
+import { getProductByName } from "../../redux/actions/actionsUsers";
 import { useNavigate } from "react-router-dom";
 
 const SearchProduct = () => {
