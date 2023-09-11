@@ -6,7 +6,7 @@ import {
   getSubCategories,
 } from "../../redux/actions/actionsUsers";
 
-const Categorias = ({setCurrentPage }) => {
+const Categorias = ({ setCurrentPage }) => {
   const dispatch = useDispatch();
   const categorias = useSelector((state) => state.categorias);
   const subCategorias = useSelector((state) => state.subCategorias);
@@ -70,7 +70,9 @@ const Categorias = ({setCurrentPage }) => {
             value={categoria.id_agrupador}
             onClick={(event) => toggleMenu(event)}
           >
-            {categoria.nombre}
+            {categoria.nombre === "Perisféricos"
+              ? "Periféricos"
+              : categoria.nombre}
           </button>
 
           <div>

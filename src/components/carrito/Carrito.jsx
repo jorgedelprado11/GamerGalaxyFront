@@ -40,7 +40,7 @@ const Carrito = () => {
               className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
             >
               <img
-                src={producto.producto.Images[0].url}
+                src={producto.producto.Images[2]?.url || producto.producto.Images[0]?.url}
                 alt="producto-image"
                 className="w-full rounded-lg sm:w-40"
               />
