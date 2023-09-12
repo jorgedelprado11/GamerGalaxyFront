@@ -66,7 +66,7 @@ const Categorias = ({ setCurrentPage }) => {
       {categorias?.map((categoria) => (
         <div className="w-full" key={categoria.nombre}>
           <button
-            className=" items-start m-0 bg-slate-50 flex w-full pb-1 border-b-2 border-gray-100"
+            className=" items-start m-0 bg-slate-50 flex w-full pb-1 border-b-2 border-gray-100 hover:bg-slate-100"
             value={categoria.id_agrupador}
             onClick={(event) => toggleMenu(event)}
           >

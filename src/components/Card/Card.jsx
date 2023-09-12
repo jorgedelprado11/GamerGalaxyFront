@@ -86,7 +86,7 @@ const Card = ({ producto, handleClickPaquete }) => {
         </div>
       )}
 
-      {isModalOpen && <Detail key={producto.id_producto} setOpen={setIsModalOpen} producto={producto} />}
+      {isModalOpen && <Detail key={producto.nombre} setOpen={setIsModalOpen} producto={producto} />}
     </div>
   );
 };

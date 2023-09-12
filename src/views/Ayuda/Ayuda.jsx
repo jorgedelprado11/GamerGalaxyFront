@@ -27,11 +27,14 @@ function Ayuda() {
           </h1>
           <select
             id="consultas"
-            value={motivoConsulta}
+            defaultValue="DEFAULT"
+            
             onChange={(e) => setMotivoConsulta(e.target.value)}
             className="border border-gray-300 text-gray-900 rounded-lg block w-full h-10"
           >
-            <option selected hidden>Elige un motivo:</option>
+            <option value="DEFAULT" hidden>
+              Elige un motivo:
+            </option>
             <option value="US">Consulta sobre un producto</option>
             <option value="CA">Consulta General</option>
             <option value="FR">Consulta sobre mi pedido</option>
