@@ -31,7 +31,7 @@ function Ayuda() {
             onChange={(e) => setMotivoConsulta(e.target.value)}
             className="border border-gray-300 text-gray-900 rounded-lg block w-full h-10"
           >
-            <option selected>Elige un motivo:</option>
+            <option selected hidden>Elige un motivo:</option>
             <option value="US">Consulta sobre un producto</option>
             <option value="CA">Consulta General</option>
             <option value="FR">Consulta sobre mi pedido</option>
@@ -50,7 +50,7 @@ function Ayuda() {
           <button
             type="submit"
             onClick={handleEnviarConsulta}
-            class="mt-4 text-black bg-white hover:bg-gray-300 font-medium rounded-lg test-sm px-4 py-2 ml-80"
+            className="mt-4 text-black bg-white hover:bg-gray-300 font-medium rounded-lg test-sm px-4 py-2 ml-80"
           >
             Enviar Consulta
           </button>

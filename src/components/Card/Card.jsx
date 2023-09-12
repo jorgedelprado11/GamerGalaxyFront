@@ -60,7 +60,7 @@ const Card = ({ producto, handleClickPaquete }) => {
 
           {location.pathname.includes("/armatupc") ? (
             <button
-              className="text-xs text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500"
+              className="text-xs text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500 hover:bg-blue-600 shadow-lg"
               value={producto.id_producto}
               onClick={(event) => handleClickPaquete(event)}
             >
@@ -76,7 +76,7 @@ const Card = ({ producto, handleClickPaquete }) => {
                 min="1"
               />
               <button
-                className="text-sm text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500"
+                className="text-sm text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500 hover:bg-blue-600 shadow-lg"
                 onClick={handleAddToCart}
               >
                 AGREGAR AL CARRITO
