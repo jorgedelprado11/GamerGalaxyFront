@@ -6,25 +6,20 @@ import {
   GET_BY_CATEGORIES,
   GET_SUBCATEGORIES,
   ORDER_BY_PRICE,
-
   FILTER_BY_MARCAS,
   FILTER_ARMA_TU_PC,
   FILTER_COMPONENTES_ARMATUPC,
-
   ADD_TO_CART,
   REMOVE_FROM_CART,
-
-} from "./actions-types";
-
-import axios from "axios";
-
-import {
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
   GET_DIRECCIÓN,
   POST_USUARIO,
+  GET_MARCAS,
 } from "./actions-types";
+
+import axios from "axios";
 
 export const getDescuentos = () => {
   return async function (dispatch) {
@@ -117,13 +112,6 @@ export const orderByPrice = (order) => {
   };
 };
 
-export const filterByMarcas = (filter) => {
-  return {
-    type: FILTER_BY_MARCAS,
-    payload: filter,
-  };
-};
-
 export const filterArmaTuPc = (filter) => {
   return {
     type: FILTER_ARMA_TU_PC,
@@ -137,9 +125,6 @@ export const filterComponentesArmaTuPc = (producto) => {
     payload: producto,
   };
 };
-
-
-
 
 //Actions Users
 
@@ -181,18 +166,13 @@ export const guardarUsuario = (user) => {
   }
 
   return async function (dispatch) {
-
     const response = await axios.get("/users");
     const datos = response.data.filter((use) =>
       use.email.includes(infoFormateada.email)
     );
 
-
     if (!datos.length) {
-      const newUser = await axios.post(
-        `/users/createUser`,
-        infoFormateada
-      );
+      const newUser = await axios.post(`/users/createUser`, infoFormateada);
       dispatch({
         type: POST_USUARIO,
         payload: newUser.data,
@@ -219,3 +199,15 @@ export const removeFromCart = (productoId) => ({
   payload: productoId,
 });
 
+export const getMarcas = () => {
+  return {
+    type: GET_MARCAS,
+  };
+};
+
+export const filterByMarcas = (filter) => {
+  return {
+    type: FILTER_BY_MARCAS,
+    payload: filter,
+  };
+};
