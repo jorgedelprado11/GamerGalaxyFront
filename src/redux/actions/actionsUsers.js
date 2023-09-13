@@ -6,14 +6,11 @@ import {
   GET_BY_CATEGORIES,
   GET_SUBCATEGORIES,
   ORDER_BY_PRICE,
-
   FILTER_BY_MARCAS,
   FILTER_ARMA_TU_PC,
   FILTER_COMPONENTES_ARMATUPC,
-
   ADD_TO_CART,
   REMOVE_FROM_CART,
-
 } from "./actions-types";
 
 import axios from "axios";
@@ -24,6 +21,7 @@ import {
   CLEAR,
   GET_DIRECCIÓN,
   POST_USUARIO,
+  GET_TOKEN,
 } from "./actions-types";
 
 export const getDescuentos = () => {
@@ -138,9 +136,6 @@ export const filterComponentesArmaTuPc = (producto) => {
   };
 };
 
-
-
-
 //Actions Users
 
 export const postDireccion = (id, direccion) => async (dispatch) => {
@@ -158,7 +153,6 @@ export const postDireccion = (id, direccion) => async (dispatch) => {
 };
 
 export const guardarUsuario = (user) => {
-  console.log("user", user);
   let infoFormateada;
   if (user.given_name) {
     infoFormateada = {
@@ -181,31 +175,32 @@ export const guardarUsuario = (user) => {
   }
 
   return async function (dispatch) {
+    const newUser = await axios.post(`/users/createUser`, infoFormateada);
+    dispatch({
+      type: POST_USUARIO,
+      payload: newUser.data,
+    });
+  };
+};
 
-    const response = await axios.get("/users");
-    const datos = response.data.filter((use) =>
-      use.email.includes(infoFormateada.email)
-    );
+export const guardarToken = (user) => {
+  console.log("guardar token Id", user);
+  const userFormat = {
+    id: user.id,
+    email: user.email,
+    id_role: user.id_role,
+  };
 
-
-    if (!datos.length) {
-      const newUser = await axios.post(
-        `/users/createUser`,
-        infoFormateada
-      );
-      dispatch({
-        type: POST_USUARIO,
-        payload: newUser.data,
-      });
-    } else {
-      const { data } = await axios.get(
-        `/users/profile?username=${infoFormateada.username}`
-      );
-      dispatch({
-        type: POST_USUARIO,
-        payload: data,
-      });
-    }
+  return async function (dispatch) {
+    const { data } = await axios.post(`/users/login`, userFormat);
+    const order = data.order;
+    console.log("dataToken", data.token);
+    
+    console.log("token Ddd", order);
+    dispatch({
+      type: GET_TOKEN,
+      payload: data,
+    });
   };
 };
 
@@ -218,4 +213,3 @@ export const removeFromCart = (productoId) => ({
   type: REMOVE_FROM_CART,
   payload: productoId,
 });
-

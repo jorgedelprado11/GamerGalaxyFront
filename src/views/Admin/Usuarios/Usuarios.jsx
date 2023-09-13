@@ -1,3 +1,5 @@
+/** @format */
+
 import { toast, ToastContainer } from "react-toastify";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +18,8 @@ import {
 
 const Usuarios = () => {
   const usuarios = useSelector((state) => state.usuarios);
+  const token = useSelector((state) => state.infoToken);
+  console.log("ADMIN token", token);
   const dispatch = useDispatch();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deleteNumber, setDeleteNumber] = useState("");
@@ -31,7 +35,8 @@ const Usuarios = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
-    dispatch(obtenerUsuarios());
+    localStorage.setItem("miToken", token);
+    dispatch(obtenerUsuarios(token));
   }, [dispatch]);
 
   const onConfirm = (number) => {

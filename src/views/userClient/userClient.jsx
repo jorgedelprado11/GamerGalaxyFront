@@ -13,15 +13,14 @@ import { guardarUsuario } from "../../redux/actions/actionsUsers";
 const UserClient = () => {
   const usuario = useSelector((state) => state.usuarioCreado);
 
-  console.log("Ronald", usuario);
   //Info de Auth0
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useAuth0();
   console.log(user, "linea 6");
 
-  useEffect(() => {
-    if (user) dispatch(guardarUsuario(user));
-  }, [user, isAuthenticated]);
+  // useEffect(() => {
+  //   if (user) dispatch(guardarUsuario(user));
+  // }, [user, isAuthenticated]);
 
   return (
     <div className="h-screen flex">

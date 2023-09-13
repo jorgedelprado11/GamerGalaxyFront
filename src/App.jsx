@@ -5,7 +5,7 @@ import Admin from "./views/Admin/Admin";
 import Usuarios from "./views/Admin/Usuarios/Usuarios";
 import ProductosAdmin from "./views/Admin/Productos/Productos";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Home from "./views/Home/Home";
@@ -23,9 +23,20 @@ import { UserFavoritos } from "./views/userClient/favoritos/userFavoritos";
 import { UserPedidos } from "./views/userClient/pedidos/userPedidos";
 
 import ArmaTuPc from "./views/ArmaTuPc/ArmaTuPc";
+import { useDispatch, useSelector } from "react-redux";
+import { guardarToken } from "./redux/actions/actionsUsers";
 
 function App() {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.usuarioCreado);
+  const token = useSelector((state) => state.infoToken);
+  useEffect(() => {
+    localStorage.getItem("token", token);
+    
+    dispatch(guardarToken(user));
+    // Ejemplo: dispatch(setToken(token));
+  }, []);
   return (
     <div>
       {!location.pathname.includes("/admin") && <Navbar />}
@@ -50,10 +61,7 @@ function App() {
 
         <Route path="/armatupc" element={<ArmaTuPc />} />
 
-
-
         <Route path="/carrito" element={<Carrito />} />
-
       </Routes>
       {!location.pathname.includes("/admin") && <Footer />}
     </div>

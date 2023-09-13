@@ -31,6 +31,7 @@ import {
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
+  GET_TOKEN,
 } from "./actions/actions-types";
 
 let initialState = {
@@ -58,13 +59,15 @@ let initialState = {
   }
   */
   carrito: [],
-
   // estados categorias
   categorias: [],
   subCategorias: [],
   //estado direcciones de users
   direccion: [],
   usuarioCreado: [],
+  //Usuario Token
+  token: [],
+  infoToken: [],
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -324,6 +327,7 @@ export default function rootReducer(state = initialState, action) {
     //     ...state,
     //     productos: [...filtradosRam],
     //   };
+
     case GET_DIRECCIÓN:
       console.log("reducer", action.payload);
       return {
@@ -331,10 +335,16 @@ export default function rootReducer(state = initialState, action) {
         direccion: action.payload,
       };
     case POST_USUARIO:
-      console.log("reducer", action.payload);
       return {
         ...state,
         usuarioCreado: action.payload,
+      };
+    case GET_TOKEN:
+      console.log("Token reducer", action.payload);
+      return {
+        ...state,
+        token: action.payload.order,
+        infoToken: action.payload.token,
       };
     default:
       return { ...state };

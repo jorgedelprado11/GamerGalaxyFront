@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,6 +12,7 @@ import { NavLink } from "react-router-dom";
 //En el button de modificar
 
 const SearchbarUsersAdmin = ({ currentPage, setCurrentPage }) => {
+  const token = useSelector((state) => state.infoToken);
   const dispatch = useDispatch();
   const [input, setInput] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +29,7 @@ const SearchbarUsersAdmin = ({ currentPage, setCurrentPage }) => {
   };
   const handleAll = () => {
     event.preventDefault();
-    dispatch(obtenerUsuarios());
+    dispatch(obtenerUsuarios(token));
     setCurrentPage(1);
   };
 

@@ -11,6 +11,7 @@ import {
   PUT_USUARIOS_ID,
   PUT_PRECIOS_ID,
 } from "./actions-types";
+
 export const FETCH_CATEGORIES_SUCCESS = "FETCH_CATEGORIES_SUCCESS";
 export const CREATE_PRODUCT_SUCCESS = "CREATE_PRODUCT_SUCCESS";
 
@@ -135,12 +136,16 @@ export const modificarProducto = (id, data) => async (dispatch) => {
   }
 };
 
-export const obtenerUsuarios = () => {
+export const obtenerUsuarios = (token) => {
   const endpoint = "/users";
 
   return async (dispatch) => {
     try {
-      const { data } = await axios(endpoint);
+      const { data } = await axios(endpoint,{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
       return dispatch({
         type: GET_USUARIOS,
