@@ -60,7 +60,7 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-    <div className="h-3/5 relative">
+    <div className="h-full relative">
       <div
         className=" bg-cover bg-center w-full"
         style={{
