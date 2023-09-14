@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { modificarUsuario } from "../../redux/actions/actionsAdmin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +8,7 @@ import roleValidation from "./roleValidation";
 
 function ModificadorRoleUserModalAdmin({ setOpen, modifyNumber }) {
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.infoToken);
   const [role, setRole] = useState("");
 
   const [errorRole, setErrorRole] = useState("");
@@ -43,9 +44,13 @@ function ModificadorRoleUserModalAdmin({ setOpen, modifyNumber }) {
     }
     // Aquí puedes realizar alguna acción con los valores de precio y stock, como enviarlos a un servidor
     dispatch(
-      modificarUsuario(modifyNumber.id, {
-        id_role: role,
-      })
+      modificarUsuario(
+        modifyNumber.id,
+        {
+          id_role: role,
+        },
+        token
+      )
     );
     setOpen(false);
     modificado(role);

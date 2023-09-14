@@ -1,11 +1,8 @@
-/** @format */
-
 import { toast, ToastContainer } from "react-toastify";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
-
-import { NavLink } from "react-router-dom";
+import { formatCurrency } from "../../../../utils/format";
 
 import SidebarAdmin from "../../../components/SidebarAdmin/SidebarAdmin";
 import DeleteConfirmationUserAdmin from "../../../components/DeleteConfirmationUserAdmin/DeleteConfirmationUserAdmin";
@@ -16,13 +13,21 @@ import ModificadorRoleUserModalAdmin from "../../../components/ModificadorRoleUs
 import {
   obtenerUsuarios,
   borrarUsuario,
+  obtenerPedidosId,
 } from "../../../redux/actions/actionsAdmin";
+import { useParams } from "react-router-dom";
 
-const Usuarios = () => {
-  const usuarios = useSelector((state) => state.usuarios);
-  //const token = useSelector((state) => state.infoToken);
-  const token = localStorage.getItem("token");
-  console.log("ADMIN token", token);
+const Pedidos = () => {
+  const pedidos = useSelector((state) => state.pedidos_id);
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  console.log(pedidos);
+
+  useEffect(() => {
+    dispatch(obtenerPedidosId(id));
+  }, [dispatch]);
+  /*   const usuarios = useSelector((state) => state.usuarios);
   const dispatch = useDispatch();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deleteNumber, setDeleteNumber] = useState("");
@@ -38,91 +43,70 @@ const Usuarios = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
-    //localStorage.setItem("miToken", token);
-    dispatch(obtenerUsuarios(token));
+    dispatch(obtenerUsuarios());
   }, [dispatch]);
 
   const onConfirm = (number) => {
-    dispatch(borrarUsuario(number, token));
+    dispatch(borrarUsuario(number));
   };
+ */
 
   return (
     <div className="flex text-right bg-slate-700 min-h-screen w-full">
       <SidebarAdmin />
       <div className="flex flex-col items-center min-h-screen bg-slate-700 justify-right w-full">
         <h1 className="mt-10 text-white text-center text-4xl">
-          Gestión de Usuarios
+          Pedidos del usuario {id}
         </h1>
-        <SearchbarUsersAdmin setCurrentPage={setCurrentPage} />
+
         <div className="w-full flex flex-col items-center">
           <table className="text-white border border-collapse border-black m-8 w-5/6 ">
             <thead>
-              <th className=" border border-black text-center w-1/8 w-[150px]">
-                ID
+              <th className=" border border-black text-center w-1/3">
+                ID order
               </th>
-              <th className="border border-black text-center w-1/8">Usuario</th>
-              <th className="border border-black text-center w-1/2">email</th>
-              <th className="border border-black text-center w-1/4">Nombre</th>
-              <th className=" border border-black text-center w-1/4">
-                Apellido
-              </th>
-              <th className=" border border-black text-center w-1/2">
-                Telefono
-              </th>
-              {/*   <th className=" border border-black text-center w-1/2">Rol </th> */}
-              <th className=" border border-black text-center w-1/4">
-                Eliminar
-              </th>
-              <th className=" border border-black text-center w-1/4">
+
+              <th className=" border border-black text-center w-1/2">Status</th>
+
+              <th className="border border-black text-center w-1/2">Precio</th>
+              <th className="border border-black text-center w-1/2">
                 Modificar
               </th>
-              <th className=" border border-black text-center w-1/4">Rol</th>
             </thead>
 
-            {currentUsuarios.map((user) => (
-              <tbody>
-                <NavLink to={`${user.id}`}>
-                  <td className="h-3 text-xs text-center border border-black w-1/8 ">
-                    {user.id}
-                    <button className="rounded-lg bg-gray-500 hover:bg-gray-600 text-white pl-2 pr-2 h-9 ">
-                      Ver Pedidos
+            {pedidos.length ? (
+              pedidos.map((pedido) => (
+                <tbody>
+                  <td className="h-3 text-xs text-center border border-black w-1/8">
+                    {pedido.id_order}
+                  </td>
+                  <td className="h-5 text-xs text-center border border-black w-1/8">
+                    {pedido.status}
+                  </td>
+                  <td className="h-5 text-xs text-center border border-black w-1/4">
+                    ${formatCurrency(pedido.price)}
+                  </td>
+                  <td>
+                    <button
+                      //onClick={() => toggleComponente(producto.id_producto)} aqui se aplica el modal
+                      //value={producto}
+                      className={
+                        "scroll-to-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg  w-full"
+                      }
+                      /*      onClick={() => {
+                      setIsModalOpen(true);
+                      setModifyNumber(producto);
+                    }} */
+                    >
+                      Editar
                     </button>
                   </td>
-                </NavLink>
-                <td className="h-5 text-xs text-center border border-black w-1/8">
-                  {user.username}
-                </td>
-                <td className="h-5 text-xs text-center border border-black w-1/4">
-                  {user.email}
-                </td>
-                <td className="h-5 text-xs text-center border border-black w-1/4">
-                  {user.firstName}
-                </td>
-                <td className="h-5 text-xs text-center border border-black w-1/2">
-                  {user.lastName}
-                </td>
-                <td className="h-5 text-xs text-center border border-black w-1/2">
-                  {user.phoneNumber}
-                </td>
 
-                <td className="h-5 border border-black w-1/3">
-                  <button
-                    className="rounded-lg bg-red-500 hover:bg-red-600 text-white p-2 h-14 "
-                    value={user.id}
-                    onClick={() => {
-                      setDeleteNumber(user.id);
-                      setShowDeleteConfirmation(true);
-                    }}
-                  >
-                    Eliminar
-                  </button>
-                </td>
-
-                <td className="h-5 border border-black w-1/3">
+                  {/*  <td className="h-5 border border-black w-1/3">
                   <button
                     value={user}
                     className={
-                      "scroll-to-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded-lg  w-full"
+                      "scroll-to-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg  w-full"
                     }
                     onClick={() => {
                       setIsModalOpen(true);
@@ -140,16 +124,23 @@ const Usuarios = () => {
                       setModifyNumber(user);
                     }}
                     className={
-                      "scroll-to-button bg-gray-500 hover:bg-gray-600 text-white px-4 py-4 rounded-lg  w-full"
+                      "scroll-to-button bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-lg  w-full"
                     }
                   >
                     {user.Role ? user.Role.description : "user"}
                   </button>
-                </td>
+                </td> */}
+                </tbody>
+              ))
+            ) : (
+              <tbody className="text-center">
+                <th></th>
+                <th>No existen pedidos</th>
+                <th></th>
               </tbody>
-            ))}
+            )}
           </table>
-          <div className="flex justify-center mt-4 mb-1 w-full">
+          {/*  <div className="flex justify-center mt-4 mb-1 w-full">
             <nav className="inline-flex">
               <button
                 onClick={() => paginate(currentPage - 1)}
@@ -193,9 +184,9 @@ const Usuarios = () => {
                 Siguiente
               </button>
             </nav>
-          </div>
+          </div> */}
         </div>
-
+        {/* 
         {isModalOpen && (
           <ModificadorUserModalAdmin
             setOpen={setIsModalOpen}
@@ -229,10 +220,10 @@ const Usuarios = () => {
           draggable
           pauseOnHover
           theme="light"
-        />
+        /> */}
       </div>
     </div>
   );
 };
 
-export default Usuarios;
+export default Pedidos;

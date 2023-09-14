@@ -16,7 +16,7 @@ import Productos from "./views/Productos/Productos";
 import ModificadorModalAdmin from "./components/ModificadorModalAdmin/ModificadorModalAdmin";
 import Footer from "./components/footer/Footer";
 import Carrito from "./components/carrito/Carrito";
-
+import Pedidos from "./views/Admin/Pedidos/Pedidos";
 import UserClient from "./views/userClient/userClient";
 import UserDireccion from "./views/userClient/Dirección/userDirección";
 import { UserFavoritos } from "./views/userClient/favoritos/userFavoritos";
@@ -28,15 +28,7 @@ import { guardarToken } from "./redux/actions/actionsUsers";
 
 function App() {
   const location = useLocation();
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.usuarioCreado);
-  const token = useSelector((state) => state.infoToken);
-  useEffect(() => {
-    localStorage.getItem("token", token);
-    
-    dispatch(guardarToken(user));
-    // Ejemplo: dispatch(setToken(token));
-  }, []);
+
   return (
     <div>
       {!location.pathname.includes("/admin") && <Navbar />}
@@ -45,6 +37,7 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/Usuarios" element={<Usuarios />} />
         <Route path="/admin/Productos" element={<ProductosAdmin />} />
+        <Route path="/admin/Usuarios/:id" element={<Pedidos />} />
 
         <Route path={"/"} element={<Home />} />
         <Route path={"/home"} element={<Home />} />

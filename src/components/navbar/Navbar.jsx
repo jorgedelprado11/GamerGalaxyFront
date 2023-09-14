@@ -11,13 +11,17 @@ import { guardarToken, guardarUsuario } from "../../redux/actions/actionsUsers";
 
 const Navbar = () => {
   const { loginWithPopup, user, isAuthenticated } = useAuth0();
+
+  const token = useSelector((state) => state.infoToken);
   const dispatch = useDispatch();
   useEffect(() => {
     if (user) {
       dispatch(guardarUsuario(user));
+      dispatch(guardarToken(user));
     }
   }, [user, isAuthenticated]);
- 
+
+  localStorage.setItem("token", token);
   return (
     <div>
       <div className="flex bg-white justify-around h-28 items-center">
@@ -29,7 +33,9 @@ const Navbar = () => {
         {!isAuthenticated ? (
           <button
             className="flex bg-blue-700 rounded-lg h-14 items-center w-64 justify-center text-white"
-            onClick={() => loginWithPopup()}
+            onClick={() => {
+              loginWithPopup();
+            }}
           >
             <UserCircleIcon className="h-8 w-10" />
             Iniciar Sesión

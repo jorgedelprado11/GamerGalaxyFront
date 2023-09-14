@@ -34,3 +34,4 @@ export const DELETE_USUARIO = "DELETE_USUARIO";
 export const GET_USUARIOS_ID = "GET_USUARIOS_ID";
 export const PUT_USUARIOS_ID = "PUT_USUARIOS_ID";
 export const PUT_PRECIOS_ID = "PUT_PRECIOS_ID";
+export const GET_PEDIDOS_ID = "GET_PEDIDOS_ID";

@@ -22,11 +22,6 @@ export const UserPedidos = () => {
     setComentario(event.target.value);
   };
 
-  // useEffect(() => {
-  //   dispatch(guardarToken(user));
-  // }, [dispatch]);
-  // console.log("infoToken", infoToken);
-
   return (
     <div className="h-screen flex">
       <SidebarUser />

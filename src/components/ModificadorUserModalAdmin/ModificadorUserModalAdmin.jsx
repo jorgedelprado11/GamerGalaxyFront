@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { modificarUsuario } from "../../redux/actions/actionsAdmin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +12,8 @@ import usernameValidation from "./usernameValidation";
 
 function ModificadorProductsModalAdmin({ setOpen, modifyNumber }) {
   const dispatch = useDispatch();
+
+  const token = useSelector((state) => state.infoToken);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -89,13 +91,17 @@ function ModificadorProductsModalAdmin({ setOpen, modifyNumber }) {
     }
     // Aquí puedes realizar alguna acción con los valores de precio y stock, como enviarlos a un servidor
     dispatch(
-      modificarUsuario(modifyNumber.id, {
-        email: email,
-        firstName: firstName,
-        lastName: lastName,
-        phoneNumber: phoneNumber,
-        username: username,
-      })
+      modificarUsuario(
+        modifyNumber.id,
+        {
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          phoneNumber: phoneNumber,
+          username: username,
+        },
+        token
+      )
     );
     setOpen(false);
     modificado(modifyNumber.id);

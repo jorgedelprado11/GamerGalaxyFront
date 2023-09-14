@@ -10,6 +10,7 @@ import {
   GET_USUARIOS_ID,
   PUT_USUARIOS_ID,
   PUT_PRECIOS_ID,
+  GET_PEDIDOS_ID,
 } from "./actions-types";
 
 export const FETCH_CATEGORIES_SUCCESS = "FETCH_CATEGORIES_SUCCESS";
@@ -141,10 +142,10 @@ export const obtenerUsuarios = (token) => {
 
   return async (dispatch) => {
     try {
-      const { data } = await axios(endpoint,{
+      const { data } = await axios(endpoint, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       return dispatch({
@@ -179,10 +180,15 @@ export const getUsuarioPorNombre = (name) => {
   };
 };
 
-export const borrarUsuario = (id) => async (dispatch) => {
+export const borrarUsuario = (id, token) => async (dispatch) => {
+  const endpoint = "/users";
   try {
     await axios.delete(`/users/${id}`);
-    const { data } = await axios("/users");
+    const { data } = await axios(endpoint, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     dispatch({
       type: DELETE_USUARIO,
@@ -207,12 +213,33 @@ export const getUsuarioPorId = (id) => async (dispatch) => {
   }
 };
 
-export const modificarUsuario = (id, data) => async (dispatch) => {
-  const informacion = data;
+export const obtenerPedidosId = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios(`/order`);
+    console.log(data);
+    const filter = data.filter(
+      (pedido) => +pedido.id_user === +id && pedido.status !== "cart"
+    );
 
+    dispatch({
+      type: GET_PEDIDOS_ID,
+      payload: filter,
+    });
+  } catch (error) {
+    alert("No existe pedidos para ese usuario");
+  }
+};
+
+export const modificarUsuario = (id, data, token) => async (dispatch) => {
+  const informacion = data;
+  const endpoint = "/users";
   try {
     await axios.put(`/users/${id}`, informacion);
-    const { data } = await axios("/users");
+    const { data } = await axios(endpoint, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch({
       type: PUT_USUARIOS_ID,
       payload: data,
