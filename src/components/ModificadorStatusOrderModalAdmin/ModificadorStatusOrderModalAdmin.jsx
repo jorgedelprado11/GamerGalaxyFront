@@ -1,30 +1,29 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { modificarUsuario } from "../../redux/actions/actionsAdmin";
+import { modificarOrderStatus } from "../../redux/actions/actionsAdmin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import roleValidation from "./roleValidation";
+import statusValidation from "./statusValidation";
 
-function ModificadorRoleUserModalAdmin({ setOpen, modifyNumber }) {
+function ModificadorStatusOrderModalAdmin({ setOpen, modifyNumber }) {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.infoToken);
-  const [role, setRole] = useState("");
 
-  const [errorRole, setErrorRole] = useState("");
+  const [status, setStatus] = useState("");
 
-  const handleRoleChange = (event) => {
+  const [errorStatus, setErrorStatus] = useState("");
+
+  const handleStatusChange = (event) => {
     const { name, value } = event.target;
-    setRole(value);
-    setErrorRole(roleValidation({ ...role, [name]: value }));
+
+    setStatus(value);
+    setErrorStatus(statusValidation({ ...status, [name]: value }));
   };
 
-  const modificado = (id) => {
-    console.log("Role", role);
+  const modificado = (status) => {
     toast.success(
-      `El usuario ${modifyNumber.id} ahora es ${
-        role === "1" ? "Admin" : "User"
-      }`,
+      `El status de la orden ${modifyNumber.id_order} ha sido modificado a ${status}
+      `,
       {
         position: toast.POSITION.TOP_RIGHT,
         theme: "colored",
@@ -35,25 +34,23 @@ function ModificadorRoleUserModalAdmin({ setOpen, modifyNumber }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!role) return alert("No has ingresado valores");
-    if (errorRole.role) {
-      setErrorRole("");
-      setRole("");
+    if (!status) return alert("No has ingresado valores");
+    if (errorStatus.status) {
+      setErrorStatus("");
+      setStatus("");
 
       return alert("Faltan Datos");
     }
+
     // Aquí puedes realizar alguna acción con los valores de precio y stock, como enviarlos a un servidor
     dispatch(
-      modificarUsuario(
-        modifyNumber.id,
-        {
-          id_role: role,
-        },
-        token
-      )
+      modificarOrderStatus(modifyNumber.id_user, {
+        id_order: modifyNumber.id_order,
+        status: status,
+      })
     );
     setOpen(false);
-    modificado(role);
+    modificado(status);
   };
   return (
     <div>
@@ -75,7 +72,7 @@ function ModificadorRoleUserModalAdmin({ setOpen, modifyNumber }) {
                     <>
                       <div className="flex flex-col border-b-4 border-blue-600 ml-4 w-5/6 text-black">
                         <h2 className="text-center mb-5 text-5xl ">
-                          Editar Rol
+                          Editar Status
                         </h2>
                         <form
                           action=""
@@ -83,32 +80,29 @@ function ModificadorRoleUserModalAdmin({ setOpen, modifyNumber }) {
                           onSubmit={handleSubmit}
                         >
                           <h3 className="text-center text-3xl text-blue-700">
-                            {" "}
-                            ID:{modifyNumber.id} {"("}
-                            {modifyNumber.id_role === 1 ? "Admin" : "User"}
-                            {")"}
+                            ID ORDER:{modifyNumber.id_order}
                           </h3>
                           <h3 className="text-center text-xl text-blue-700 ">
                             {modifyNumber.email}
                           </h3>
 
                           <div className="ml-3 mt-3">
-                            <label htmlFor="">Role: </label>
+                            <label htmlFor="">Status: </label>
 
                             <select
                               name=""
                               id=""
-                              value={role}
-                              onChange={handleRoleChange}
+                              value={status}
+                              onChange={handleStatusChange}
                             >
                               <option>Seleccionar</option>
-                              <option value="2">User</option>
-                              <option value="1">Admin</option>
+                              <option value="Finalizado">Finalizado</option>
+                              <option value="Cancelado">Cancelado</option>
                             </select>
                             <input
                               type="text"
-                              placeholder={modifyNumber.id_role}
-                              value={role}
+                              placeholder={modifyNumber.status}
+                              value={status}
                               className="ml-2"
                             />
                           </div>
@@ -145,7 +139,7 @@ function ModificadorRoleUserModalAdmin({ setOpen, modifyNumber }) {
           </div>
         </div>
       ) : null}
-      <ToastContainer
+      {/*       <ToastContainer
         position="bottom-center"
         autoClose={2000}
         hideProgressBar={false}
@@ -156,9 +150,9 @@ function ModificadorRoleUserModalAdmin({ setOpen, modifyNumber }) {
         draggable
         pauseOnHover
         theme="light"
-      />
+      /> */}
     </div>
   );
 }
 
-export default ModificadorRoleUserModalAdmin;
+export default ModificadorStatusOrderModalAdmin;

@@ -33,7 +33,7 @@ const SearchbarUsersAdmin = ({ currentPage, setCurrentPage }) => {
     setCurrentPage(1);
   };
 
-  const createUser = () => {
+  const restaurarUsuario = () => {
     alert("Crear usuario");
   };
 
@@ -60,12 +60,14 @@ const SearchbarUsersAdmin = ({ currentPage, setCurrentPage }) => {
             Todos
           </button>
         </form>
-        <button
-          className="rounded-lg bg-blue-500 hover:bg-blue-600 text-white p-2 h-12 ml-1"
-          onClick={() => createUser()}
-        >
-          Crear Usuario
-        </button>
+        <NavLink to="/admin/restaurar">
+          <button
+            className="rounded-lg bg-blue-500 hover:bg-blue-600 text-white p-2 h-12 ml-1"
+            //onClick={() => restaurarUsuario()}
+          >
+            Restaurar usuarios
+          </button>
+        </NavLink>
       </div>
     </div>
   );

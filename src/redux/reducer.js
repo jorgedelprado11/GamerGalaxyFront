@@ -33,6 +33,8 @@ import {
   CLEAR,
   GET_TOKEN,
   GET_PEDIDOS_ID,
+  PUT_ORDER_STATUS,
+  GET_ELIMINADOS,
 } from "./actions/actions-types";
 
 let initialState = {
@@ -48,6 +50,7 @@ let initialState = {
   usuarioNombre: [],
   usuarioId: {},
   pedidos_id: [],
+  usuariosEliminados: [],
   // estados globales de productos
   productos: [],
   backup: [],
@@ -107,6 +110,10 @@ export default function rootReducer(state = initialState, action) {
     case GET_USUARIOS:
       return { ...state, usuarios: action.payload };
 
+    case GET_ELIMINADOS:
+      console.log(action.payload);
+      return { ...state, usuariosEliminados: action.payload };
+
     case DELETE_USUARIO:
       return { ...state, usuarios: action.payload };
 
@@ -117,12 +124,13 @@ export default function rootReducer(state = initialState, action) {
       return { ...state, usuarios: action.payload };
 
     case GET_PEDIDOS_ID:
-      console.log("pedidos id en reducer", action.payload);
       return { ...state, pedidos_id: action.payload };
 
     case PUT_USUARIOS_ID:
-      console.log("put-usuario", action.payload);
       return { ...state, usuarios: action.payload };
+
+    case PUT_ORDER_STATUS:
+      return { ...state, pedidos_id: action.payload };
 
     case GET_DESCUENTOS:
       return { ...state, destacados: action.payload };
@@ -345,7 +353,6 @@ export default function rootReducer(state = initialState, action) {
         usuarioCreado: action.payload,
       };
     case GET_TOKEN:
-      console.log("Token reducer", action.payload);
       return {
         ...state,
         token: action.payload.order,

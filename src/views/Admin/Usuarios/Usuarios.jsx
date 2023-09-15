@@ -1,7 +1,7 @@
 /** @format */
 
 import { toast, ToastContainer } from "react-toastify";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -21,8 +21,7 @@ import {
 const Usuarios = () => {
   const usuarios = useSelector((state) => state.usuarios);
   //const token = useSelector((state) => state.infoToken);
-  const token = localStorage.getItem("token");
-  console.log("ADMIN token", token);
+  //const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deleteNumber, setDeleteNumber] = useState("");
@@ -30,17 +29,19 @@ const Usuarios = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [usuariosPerPage] = useState(11);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [tokenState, setTokenState] = useState("");
   const [isModalRoleOpen, setIsModalRoleOpen] = useState(false);
   const indexOfLastUser = currentPage * usuariosPerPage;
   const indexOfFirstProduct = indexOfLastUser - usuariosPerPage;
   const currentUsuarios = usuarios.slice(indexOfFirstProduct, indexOfLastUser);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    //localStorage.setItem("miToken", token);
-    dispatch(obtenerUsuarios(token));
-  }, [dispatch]);
+    if (token) {
+      dispatch(obtenerUsuarios(token));
+    }
+  }, [token]);
 
   const onConfirm = (number) => {
     dispatch(borrarUsuario(number, token));
