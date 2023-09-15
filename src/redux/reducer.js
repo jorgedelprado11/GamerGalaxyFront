@@ -28,6 +28,7 @@ import {
   POST_USUARIO,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  UPDATE_CART_QUANTITY,
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
@@ -324,6 +325,22 @@ export default function rootReducer(state = initialState, action) {
     //     ...state,
     //     productos: [...filtradosRam],
     //   };
+
+    case UPDATE_CART_QUANTITY:
+        const { productId, newQuantity } = action.payload;
+        return {
+          ...state,
+          carrito: state.carrito.map((item) => {
+            if (item.producto.id_producto === productId) {
+              return {
+                ...item,
+                cantidad: parseInt(newQuantity, 10), //acordarse** esto es para asegurarse que sea un numero
+              };
+            }
+            return item;
+          }),
+        };
+
     case GET_DIRECCIÓN:
       console.log("reducer", action.payload);
       return {

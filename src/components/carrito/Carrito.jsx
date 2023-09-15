@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../../redux/actions/actionsUsers"; // Importa la acción para eliminar del carrito
+import { removeFromCart, updateCartQuantity } from "../../redux/actions/actionsUsers"; // Importa la acción para eliminar del carrito
 import { formatCurrency } from "../../../utils/format";
 import { useEffect, useState } from "react";
 
@@ -12,6 +12,10 @@ const Carrito = () => {
     console.log(producto, "del remove");
     dispatch(removeFromCart(producto.id_producto));
   };
+
+  const handleQuantityChange = (producto, newQuantity) => {
+    dispatch(updateCartQuantity(producto.id_producto, newQuantity));
+};
 
   useEffect(() => {
     calcularTotal();
@@ -34,30 +38,38 @@ const Carrito = () => {
     <div className="w-full my-8 flex flex-row ">
       <div className=" mx-auto max-w-5xl w-[900px] min-h-screen justify-center px-6 md:flex md:space-x-6 xl:px-0">
         <div className="rounded-lg md:w-2/3">
-          {cart.map((producto) => (
+          {cart.map((item) => (
             <div
-              key={producto.producto.id}
+              key={item.producto.id}
               className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
             >
               <img
-                src={producto.producto.Images[2]?.url || producto.producto.Images[0]?.url}
+                src={item.producto.Images[2]?.url || item.producto.Images[0]?.url}
                 alt="producto-image"
                 className="w-full rounded-lg sm:w-40"
               />
               <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between h-40 w-full">
                 <div className="mt-5 sm:mt-0 h-full w-full">
                   <h2 className="flex text-lg font-bold text-gray-900 h-[60px] items-center">
-                    {producto.producto.nombre}
+                    {item.producto.nombre}
                   </h2>
                   <p className="mt-1 text-xs text-gray-700">
-                    Cantidad: {producto.cantidad}
+                    Cantidad: {item.cantidad}
                   </p>
                   <p className="mt-1 text-xs text-gray-700">
-                    Precio por item: ${formatCurrency(Math.floor(producto.producto.precio))}
+                    Precio por item: ${formatCurrency(Math.floor(item.producto.precio))}
                   </p>
-                  <div className="h-20 w- flex items-end justify-end">
+                  <div className="flex">
+                                        <input
+                                            type="number"
+                                            value={item.cantidad}
+                                            onChange={(e) => handleQuantityChange(item.producto, e.target.value)}
+                                            className="w-16 h-8 border text-center text-xs outline-none"
+                                            min="1"
+                                            max={item.producto.stock}
+                                        />
                   <button
-                    onClick={() => handleRemoveFromCart(producto.producto)}
+                    onClick={() => handleRemoveFromCart(item.producto)}
                     className=" m-4 bg-blue-700 text-white px-3 py-1 rounded"
                   >
                     X

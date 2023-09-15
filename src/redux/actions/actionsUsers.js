@@ -13,6 +13,7 @@ import {
 
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  UPDATE_CART_QUANTITY
 
 } from "./actions-types";
 
@@ -218,4 +219,14 @@ export const removeFromCart = (productoId) => ({
   type: REMOVE_FROM_CART,
   payload: productoId,
 });
+
+export const updateCartQuantity = (productId, newQuantity) => {
+  return {
+    type: UPDATE_CART_QUANTITY,
+    payload: {
+      productId,
+      newQuantity,
+    },
+  };
+};
 
