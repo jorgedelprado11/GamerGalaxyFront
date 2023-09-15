@@ -3,16 +3,23 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions/actionsUsers";
 import { formatCurrency } from "../../../utils/format";
 import Detail from "./../../views/Detail/Detail";
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const Card = ({ producto }) => {
+  const { isAuthenticated, loginWithPopup } = useAuth0();
   const dispatch = useDispatch();
   const [productoEnCarrito, setProductoEnCarrito] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      window.alert("Debes iniciar sesión para poder agregar este producto al carro de compras");
+      loginWithPopup();
+      return;
+    }
     setProductoEnCarrito(producto, () => {
-      console.log("Producto agregado al carrito:", productoEnCarrito);
+      console.log("Producto agregado al carro de compras:", productoEnCarrito);
     });
     dispatch(addToCart({ producto, quantity }));
     window.alert("Se ha agregado el producto al carrito exitosamente");

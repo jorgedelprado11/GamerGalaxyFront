@@ -11,6 +11,7 @@ import {
   FILTER_COMPONENTES_ARMATUPC,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  UPDATE_CART_QUANTITY,
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
@@ -199,6 +200,18 @@ export const removeFromCart = (productoId) => ({
   payload: productoId,
 });
 
+
+export const updateCartQuantity = (productId, newQuantity) => {
+  return {
+    type: UPDATE_CART_QUANTITY,
+    payload: {
+      productId,
+      newQuantity,
+    },
+  };
+};
+
+
 export const getMarcas = () => {
   return {
     type: GET_MARCAS,
@@ -211,3 +224,4 @@ export const filterByMarcas = (filter) => {
     payload: filter,
   };
 };
+
