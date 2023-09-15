@@ -1,8 +1,8 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { filterByMarcas } from "../../redux/actions/actionsUsers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const FiltrosMarcas = () => {
+const FiltrosMarcas = ({ marcas }) => {
   const dispatch = useDispatch();
   const [select, setSelect] = useState("");
 
@@ -25,14 +25,14 @@ const FiltrosMarcas = () => {
           <option value="" hidden>
             Filtrar por Marca
           </option>
-          <option value="AMD">AMD</option>
-          <option value="Asrock">Asrock</option>
-          <option value="ASUS">ASUS</option>
-          <option value="Gigabyte">Gigabyte</option>
-          <option value="Intel">Intel</option>
-          <option value="LG">LG</option>
-          <option value="MSI">MSI</option>
-          <option value="Samsung">Samsung</option>
+          <option key="TODOS" value="TODOS">
+            TODOS
+          </option>
+          {marcas?.map((marca) => (
+            <option key={marca} value={marca}>
+              {marca}
+            </option>
+          ))}
         </select>
       </div>
     </>
