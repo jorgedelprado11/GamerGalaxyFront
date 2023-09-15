@@ -53,18 +53,23 @@ const Carrito = () => {
                   <h2 className="flex text-lg font-bold text-gray-900 h-[60px] items-center">
                     {item.producto.nombre}
                   </h2>
-                  <p className="mt-1 text-xs text-gray-700">
+                  <div className="flex flex-row">
+                  <p className="mt-1 text-xs text-gray-700 mr-4">
                     Cantidad: {item.cantidad}
                   </p>
-                  <p className="mt-1 text-xs text-gray-700">
-                    Precio por item: ${formatCurrency(Math.floor(item.producto.precio))}
+                  <p className="mt-1 text-xs text-gray-700 ml-4">
+                    Disponibilidad: {item.producto.stock}
                   </p>
-                  <div className="flex">
+                  </div>
+                  <p className="mt-1 text-xs text-gray-700">
+                    Precio por item:  ${formatCurrency(Math.floor(item.producto.precio))}
+                  </p>
+                  <div className="flex flex-row justify-between">
                                         <input
                                             type="number"
                                             value={item.cantidad}
                                             onChange={(e) => handleQuantityChange(item.producto, e.target.value)}
-                                            className="w-16 h-8 border text-center text-xs outline-none"
+                                            className="w-16 h-8 border text-center text-xs outline-none my-4 py-1"
                                             min="1"
                                             max={item.producto.stock}
                                         />
