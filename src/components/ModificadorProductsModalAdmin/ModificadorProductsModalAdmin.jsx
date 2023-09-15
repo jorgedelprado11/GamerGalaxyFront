@@ -8,7 +8,7 @@ import nombreValidation from "./nombreValidation";
 import precioValidation from "./precioValidation";
 import stockValidation from "./stockValidation";
 import descuentoValidation from "./descuentoValidation";
-import garantiaValidation from "./descuentoValidation";
+import garantiaValidation from "./garantiaValidation";
 
 function ModificadorProductsModalAdmin({ setOpen, modifyNumber }) {
   const dispatch = useDispatch();
@@ -64,23 +64,24 @@ function ModificadorProductsModalAdmin({ setOpen, modifyNumber }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(event);
-    if (!nombre && !precio && !stock && !descuento && !garantia)
+    if (!precio && !stock && !nombre && !descuento && !garantia) {
       return alert("No has ingresado valores");
+    }
+
     if (
-      errorNombre.nombre ||
       errorPrecio.precio ||
       errorStock.stock ||
+      errorNombre.nombre ||
       errorDescuento.descuento ||
       errorGarantia.garantia
     ) {
-      setErrorEmail("");
-      setErrorFirstName("");
-      setErrorLastName("");
-      setErrorPhoneNumber("");
-      setErrorUsername("");
-      setNombre("");
+      setErrorPrecio("");
+      setErrorStock("");
+      setErrorNombre("");
+      setErrorDescuento("");
       setPrecio("");
       setStock("");
+      setNombre("");
       setDescuento("");
       setGarantia("");
       return alert("Faltan Datos");
@@ -95,6 +96,11 @@ function ModificadorProductsModalAdmin({ setOpen, modifyNumber }) {
         garantia: garantia,
       })
     );
+    setPrecio("");
+    setStock("");
+    setNombre("");
+    setDescuento("");
+    setGarantia("");
     setOpen(false);
     modificado(modifyNumber.id_producto);
   };
@@ -134,50 +140,70 @@ function ModificadorProductsModalAdmin({ setOpen, modifyNumber }) {
                             <label htmlFor="">Nombre: </label>
                             <input
                               type="text"
+                              name="nombre"
+                              value={nombre}
                               onChange={handleNombreChange}
                               placeholder={modifyNumber.nombre}
                               className="w-56"
                             />
                           </div>
-                          <span>{errorNombre.nombre}</span>
+                          <span className="text-red-500 ml-3">
+                            {errorNombre.nombre}
+                          </span>
                           <div className="ml-3">
                             <label htmlFor="">Precio $: </label>
                             <input
                               type="text"
+                              name="precio"
+                              value={precio}
                               onChange={handlePrecioChange}
                               placeholder={modifyNumber.precio}
                               className="w-56"
                             />
                           </div>
-                          <span>{errorPrecio.precio}</span>
+                          <span className="text-red-500 ml-3">
+                            {errorPrecio.precio}
+                          </span>
                           <div className="ml-3">
                             <label htmlFor="">Stock: </label>
                             <input
                               type="text"
+                              name="stock"
+                              value={stock}
                               onChange={handleStockChange}
                               placeholder={modifyNumber.stock}
                             />
                           </div>
-                          <span>{errorStock.stock}</span>
+                          <span className="text-red-500 ml-3">
+                            {errorStock.stock}
+                          </span>
                           <div className="ml-3">
                             <label htmlFor="">Descuento: </label>
                             <input
                               type="text"
+                              name="descuento"
+                              value={descuento}
                               onChange={handleDescuentoChange}
                               placeholder={modifyNumber.descuento}
                               className="w-56"
                             />
                           </div>
-                          <span>{errorDescuento.descuento}</span>
+                          <span className="text-red-500 ml-3">
+                            {errorDescuento.descuento}
+                          </span>
                           <div className="ml-3">
                             <label htmlFor="">Garantia: </label>
                             <input
                               type="text"
+                              name="garantia"
+                              value={garantia}
                               onChange={handleGarantiaChange}
                               placeholder={modifyNumber.garantia}
                             />
                           </div>
-                          <span>{errorGarantia.garantia}</span>
+                          <span className="text-red-500 ml-3">
+                            {errorGarantia.garantia}
+                          </span>
                           <div className="flex mb-3 ml-3 mr-3 mt-5">
                             <button
                               type="submit"
