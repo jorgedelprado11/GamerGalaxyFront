@@ -44,6 +44,7 @@ const Card = ({ producto, handleClickPaquete }) => {
     setQuantity(newQuantity);
   };
 
+  
   return (
     <div className="">
       {!producto.Images.length ? null : (
