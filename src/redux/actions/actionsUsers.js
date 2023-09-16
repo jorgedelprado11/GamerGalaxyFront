@@ -11,19 +11,23 @@ import {
   FILTER_COMPONENTES_ARMATUPC,
   ADD_TO_CART,
   REMOVE_FROM_CART,
-} from "./actions-types";
 
-import axios from "axios";
+  UPDATE_CART_QUANTITY,
 
-import {
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
   GET_DIRECCIÓN,
   POST_USUARIO,
+
   GET_TOKEN,
   REMOVE_TOKEN,
+
+  GET_MARCAS,
+
 } from "./actions-types";
+
+import axios from "axios";
 
 export const getDescuentos = () => {
   return async function (dispatch) {
@@ -116,13 +120,6 @@ export const orderByPrice = (order) => {
   };
 };
 
-export const filterByMarcas = (filter) => {
-  return {
-    type: FILTER_BY_MARCAS,
-    payload: filter,
-  };
-};
-
 export const filterArmaTuPc = (filter) => {
   return {
     type: FILTER_ARMA_TU_PC,
@@ -176,6 +173,7 @@ export const guardarUsuario = (user) => {
   }
 
   return async function (dispatch) {
+
     const newUser = await axios.post(`/users/createUser`, infoFormateada);
     dispatch({
       type: POST_USUARIO,
@@ -201,6 +199,28 @@ export const guardarToken = (user) => {
       type: GET_TOKEN,
       payload: data,
     });
+
+//     const response = await axios.get("/users");
+//     const datos = response.data.filter((use) =>
+//       use.email.includes(infoFormateada.email)
+//     );
+
+//     if (!datos.length) {
+//       const newUser = await axios.post(`/users/createUser`, infoFormateada);
+//       dispatch({
+//         type: POST_USUARIO,
+//         payload: newUser.data,
+//       });
+//     } else {
+//       const { data } = await axios.get(
+//         `/users/profile?username=${infoFormateada.username}`
+//       );
+//       dispatch({
+//         type: POST_USUARIO,
+//         payload: data,
+//       });
+//     }
+
   };
 };
 
@@ -214,6 +234,33 @@ export const removeFromCart = (productoId) => ({
   payload: productoId,
 });
 
+
 export const removeToken = () => ({
   type: REMOVE_TOKEN,
 });
+
+
+export const updateCartQuantity = (productId, newQuantity) => {
+  return {
+    type: UPDATE_CART_QUANTITY,
+    payload: {
+      productId,
+      newQuantity,
+    },
+  };
+};
+
+
+export const getMarcas = () => {
+  return {
+    type: GET_MARCAS,
+  };
+};
+
+export const filterByMarcas = (filter) => {
+  return {
+    type: FILTER_BY_MARCAS,
+    payload: filter,
+  };
+};
+

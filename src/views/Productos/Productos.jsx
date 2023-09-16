@@ -1,6 +1,10 @@
 import CardsContainer from "../../components/CardsContainer/CardsContainer";
 import { useEffect, useState } from "react";
-import { clear, getProducts } from "../../redux/actions/actionsUsers";
+import {
+  clear,
+  getMarcas,
+  getProducts,
+} from "../../redux/actions/actionsUsers";
 // import arraydatabase from "../../db/data.json";
 import { useDispatch, useSelector } from "react-redux";
 import Categorias from "../../components/Categorias/Categorias";
@@ -12,7 +16,7 @@ const Productos = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(18);
   const productos = useSelector((state) => state.productos);
-
+  const marcas = useSelector((state) => state.marcas);
   // paginado
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -27,21 +31,28 @@ const Productos = () => {
   useEffect(() => {
     dispatch(getProducts());
     setCurrentPage(1);
+    dispatch(getMarcas());
     return () => {
       dispatch(clear());
       setCurrentPage(1);
     };
   }, [dispatch]);
 
+  // console.log(marcas)
   return (
     <div className="w-auto my-8 flex flex-row mx-56">
       <Categorias setCurrentPage={setCurrentPage} />
 
       <div className="w-9/12">
-        <div className="grid grid-cols-2 place-content-between">
-          <OrdenadorPrecio />
-          {/* <FiltrosMarcas /> */}
+        <div className="flex flex-row justify-between w-full">
+          <div className="w-full">
+            <OrdenadorPrecio />
+          </div>
+          <div className="w-full">
+            <FiltrosMarcas marcas={marcas} />
+          </div>
         </div>
+
         {!productos ? (
           <div className="m-8">
             <h2>No se encontraron productos</h2>

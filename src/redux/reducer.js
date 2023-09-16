@@ -6,6 +6,7 @@ import {
 } from "./actions/actionsAdmin";
 
 import {
+  SAVE_ID,
   GET_PRODUCTOS,
   DELETE_PRODUCTO,
   GET_PRODUCTO_NOMBRE,
@@ -28,14 +29,19 @@ import {
   POST_USUARIO,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  UPDATE_CART_QUANTITY,
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
+
   GET_TOKEN,
   GET_PEDIDOS_ID,
   PUT_ORDER_STATUS,
   GET_ELIMINADOS,
   REMOVE_TOKEN,
+
+  GET_MARCAS,
+
 } from "./actions/actions-types";
 
 let initialState = {
@@ -65,6 +71,11 @@ let initialState = {
   }
   */
   carrito: [],
+
+
+  marcas: [],
+  idmarca: null,
+
   // estados categorias
   categorias: [],
   subCategorias: [],
@@ -144,6 +155,8 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         productos: state.backup,
+        idmarca: null,
+        backupFiltrados: [],
       };
 
     case PUT_PRECIOS_ID:
@@ -152,12 +165,12 @@ export default function rootReducer(state = initialState, action) {
 
     //carrito
     case ADD_TO_CART:
-      console.log("Producto agregado al carrito:", state.carrito);
+      // console.log("Producto agregado al carrito:", state.carrito);
       const productoEncontrado = state.carrito.find(
         (item) =>
           item.producto.id_producto === action.payload.producto.id_producto
       );
-      console.log(productoEncontrado);
+      // console.log(productoEncontrado);
       const carritoFiltrado = state.carrito.filter(
         (item) =>
           item.producto.id_producto !== action.payload.producto.id_producto
@@ -214,23 +227,7 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         productos: [...ordenados],
       };
-    case FILTER_BY_MARCAS:
-      let filtrados;
 
-      state.backupFiltrados
-        ? (filtrados = state.backupFiltrados)
-        : (filtrados = state.productos);
-
-      filtrados = filtrados.filter((producto) =>
-        producto.nombre.toLowerCase().includes(action.payload.toLowerCase())
-      );
-      console.log("que onda", filtrados);
-      return {
-        ...state,
-        backupFiltrados: state.productos,
-        productos: [...filtrados],
-        filtrados: state.backupFiltrados,
-      };
     //CATEGORIAS
     case GET_CATEGORIES:
       return {
@@ -249,10 +246,12 @@ export default function rootReducer(state = initialState, action) {
         (producto) => producto.id_categoria === +action.payload
       );
       // console.log("filtered", state.backup);
+      // console.log("a ver que id marca", state.idmarca);
       return {
         ...state,
         productos: [...filtered],
         backupFiltrados: [...filtered],
+        idmarca: +action.payload,
       };
 
     // arma tu pc
@@ -319,28 +318,23 @@ export default function rootReducer(state = initialState, action) {
         productos: [...filterComponentes],
       };
 
-    // case FILTER_HARDCODE:
-    //   let filtradosMother = state.backup.filter(
-    //     (producto) =>
-    //       producto?.id_categoria == 5 &&
-    //       producto.SpecificationValues[7].value.includes(action.payload)
-    //   );
 
-    //   return {
-    //     ...state,
-    //     productos: [...filtradosMother],
-    //   };
-    // case FILTER_HARDCODE2:
-    //   let filtradosRam = state.backup.filter(
-    //     (producto) =>
-    //       producto?.id_categoria == 9 &&
-    //       producto.SpecificationValues[2].value.includes(action.payload)
-    //   );
 
-    //   return {
-    //     ...state,
-    //     productos: [...filtradosRam],
-    //   };
+    case UPDATE_CART_QUANTITY:
+        const { productId, newQuantity } = action.payload;
+        return {
+          ...state,
+          carrito: state.carrito.map((item) => {
+            if (item.producto.id_producto === productId) {
+              return {
+                ...item,
+                cantidad: parseInt(newQuantity, 10), //acordarse** esto es para asegurarse que sea un numero
+              };
+            }
+            return item;
+          }),
+        };
+
 
     case GET_DIRECCIÓN:
       console.log("reducer", action.payload);
@@ -353,6 +347,7 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         usuarioCreado: action.payload,
       };
+
     case GET_TOKEN:
       return {
         ...state,
@@ -366,6 +361,105 @@ export default function rootReducer(state = initialState, action) {
         token: "",
         infoToken: "",
       };
+
+
+    case GET_MARCAS:
+      let marcas;
+      const array1 = ["LG", "SAMSUNG", "ASUS", "VIEWSONIC"];
+      const array2 = ["LENOVO", "ASUS", "THUNDEROBOT", "XENIA"];
+      const array3 = ["AMD", "INTEL"];
+      const array4 = ["MSI", "GIGABYTE", "ASUS", "ASROCK"];
+      const array5 = ["ASUS", "ZOTAC"];
+      const array6 = ["ASROCK", "XFX"];
+      const array7 = [
+        "PATRIOT",
+        "TEAM",
+        "GEIL",
+        "ADATA",
+        "HIKVISION",
+        "PNY",
+        "CORSAIR",
+      ];
+      const array8 = ["HIKVISION", "ADATA", "KINGDIAN"];
+      const array9 = ["TOSHIBA", "SEAGATE", "WD"];
+      const array10 = ["TOSHIBA", "SEAGATE", "WD"];
+      const array11 = ["TEAM", "ADATA", "KINGSTON", "CRUCIAL", "WD"];
+      const array12 = [
+        "DEEPCOOL",
+        "ANTEC",
+        "COUGAR",
+        "CORSAIR",
+        "KOLINK",
+        "LIAN LI",
+        "ASUS",
+        "BE QUIET",
+        "LEVEL UP",
+      ];
+      const array13 = [
+        "ASUS",
+        "SEASONIC",
+        "GIGABYTE",
+        "MSI",
+        "AEROCOOL",
+        "ADATA",
+      ];
+      if (state.idmarca == 1) {
+        marcas = array1;
+      } else if (state.idmarca == 2) {
+        marcas = array2;
+      } else if (state.idmarca == 3) {
+        marcas = array3;
+      } else if (state.idmarca == 5) {
+        marcas = array4;
+      } else if (state.idmarca == 7) {
+        marcas = array5;
+      } else if (state.idmarca == 8) {
+        marcas = array6;
+      } else if (state.idmarca == 9) {
+        marcas = array7;
+      } else if (state.idmarca == 10) {
+        marcas = array8;
+      } else if (state.idmarca == 11) {
+        marcas = array9;
+      } else if (state.idmarca == 12) {
+        marcas = array10;
+      } else if (state.idmarca == 13) {
+        marcas = array11;
+      } else if (state.idmarca == 17) {
+        marcas = array12;
+      } else if (state.idmarca == 18) {
+        marcas = array13;
+      } else marcas = [];
+
+      return {
+        ...state,
+        marcas: [...marcas],
+      };
+    case FILTER_BY_MARCAS:
+      let filtrados;
+
+      state.backupFiltrados.length
+        ? (filtrados = state.backupFiltrados)
+        : (filtrados = state.productos);
+
+      filtrados = filtrados.filter((producto) =>
+        producto.nombre.toLowerCase().includes(action.payload.toLowerCase())
+      );
+
+      if (action.payload === "TODOS") {
+        state.backupFiltrados.length
+          ? (filtrados = state.backupFiltrados)
+          : (filtrados = state.productos);
+      }
+      return {
+        ...state,
+        productos: [...filtrados],
+        filtrados: state.backupFiltrados,
+      };
+
+    case SAVE_ID:
+      return { ...state, idmarca: action.payload };
+
     default:
       return { ...state };
   }

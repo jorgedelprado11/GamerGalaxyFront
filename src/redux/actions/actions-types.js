@@ -13,14 +13,22 @@ export const CLEAR = "CLEAR";
 
 export const GET_DIRECCIÓN = "GET_DIRECCIÓN";
 export const POST_USUARIO = "POST_USUARIO";
+
 export const GET_TOKEN = "GET_TOKEN";
+
+
 
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_BY_CATEGORIES = "GET_BY_CATEGORIES";
 export const ORDER_BY_PRICE = "ORDER_BY_PRICE";
 export const GET_SUBCATEGORIES = "GET_SUBCATEGORIES";
+export const GET_MARCAS = "GET_MARCAS";
 export const FILTER_BY_MARCAS = "FILTER_BY_MARCAS";
+
+
+export const SAVE_ID = "SAVE_ID";
+
 
 export const FILTER_ARMA_TU_PC = "FILTER_ARMA_TU_PC";
 export const FILTER_COMPONENTES_ARMATUPC = "FILTER_COMPONENTES_ARMATUPC";
@@ -34,7 +42,12 @@ export const DELETE_USUARIO = "DELETE_USUARIO";
 export const GET_USUARIOS_ID = "GET_USUARIOS_ID";
 export const PUT_USUARIOS_ID = "PUT_USUARIOS_ID";
 export const PUT_PRECIOS_ID = "PUT_PRECIOS_ID";
+
 export const GET_PEDIDOS_ID = "GET_PEDIDOS_ID";
 export const PUT_ORDER_STATUS = "PUT_ORDER_STATUS";
 export const GET_ELIMINADOS = "GET_ELIMINADOS";
 export const REMOVE_TOKEN = "REMOVE_TOKEN";
+
+
+export const UPDATE_CART_QUANTITY = "UPDATE_CART_QUANTITY";
+

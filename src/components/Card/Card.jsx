@@ -5,23 +5,34 @@ import ArmaTuPc from "../../views/ArmaTuPc/ArmaTuPc";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions/actionsUsers";
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Card = ({ producto, handleClickPaquete }) => {
+  const { isAuthenticated, loginWithPopup } = useAuth0();
   const location = useLocation();
   //Para crear la carta necesito: id, nombre, imagen, precio y boton agregar al carrito.
-
-  //Tengo que crear un handler para agregar al carrito los productos
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [productoEnCarrito, setProductoEnCarrito] = useState(null);
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      window.alert("Debes iniciar sesión para agregar productos al carro de compras.");
+      loginWithPopup();
+      return;
+    }
+
+    if (producto.stock <= 0 || producto.stock === "Sin Stock") {
+      window.alert("Este producto no está disponible en stock.");
+      return;
+    }
+
     setProductoEnCarrito(producto, () => {
       // console.log("Producto agregado al carrito:", productoEnCarrito);
     });
     dispatch(addToCart({ producto, quantity }));
-    window.alert("Se ha agregado el producto al carrito exitosamente");
+    window.alert("Se ha agregado el producto al carro de compras exitosamente");
   };
 
   useEffect(() => {
@@ -33,6 +44,7 @@ const Card = ({ producto, handleClickPaquete }) => {
     setQuantity(newQuantity);
   };
 
+  
   return (
     <div className="">
       {!producto.Images.length ? null : (

@@ -4,6 +4,7 @@ import {
   getCategories,
   getByCategories,
   getSubCategories,
+  getMarcas,
 } from "../../redux/actions/actionsUsers";
 
 const Categorias = ({ setCurrentPage }) => {
@@ -35,8 +36,10 @@ const Categorias = ({ setCurrentPage }) => {
 
   const onClickCategories = (event) => {
     event.preventDefault();
-    // console.log(event.target.value);
+    // console.log("que tiene este value", event.target.value);
     dispatch(getByCategories(event.target.value));
+
+    dispatch(getMarcas());
     setCurrentPage(1);
   };
   const toggleMenu = (event) => {
