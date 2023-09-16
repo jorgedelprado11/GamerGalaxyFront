@@ -11,20 +11,25 @@ import { guardarToken, guardarUsuario } from "../../redux/actions/actionsUsers";
 
 const Navbar = () => {
   const { loginWithPopup, user, isAuthenticated } = useAuth0();
-
-  /*   const token = useSelector((state) => state.infoToken);
+  const tokenLocalStorage = localStorage.getItem("token");
+  const token = useSelector((state) => state.infoToken);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    if (user) {
+    if (user) dispatch(guardarUsuario(user));
+  }, [user, isAuthenticated]);
+
+  /*   useEffect(() => {
+    if (user && tokenLocalStorage === "") {
       dispatch(guardarUsuario(user));
 
       setTimeout(() => {
         dispatch(guardarToken(user));
       }, 1000);
     }
-  }, [user, isAuthenticated]);
+  }, [user, isAuthenticated, token]); */
 
-  localStorage.setItem("token", token); */
+  //localStorage.setItem("token", token);
   return (
     <div>
       <div className="flex bg-white justify-around h-28 items-center">

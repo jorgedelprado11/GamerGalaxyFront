@@ -323,13 +323,11 @@ export const restaurarUsuarios = (id) => {
   return async (dispatch) => {
     await axios.post(`users/restore-user/${id}`);
     try {
-      const { data } = await axios(
-        endpoint /* , {
-        headers: {
+      const { data } = await axios(endpoint, {
+        /* headers: {
           Authorization: `Bearer ${token}`,
-        },
-      } */
-      );
+        },*/
+      });
 
       return dispatch({
         type: GET_ELIMINADOS,

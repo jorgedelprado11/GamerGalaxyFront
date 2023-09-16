@@ -35,6 +35,7 @@ import {
   GET_PEDIDOS_ID,
   PUT_ORDER_STATUS,
   GET_ELIMINADOS,
+  REMOVE_TOKEN,
 } from "./actions/actions-types";
 
 let initialState = {
@@ -71,8 +72,8 @@ let initialState = {
   direccion: [],
   usuarioCreado: [],
   //Usuario Token
-  token: [],
-  infoToken: [],
+  token: "",
+  infoToken: "",
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -357,6 +358,13 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         token: action.payload.order,
         infoToken: action.payload.token,
+      };
+
+    case REMOVE_TOKEN:
+      return {
+        ...state,
+        token: "",
+        infoToken: "",
       };
     default:
       return { ...state };

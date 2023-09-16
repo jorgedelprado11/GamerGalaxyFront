@@ -35,19 +35,25 @@ function App() {
   const { loginWithPopup, user, isAuthenticated } = useAuth0();
 
   const token = useSelector((state) => state.infoToken);
+  const tokenLocalStorage = localStorage.getItem("token");
   const dispatch = useDispatch();
+  const infouser = useSelector((state) => state.token);
   useEffect(() => {
-    if (user) {
+    if (user && !tokenLocalStorage) {
       dispatch(guardarUsuario(user));
 
       setTimeout(() => {
         dispatch(guardarToken(user));
-      }, 1);
+      }, 100);
+
+      setTimeout(() => {
+        localStorage.setItem("token", token);
+      }, 500);
     }
-  }, [user, isAuthenticated]);
+  }, [user, isAuthenticated, token]);
 
-  localStorage.setItem("token", token);
-
+  const orderLocalStorage = localStorage.getItem("order");
+  console.log("order en local storage", typeof orderLocalStorage);
   return (
     <div>
       {!location.pathname.includes("/admin") && <Navbar />}

@@ -22,6 +22,7 @@ import {
   GET_DIRECCIÓN,
   POST_USUARIO,
   GET_TOKEN,
+  REMOVE_TOKEN,
 } from "./actions-types";
 
 export const getDescuentos = () => {
@@ -194,8 +195,7 @@ export const guardarToken = (user) => {
   return async function (dispatch) {
     const { data } = await axios.post(`/users/login`, userFormat);
     const order = data.order;
-    console.log("dataToken", data.token);
-    
+
     console.log("token Ddd", order);
     dispatch({
       type: GET_TOKEN,
@@ -212,4 +212,8 @@ export const addToCart = (producto) => ({
 export const removeFromCart = (productoId) => ({
   type: REMOVE_FROM_CART,
   payload: productoId,
+});
+
+export const removeToken = () => ({
+  type: REMOVE_TOKEN,
 });

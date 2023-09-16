@@ -18,9 +18,9 @@ const UserClient = () => {
   const { user, isAuthenticated } = useAuth0();
   console.log(user, "linea 6");
 
-  // useEffect(() => {
-  //   if (user) dispatch(guardarUsuario(user));
-  // }, [user, isAuthenticated]);
+  useEffect(() => {
+    if (user) dispatch(guardarUsuario(user));
+  }, [user, isAuthenticated]);
 
   return (
     <div className="h-screen flex">

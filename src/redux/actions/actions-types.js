@@ -37,3 +37,4 @@ export const PUT_PRECIOS_ID = "PUT_PRECIOS_ID";
 export const GET_PEDIDOS_ID = "GET_PEDIDOS_ID";
 export const PUT_ORDER_STATUS = "PUT_ORDER_STATUS";
 export const GET_ELIMINADOS = "GET_ELIMINADOS";
+export const REMOVE_TOKEN = "REMOVE_TOKEN";
