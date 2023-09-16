@@ -33,15 +33,12 @@ import {
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
-
   GET_TOKEN,
   GET_PEDIDOS_ID,
   PUT_ORDER_STATUS,
   GET_ELIMINADOS,
   REMOVE_TOKEN,
-
   GET_MARCAS,
-
 } from "./actions/actions-types";
 
 let initialState = {
@@ -71,7 +68,6 @@ let initialState = {
   }
   */
   carrito: [],
-
 
   marcas: [],
   idmarca: null,
@@ -165,42 +161,16 @@ export default function rootReducer(state = initialState, action) {
 
     //carrito
     case ADD_TO_CART:
-      // console.log("Producto agregado al carrito:", state.carrito);
-      const productoEncontrado = state.carrito.find(
-        (item) =>
-          item.producto.id_producto === action.payload.producto.id_producto
-      );
-      // console.log(productoEncontrado);
-      const carritoFiltrado = state.carrito.filter(
-        (item) =>
-          item.producto.id_producto !== action.payload.producto.id_producto
-      );
-
-      if (productoEncontrado) {
-        productoEncontrado.cantidad =
-          Number(productoEncontrado.cantidad) + Number(action.payload.quantity);
-        return {
-          ...state,
-          carrito: [...carritoFiltrado, productoEncontrado],
-        };
-      }
+      console.log("a ver que llega al reducer", action.payload);
       return {
         ...state,
-        carrito: [
-          ...state.carrito,
-          {
-            producto: action.payload.producto,
-            cantidad: action.payload.quantity,
-          },
-        ],
+        carrito: action.payload,
       };
 
     case REMOVE_FROM_CART:
       return {
         ...state,
-        carrito: state.carrito.filter(
-          (producto) => producto.producto.id_producto !== action.payload
-        ),
+        carrito: action.payload,
       };
 
     case GET_PRODUCTS:
@@ -318,23 +288,20 @@ export default function rootReducer(state = initialState, action) {
         productos: [...filterComponentes],
       };
 
-
-
     case UPDATE_CART_QUANTITY:
-        const { productId, newQuantity } = action.payload;
-        return {
-          ...state,
-          carrito: state.carrito.map((item) => {
-            if (item.producto.id_producto === productId) {
-              return {
-                ...item,
-                cantidad: parseInt(newQuantity, 10), //acordarse** esto es para asegurarse que sea un numero
-              };
-            }
-            return item;
-          }),
-        };
-
+      const { productId, newQuantity } = action.payload;
+      return {
+        ...state,
+        carrito: state.carrito.map((item) => {
+          if (item.producto.id_producto === productId) {
+            return {
+              ...item,
+              cantidad: parseInt(newQuantity, 10), //acordarse** esto es para asegurarse que sea un numero
+            };
+          }
+          return item;
+        }),
+      };
 
     case GET_DIRECCIÓN:
       console.log("reducer", action.payload);
@@ -349,10 +316,18 @@ export default function rootReducer(state = initialState, action) {
       };
 
     case GET_TOKEN:
+      console.log(
+        ".....",
+        action.payload.order.filter((order) => order.status == "cart")[0]
+          .Products
+      );
       return {
         ...state,
         token: action.payload.order,
         infoToken: action.payload.token,
+        carrito: action.payload.order.filter(
+          (order) => order.status == "cart"
+        )[0].Products,
       };
 
     case REMOVE_TOKEN:
@@ -361,7 +336,6 @@ export default function rootReducer(state = initialState, action) {
         token: "",
         infoToken: "",
       };
-
 
     case GET_MARCAS:
       let marcas;

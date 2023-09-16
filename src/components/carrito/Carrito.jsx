@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import {
+  guardarToken,
   removeFromCart,
   updateCartQuantity,
 } from "../../redux/actions/actionsUsers"; // Importa la acción para eliminar del carrito
@@ -10,27 +11,29 @@ const Carrito = () => {
   const [total, setTotal] = useState(0);
   const cart = useSelector((state) => state.carrito);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.usuarioCreado);
+  const token = localStorage.getItem("token");
 
-  const handleRemoveFromCart = (producto) => {
-    console.log(producto, "del remove");
-    dispatch(removeFromCart(producto.id_producto));
+  console.log(" desde el carrito", cart);
+  const handleRemoveFromCart = (infoEliminada) => {
+    dispatch(removeFromCart(infoEliminada));
   };
 
-  const handleQuantityChange = (producto, newQuantity) => {
-    dispatch(updateCartQuantity(producto.id_producto, newQuantity));
-  };
+  // const handleQuantityChange = (producto, newQuantity) => {
+  //   dispatch(updateCartQuantity(producto.id_producto, newQuantity));
+  // };
+
+  // const calcularTotal = () => {
+  //   let tot = 0;
+  //   for (const item of cart) {
+  //     tot += Math.floor(producto.precio) * producto.OrderProduct.quantity;
+  //   }
+  //   setTotal(tot);
+  // };
 
   useEffect(() => {
-    calcularTotal();
-  }, [cart]);
-
-  const calcularTotal = () => {
-    let tot = 0;
-    for (const item of cart) {
-      tot += Math.floor(item.producto.precio) * item.cantidad;
-    }
-    setTotal(tot);
-  };
+    dispatch(guardarToken(user));
+  }, [dispatch]);
 
   // Calcular el subtotal
 
@@ -41,48 +44,52 @@ const Carrito = () => {
     <div className="w-full my-8 flex flex-row ">
       <div className=" mx-auto max-w-5xl w-[900px] min-h-screen justify-center px-6 md:flex md:space-x-6 xl:px-0">
         <div className="rounded-lg md:w-2/3">
-          {cart.map((item) => (
+          {cart.map((producto) => (
             <div
-              key={item.producto.id}
+              key={producto.id_producto}
               className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
             >
               <img
-                src={
-                  item.producto.Images[2]?.url || item.producto.Images[0]?.url
-                }
+                src={producto.Images[2]?.url || producto.Images[0]?.url}
                 alt="producto-image"
                 className="w-full rounded-lg sm:w-40"
               />
               <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between h-40 w-full">
                 <div className="mt-5 sm:mt-0 h-full w-full">
                   <h2 className="flex text-lg font-bold text-gray-900 h-[60px] items-center">
-                    {item.producto.nombre}
+                    {producto.nombre}
                   </h2>
                   <div className="flex flex-row">
                     <p className="mt-1 text-xs text-gray-700 mr-4">
-                      Cantidad: {item.cantidad}
+                      Cantidad:
+                      {producto.OrderProduct.quantity}
                     </p>
                     <p className="mt-1 text-xs text-gray-700 ml-4">
-                      Disponibilidad: {item.producto.stock}
+                      Disponibilidad: {producto.stock}
                     </p>
                   </div>
                   <p className="mt-1 text-xs text-gray-700">
                     Precio por item: $
-                    {formatCurrency(Math.floor(item.producto.precio))}
+                    {formatCurrency(Math.floor(producto.precio))}
                   </p>
                   <div className="flex flex-row justify-between">
-                    <input
+                    {/* <input
                       type="number"
-                      value={item.cantidad}
+                      value={producto.OrderProduct.quantity}
                       onChange={(e) =>
-                        handleQuantityChange(item.producto, e.target.value)
+                        handleQuantityChange(producto, e.target.value)
                       }
                       className="w-16 h-8 border text-center text-xs outline-none my-4 py-1"
                       min="1"
-                      max={item.producto.stock}
-                    />
+                      max={producto.stock}
+                    /> */}
                     <button
-                      onClick={() => handleRemoveFromCart(item.producto)}
+                      onClick={() =>
+                        handleRemoveFromCart({
+                          id_producto: producto.id_producto,
+                          id_user: user.id,
+                        })
+                      }
                       className=" m-4 bg-blue-700 text-white px-3 py-1 rounded"
                     >
                       X
@@ -94,15 +101,15 @@ const Carrito = () => {
           ))}
         </div>
         {/* Sub total */}
-        <div className="mt-6 h-min rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3 w-[300px] h-[350px]">
+        <div className="mt-6 rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3 w-[300px] h-[350px]">
           <div className="mb-2 flex justify-between">
             <p className="text-gray-700">Subtotal</p>
-            <p className="text-gray-700">${formatCurrency(total)}</p>
+            {/* <p className="text-gray-700">${formatCurrency(total)}</p> */}
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Costo de envío</p>
             <p className="text-gray-700">
-              $ {formatCurrency(total === 0 ? 0 : 2000)}
+              {/* $ {formatCurrency(total === 0 ? 0 : 2000)} */}
             </p>
           </div>
           <hr className="my-4" />
@@ -110,7 +117,7 @@ const Carrito = () => {
             <p className="text-lg font-bold">Total</p>
             <div>
               <p className="mb-1 text-lg font-bold">
-                ${formatCurrency(total === 0 ? 0 : total + 2000)}
+                {/* ${formatCurrency(total === 0 ? 0 : total + 2000)} */}
               </p>
             </div>
           </div>

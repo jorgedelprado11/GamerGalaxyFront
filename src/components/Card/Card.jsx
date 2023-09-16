@@ -3,12 +3,13 @@ import Detail from "../../views/Detail/Detail";
 import { formatCurrency } from "./../../../utils/format";
 import ArmaTuPc from "../../views/ArmaTuPc/ArmaTuPc";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/actions/actionsUsers";
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Card = ({ producto, handleClickPaquete }) => {
   const { isAuthenticated, loginWithPopup } = useAuth0();
+  const user = useSelector((state) => state.usuarioCreado);
   const location = useLocation();
   //Para crear la carta necesito: id, nombre, imagen, precio y boton agregar al carrito.
   const dispatch = useDispatch();
@@ -16,9 +17,13 @@ const Card = ({ producto, handleClickPaquete }) => {
   const [quantity, setQuantity] = useState(1);
   const [productoEnCarrito, setProductoEnCarrito] = useState(null);
 
+
+
   const handleAddToCart = () => {
     if (!isAuthenticated) {
-      window.alert("Debes iniciar sesión para agregar productos al carro de compras.");
+      window.alert(
+        "Debes iniciar sesión para agregar productos al carro de compras."
+      );
       loginWithPopup();
       return;
     }
@@ -31,7 +36,13 @@ const Card = ({ producto, handleClickPaquete }) => {
     setProductoEnCarrito(producto, () => {
       // console.log("Producto agregado al carrito:", productoEnCarrito);
     });
-    dispatch(addToCart({ producto, quantity }));
+    dispatch(
+      addToCart({
+        id_producto: producto.id_producto,
+        quantity,
+        id_user: user.id,
+      })
+    );
     window.alert("Se ha agregado el producto al carro de compras exitosamente");
   };
 
@@ -44,7 +55,6 @@ const Card = ({ producto, handleClickPaquete }) => {
     setQuantity(newQuantity);
   };
 
-  
   return (
     <div className="">
       {!producto.Images.length ? null : (
@@ -86,6 +96,7 @@ const Card = ({ producto, handleClickPaquete }) => {
                 onChange={handleQuantityChange}
                 className="w-16 h-8 border text-center text-xs outline-none"
                 min="1"
+                max={producto.stock}
               />
               <button
                 className="text-sm text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500 hover:bg-blue-600 shadow-lg"
@@ -98,7 +109,13 @@ const Card = ({ producto, handleClickPaquete }) => {
         </div>
       )}
 
-      {isModalOpen && <Detail key={producto.nombre} setOpen={setIsModalOpen} producto={producto} />}
+      {isModalOpen && (
+        <Detail
+          key={producto.nombre}
+          setOpen={setIsModalOpen}
+          producto={producto}
+        />
+      )}
     </div>
   );
 };
