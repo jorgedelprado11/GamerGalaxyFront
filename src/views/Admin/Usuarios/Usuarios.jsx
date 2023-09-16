@@ -1,7 +1,11 @@
+/** @format */
+
 import { toast, ToastContainer } from "react-toastify";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
+
+import { NavLink } from "react-router-dom";
 
 import SidebarAdmin from "../../../components/SidebarAdmin/SidebarAdmin";
 import DeleteConfirmationUserAdmin from "../../../components/DeleteConfirmationUserAdmin/DeleteConfirmationUserAdmin";
@@ -16,6 +20,8 @@ import {
 
 const Usuarios = () => {
   const usuarios = useSelector((state) => state.usuarios);
+  //const token = useSelector((state) => state.infoToken);
+  //const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deleteNumber, setDeleteNumber] = useState("");
@@ -23,19 +29,22 @@ const Usuarios = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [usuariosPerPage] = useState(11);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [tokenState, setTokenState] = useState("");
   const [isModalRoleOpen, setIsModalRoleOpen] = useState(false);
   const indexOfLastUser = currentPage * usuariosPerPage;
   const indexOfFirstProduct = indexOfLastUser - usuariosPerPage;
   const currentUsuarios = usuarios.slice(indexOfFirstProduct, indexOfLastUser);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    dispatch(obtenerUsuarios());
-  }, [dispatch]);
+    if (token) {
+      dispatch(obtenerUsuarios(token));
+    }
+  }, [token]);
 
   const onConfirm = (number) => {
-    dispatch(borrarUsuario(number));
+    dispatch(borrarUsuario(number, token));
   };
 
   return (
@@ -49,7 +58,9 @@ const Usuarios = () => {
         <div className="w-full flex flex-col items-center">
           <table className="text-white border border-collapse border-black m-8 w-5/6 ">
             <thead>
-              <th className=" border border-black text-center w-1/8">ID</th>
+              <th className=" border border-black text-center w-1/8 w-[150px]">
+                ID
+              </th>
               <th className="border border-black text-center w-1/8">Usuario</th>
               <th className="border border-black text-center w-1/2">email</th>
               <th className="border border-black text-center w-1/4">Nombre</th>
@@ -71,9 +82,14 @@ const Usuarios = () => {
 
             {currentUsuarios.map((user) => (
               <tbody>
-                <td className="h-3 text-xs text-center border border-black w-1/8">
-                  {user.id}
-                </td>
+                <NavLink to={`${user.id}`}>
+                  <td className="h-3 text-xs text-center border border-black w-1/8 ">
+                    {user.id}
+                    <button className="rounded-lg bg-gray-500 hover:bg-gray-600 text-white pl-2 pr-2 h-9 ">
+                      Ver Pedidos
+                    </button>
+                  </td>
+                </NavLink>
                 <td className="h-5 text-xs text-center border border-black w-1/8">
                   {user.username}
                 </td>
@@ -92,7 +108,7 @@ const Usuarios = () => {
 
                 <td className="h-5 border border-black w-1/3">
                   <button
-                    className="rounded-lg bg-red-500 hover:bg-red-600 text-white p-2 h-12 ml-1"
+                    className="rounded-lg bg-red-500 hover:bg-red-600 text-white p-2 h-14 "
                     value={user.id}
                     onClick={() => {
                       setDeleteNumber(user.id);
@@ -107,7 +123,7 @@ const Usuarios = () => {
                   <button
                     value={user}
                     className={
-                      "scroll-to-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg  w-full"
+                      "scroll-to-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-4 rounded-lg  w-full"
                     }
                     onClick={() => {
                       setIsModalOpen(true);
@@ -125,7 +141,7 @@ const Usuarios = () => {
                       setModifyNumber(user);
                     }}
                     className={
-                      "scroll-to-button bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-lg  w-full"
+                      "scroll-to-button bg-gray-500 hover:bg-gray-600 text-white px-4 py-4 rounded-lg  w-full"
                     }
                   >
                     {user.Role ? user.Role.description : "user"}

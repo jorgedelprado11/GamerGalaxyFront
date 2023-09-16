@@ -11,13 +11,20 @@ import {
   FILTER_COMPONENTES_ARMATUPC,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+
   UPDATE_CART_QUANTITY,
+
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
   GET_DIRECCIÓN,
   POST_USUARIO,
+
+  GET_TOKEN,
+  REMOVE_TOKEN,
+
   GET_MARCAS,
+
 } from "./actions-types";
 
 import axios from "axios";
@@ -144,7 +151,6 @@ export const postDireccion = (id, direccion) => async (dispatch) => {
 };
 
 export const guardarUsuario = (user) => {
-  console.log("user", user);
   let infoFormateada;
   if (user.given_name) {
     infoFormateada = {
@@ -167,26 +173,54 @@ export const guardarUsuario = (user) => {
   }
 
   return async function (dispatch) {
-    const response = await axios.get("/users");
-    const datos = response.data.filter((use) =>
-      use.email.includes(infoFormateada.email)
-    );
 
-    if (!datos.length) {
-      const newUser = await axios.post(`/users/createUser`, infoFormateada);
-      dispatch({
-        type: POST_USUARIO,
-        payload: newUser.data,
-      });
-    } else {
-      const { data } = await axios.get(
-        `/users/profile?username=${infoFormateada.username}`
-      );
-      dispatch({
-        type: POST_USUARIO,
-        payload: data,
-      });
-    }
+    const newUser = await axios.post(`/users/createUser`, infoFormateada);
+    dispatch({
+      type: POST_USUARIO,
+      payload: newUser.data,
+    });
+  };
+};
+
+export const guardarToken = (user) => {
+  console.log("guardar token Id", user);
+  const userFormat = {
+    id: user.id,
+    email: user.email,
+    id_role: user.id_role,
+  };
+
+  return async function (dispatch) {
+    const { data } = await axios.post(`/users/login`, userFormat);
+    const order = data.order;
+
+    console.log("token Ddd", order);
+    dispatch({
+      type: GET_TOKEN,
+      payload: data,
+    });
+
+//     const response = await axios.get("/users");
+//     const datos = response.data.filter((use) =>
+//       use.email.includes(infoFormateada.email)
+//     );
+
+//     if (!datos.length) {
+//       const newUser = await axios.post(`/users/createUser`, infoFormateada);
+//       dispatch({
+//         type: POST_USUARIO,
+//         payload: newUser.data,
+//       });
+//     } else {
+//       const { data } = await axios.get(
+//         `/users/profile?username=${infoFormateada.username}`
+//       );
+//       dispatch({
+//         type: POST_USUARIO,
+//         payload: data,
+//       });
+//     }
+
   };
 };
 
@@ -198,6 +232,11 @@ export const addToCart = (producto) => ({
 export const removeFromCart = (productoId) => ({
   type: REMOVE_FROM_CART,
   payload: productoId,
+});
+
+
+export const removeToken = () => ({
+  type: REMOVE_TOKEN,
 });
 
 

@@ -33,7 +33,15 @@ import {
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
+
+  GET_TOKEN,
+  GET_PEDIDOS_ID,
+  PUT_ORDER_STATUS,
+  GET_ELIMINADOS,
+  REMOVE_TOKEN,
+
   GET_MARCAS,
+
 } from "./actions/actions-types";
 
 let initialState = {
@@ -48,6 +56,8 @@ let initialState = {
   usuariosBorrados: [],
   usuarioNombre: [],
   usuarioId: {},
+  pedidos_id: [],
+  usuariosEliminados: [],
   // estados globales de productos
   productos: [],
   backup: [],
@@ -61,14 +71,20 @@ let initialState = {
   }
   */
   carrito: [],
+
+
   marcas: [],
   idmarca: null,
+
   // estados categorias
   categorias: [],
   subCategorias: [],
   //estado direcciones de users
   direccion: [],
   usuarioCreado: [],
+  //Usuario Token
+  token: "",
+  infoToken: "",
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -106,6 +122,10 @@ export default function rootReducer(state = initialState, action) {
     case GET_USUARIOS:
       return { ...state, usuarios: action.payload };
 
+    case GET_ELIMINADOS:
+      console.log(action.payload);
+      return { ...state, usuariosEliminados: action.payload };
+
     case DELETE_USUARIO:
       return { ...state, usuarios: action.payload };
 
@@ -113,12 +133,16 @@ export default function rootReducer(state = initialState, action) {
       return { ...state, usuarios: action.payload };
 
     case GET_USUARIOS_ID:
-      console.log(action.payload);
       return { ...state, usuarios: action.payload };
 
+    case GET_PEDIDOS_ID:
+      return { ...state, pedidos_id: action.payload };
+
     case PUT_USUARIOS_ID:
-      console.log("put-usuario", action.payload);
       return { ...state, usuarios: action.payload };
+
+    case PUT_ORDER_STATUS:
+      return { ...state, pedidos_id: action.payload };
 
     case GET_DESCUENTOS:
       return { ...state, destacados: action.payload };
@@ -311,6 +335,7 @@ export default function rootReducer(state = initialState, action) {
           }),
         };
 
+
     case GET_DIRECCIÓN:
       console.log("reducer", action.payload);
       return {
@@ -318,11 +343,25 @@ export default function rootReducer(state = initialState, action) {
         direccion: action.payload,
       };
     case POST_USUARIO:
-      console.log("reducer", action.payload);
       return {
         ...state,
         usuarioCreado: action.payload,
       };
+
+    case GET_TOKEN:
+      return {
+        ...state,
+        token: action.payload.order,
+        infoToken: action.payload.token,
+      };
+
+    case REMOVE_TOKEN:
+      return {
+        ...state,
+        token: "",
+        infoToken: "",
+      };
+
 
     case GET_MARCAS:
       let marcas;

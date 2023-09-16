@@ -13,7 +13,6 @@ import { guardarUsuario } from "../../redux/actions/actionsUsers";
 const UserClient = () => {
   const usuario = useSelector((state) => state.usuarioCreado);
 
-  console.log("Ronald", usuario);
   //Info de Auth0
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useAuth0();
