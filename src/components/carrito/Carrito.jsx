@@ -20,9 +20,17 @@ const Carrito = () => {
   const user = useSelector((state) => state.usuarioCreado);
   const token = localStorage.getItem("token");
 
+  const eliminar = () => {
+    toast.error(`El producto ha sido eliminado del carrito`, {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: "colored",
+    });
+  };
+
   console.log(" desde el carrito", cart);
   const handleRemoveFromCart = (infoEliminada) => {
     dispatch(removeFromCart(infoEliminada));
+    eliminar();
   };
 
   // const handleQuantityChange = (producto, newQuantity) => {

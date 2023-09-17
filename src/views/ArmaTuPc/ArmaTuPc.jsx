@@ -25,6 +25,13 @@ const ArmaTuPc = () => {
   const [click, setClick] = useState(false);
   const quantity = 1;
 
+  const agregado = () => {
+    toast.success(`Tu pc se ha añadido al carrito!!!`, {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: "colored",
+    });
+  };
+
   // console.log("log de productos", productos);
   const handleClickMarca = (event) => {
     dispatch(filterArmaTuPc(event.target.value));
@@ -54,15 +61,20 @@ const ArmaTuPc = () => {
   // todo el carrito
 
   const agregarAlCarro = () => {
-    armaTuPc.map((producto) => dispatch(addToCart({
-      id_producto: producto.id_producto,
-      quantity: 1,
-      id_user: user.id,
-    })));
-
+    armaTuPc.map((producto) =>
+      dispatch(
+        addToCart({
+          id_producto: producto.id_producto,
+          quantity: 1,
+          id_user: user.id,
+        })
+      )
+    );
+    agregado();
     setArmaTuPc([]);
     setClick(false);
     i = 0;
+
     navigate("/carrito");
   };
 
@@ -162,12 +174,12 @@ const ArmaTuPc = () => {
                       camino.
                     </p>
                     <div className="flex justify-end">
-                    <button
-                      className="p-2 mb-4 border-4 bg-red-500 hover:bg-red-600 text-white font-bold w-24 h-fit rounded-xl"
-                      onClick={() => setShowReiniciarConfirmacion(true)}
-                    >
-                      Reiniciar
-                    </button>
+                      <button
+                        className="p-2 mb-4 border-4 bg-red-500 hover:bg-red-600 text-white font-bold w-24 h-fit rounded-xl"
+                        onClick={() => setShowReiniciarConfirmacion(true)}
+                      >
+                        Reiniciar
+                      </button>
                     </div>
                   </div>
                 )}
@@ -221,6 +233,15 @@ const ArmaTuPc = () => {
         isOpen={showReiniciarConfirmacion}
         setIsOpen={setShowReiniciarConfirmacion}
         reiniciar={reiniciar}
+      />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
       />
     </div>
   );

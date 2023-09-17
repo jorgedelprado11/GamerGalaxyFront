@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/actions/actionsUsers";
 import { useAuth0 } from "@auth0/auth0-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Card = ({ producto, handleClickPaquete }) => {
   const { isAuthenticated, loginWithPopup } = useAuth0();
@@ -17,7 +19,12 @@ const Card = ({ producto, handleClickPaquete }) => {
   const [quantity, setQuantity] = useState(1);
   const [productoEnCarrito, setProductoEnCarrito] = useState(null);
 
-
+  const agregado = (id) => {
+    toast.success(`El producto se ha añadido exitosamente`, {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: "colored",
+    });
+  };
 
   const handleAddToCart = () => {
     if (!isAuthenticated) {
@@ -43,7 +50,8 @@ const Card = ({ producto, handleClickPaquete }) => {
         id_user: user.id,
       })
     );
-    window.alert("Se ha agregado el producto al carro de compras exitosamente");
+
+    agregado();
   };
 
   useEffect(() => {
@@ -116,6 +124,15 @@ const Card = ({ producto, handleClickPaquete }) => {
           producto={producto}
         />
       )}
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
     </div>
   );
 };
