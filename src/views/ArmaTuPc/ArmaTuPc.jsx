@@ -12,6 +12,8 @@ import CategoriasArmaTuPc from "../../components/CategoriasArmaTuPc/CategoriasAr
 import { formatCurrency } from "../../../utils/format";
 import { useNavigate } from "react-router";
 import ReiniciarConfirmacion from "../../components/ReiniciarConfirmacion/ReiniciarConfirmacion";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 let i = 0;
 
 const ArmaTuPc = () => {
