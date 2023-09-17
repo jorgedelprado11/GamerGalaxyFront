@@ -31,6 +31,11 @@ import {
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
+  FETCH_SPECIFICATIONS_3,
+  FETCH_SPECIFICATIONS_9,
+  FETCH_SPECIFICATIONS_30,
+  CREATE_MERCADO_PAGO_PREFERENCE,
+  UPDATE_CARRITO,
 } from "./actions/actions-types";
 
 let initialState = {
@@ -51,6 +56,11 @@ let initialState = {
   filtrados: [],
   backupFiltrados: [],
   destacados: [],
+  mercadoPagoPreferenceId:[],
+  specifications3: [],
+  specifications9: [],
+  specifications30: [],
+ 
   /*
   {
     producto: producto,
@@ -172,7 +182,7 @@ export default function rootReducer(state = initialState, action) {
           (producto) => producto.producto.id_producto !== action.payload
         ),
       };
-
+   
     case GET_PRODUCTS:
       // console.log("desde el reducer", action.payload);
       //con esto traigo solo destacados y me guardo todo lo otro en el backup
@@ -188,6 +198,11 @@ export default function rootReducer(state = initialState, action) {
         productos: [...productos],
         backup: action.payload,
       };
+         case " CREATE_MERCADO_PAGO_PREFERENCE":
+        return {
+          ...state,
+          mercadoPagoPreferenceId: action.payload,
+        };
     case ORDER_BY_PRICE:
       let ordenados = state.productos;
       action.payload === "Descendente"
@@ -330,12 +345,33 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         direccion: action.payload,
       };
+      case UPDATE_CARRITO:
+        return{
+          ...state,
+          carrito:action.payload
+        }
     case POST_USUARIO:
       console.log("reducer", action.payload);
       return {
         ...state,
         usuarioCreado: action.payload,
       };
+      case FETCH_SPECIFICATIONS_3:
+        console.log("Array en specifications3:", action.payload);
+        return {
+          ...state,
+          specifications3: action.payload,
+        };
+      case FETCH_SPECIFICATIONS_9:
+        return {
+          ...state,
+          specifications9: action.payload,
+        };
+      case FETCH_SPECIFICATIONS_30:
+        return {
+          ...state,
+          specifications30: action.payload,
+        };
     default:
       return { ...state };
   }
