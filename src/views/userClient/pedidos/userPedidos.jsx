@@ -1,9 +1,15 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SidebarUser from "../../../components/SidebarUser/SidebarUser";
+import { guardarToken } from "../../../redux/actions/actionsUsers";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export const UserPedidos = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.usuarioCreado);
+  const infoToken = useSelector((state) => state.token);
   const [calificacion, setCalificacion] = useState(0);
   const [comentario, setComentario] = useState("");
 
@@ -15,21 +21,21 @@ export const UserPedidos = () => {
   const handleComentarioChange = (event) => {
     setComentario(event.target.value);
   };
+
   return (
-    <div className="h-screen  flex ">
+    <div className="h-screen flex">
       <SidebarUser />
       <main className="flex-1 p-4 bg-gray-200 mx-3 w-screen">
-        <h1>
-          <b>Productos</b>
+        <h1 className="text-2xl font-bold mb-4">
+          <b>Mis Compras</b>
         </h1>
+        <div className="bg-white p-4 rounded shadow">
+          {/* Aquí puedes agregar contenido relacionado con las compras del usuario */}
+          <h2 className="text-lg font-semibold mb-2">Historial de Compras</h2>
+          {/* Agrega la lista de compras aquí */}
+        </div>
 
-        {/* Selector de Calificación */}
-        <div className="mt-4">
-          <label
-            htmlFor="calificacion"
-            className="block text-lg font-semibold mb-2"
-          >
-            Calificación:
+        {/* Calificación:
           </label>
           <select
             id="calificacion"
@@ -45,10 +51,10 @@ export const UserPedidos = () => {
             <option value={4}>⭐⭐⭐⭐</option>
             <option value={5}>⭐⭐⭐⭐⭐</option>
           </select>
-        </div>
+        </div> */}
 
         {/* Cuadro de Comentario */}
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <label
             htmlFor="comentario"
             className="block text-lg font-semibold mb-2"
@@ -63,7 +69,7 @@ export const UserPedidos = () => {
             className="border rounded-lg px-3 py-2 w-full"
             rows="4"
           ></textarea>
-        </div>
+        </div> */}
 
         {/* Botón para enviar calificación y comentario */}
         <div className="mt-6">

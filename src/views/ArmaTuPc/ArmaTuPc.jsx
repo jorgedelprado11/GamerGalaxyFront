@@ -18,6 +18,7 @@ const ArmaTuPc = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const productos = useSelector((state) => state.productos);
+  const user = useSelector((state) => state.usuarioCreado);
   const [armaTuPc, setArmaTuPc] = useState([]);
   const [showReiniciarConfirmacion, setShowReiniciarConfirmacion] =
     useState(false);
@@ -53,7 +54,11 @@ const ArmaTuPc = () => {
   // todo el carrito
 
   const agregarAlCarro = () => {
-    armaTuPc.map((producto) => dispatch(addToCart({ producto, quantity })));
+    armaTuPc.map((producto) => dispatch(addToCart({
+      id_producto: producto.id_producto,
+      quantity: 1,
+      id_user: user.id,
+    })));
 
     setArmaTuPc([]);
     setClick(false);

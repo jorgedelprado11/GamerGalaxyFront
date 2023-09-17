@@ -6,29 +6,36 @@ import {
   GET_BY_CATEGORIES,
   GET_SUBCATEGORIES,
   ORDER_BY_PRICE,
+
   FETCH_SPECIFICATIONS_30,
   FETCH_SPECIFICATIONS_9,
   FETCH_SPECIFICATIONS_3,
+
   FILTER_BY_MARCAS,
   FILTER_ARMA_TU_PC,
   FILTER_COMPONENTES_ARMATUPC,
-
   ADD_TO_CART,
   REMOVE_FROM_CART,
+
   UPDATE_CARRITO,
 
-} from "./actions-types";
+  UPDATE_CART_QUANTITY,
 
-import axios from "axios";
-
-import {
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
   GET_DIRECCIÓN,
   POST_USUARIO,
+
   CREATE_MERCADO_PAGO_PREFERENCE,
+
+  GET_TOKEN,
+  REMOVE_TOKEN,
+  GET_MARCAS,
+
 } from "./actions-types";
+
+import axios from "axios";
 
 export const getDescuentos = () => {
   return async function (dispatch) {
@@ -121,13 +128,6 @@ export const orderByPrice = (order) => {
   };
 };
 
-export const filterByMarcas = (filter) => {
-  return {
-    type: FILTER_BY_MARCAS,
-    payload: filter,
-  };
-};
-
 export const filterArmaTuPc = (filter) => {
   return {
     type: FILTER_ARMA_TU_PC,
@@ -141,12 +141,17 @@ export const filterComponentesArmaTuPc = (producto) => {
     payload: producto,
   };
 };
+
 export const updateCarrito = (id_producto, id_order, quantity) =>{
   return{
     type:UPDATE_CARRITO,
     payload:{id_producto, id_order, quantity},
   }
 }
+
+
+//Actions Users
+
 
 export const postDireccion = (id, direccion) => async (dispatch) => {
   const informacion = direccion;
@@ -163,7 +168,6 @@ export const postDireccion = (id, direccion) => async (dispatch) => {
 };
 
 export const guardarUsuario = (user) => {
-  console.log("user", user);
   let infoFormateada;
   if (user.given_name) {
     infoFormateada = {
@@ -186,43 +190,88 @@ export const guardarUsuario = (user) => {
   }
 
   return async function (dispatch) {
-
-    const response = await axios.get("/users");
-    const datos = response.data.filter((use) =>
-      use.email.includes(infoFormateada.email)
-    );
-
-
-    if (!datos.length) {
-      const newUser = await axios.post(
-        `/users/createUser`,
-        infoFormateada
-      );
-      dispatch({
-        type: POST_USUARIO,
-        payload: newUser.data,
-      });
-    } else {
-      const { data } = await axios.get(
-        `/users/profile?username=${infoFormateada.username}`
-      );
-      dispatch({
-        type: POST_USUARIO,
-        payload: data,
-      });
-    }
+    const newUser = await axios.post(`/users/createUser`, infoFormateada);
+    dispatch({
+      type: POST_USUARIO,
+      payload: newUser.data,
+    });
   };
 };
 
-export const addToCart = (producto) => ({
-  type: ADD_TO_CART,
-  payload: producto,
+export const guardarToken = (user) => {
+  console.log("guardar token Id", user);
+  const userFormat = {
+    id: user.id,
+    email: user.email,
+    id_role: user.id_role,
+  };
+
+  return async function (dispatch) {
+    const { data } = await axios.post(`/users/login`, userFormat);
+    const order = data.order;
+
+    console.log("token Ddd", order);
+    dispatch({
+      type: GET_TOKEN,
+      payload: data,
+    });
+
+    //     const response = await axios.get("/users");
+    //     const datos = response.data.filter((use) =>
+    //       use.email.includes(infoFormateada.email)
+    //     );
+
+    //     if (!datos.length) {
+    //       const newUser = await axios.post(`/users/createUser`, infoFormateada);
+    //       dispatch({
+    //         type: POST_USUARIO,
+    //         payload: newUser.data,
+    //       });
+    //     } else {
+    //       const { data } = await axios.get(
+    //         `/users/profile?username=${infoFormateada.username}`
+    //       );
+    //       dispatch({
+    //         type: POST_USUARIO,
+    //         payload: data,
+    //       });
+    //     }
+  };
+};
+
+// export const addToCart = (producto) => ({
+//   type: ADD_TO_CART,
+//   payload: producto,
+// });
+
+export const addToCart = (info) => {
+  return async function (dispatch) {
+    const { data } = await axios.put(`/order/update`, info);
+    console.log("a ver los productos perrrro", data.Products);
+    dispatch({
+      type: ADD_TO_CART,
+      payload: data.Products,
+    });
+  };
+};
+
+export const removeFromCart = (info) => {
+  return async function (dispatch) {
+    const { data } = await axios.delete("/order/delete-product", {
+      data: info,
+    });
+
+    dispatch({
+      type: REMOVE_FROM_CART,
+      payload: data.orderUpdated.Products,
+    });
+  };
+};
+
+export const removeToken = () => ({
+  type: REMOVE_TOKEN,
 });
 
-export const removeFromCart = (productoId) => ({
-  type: REMOVE_FROM_CART,
-  payload: productoId,
-});
 
 export const fetchSpecifications3 = () => {
   return async (dispatch) => {
@@ -268,3 +317,27 @@ export const fetchSpecifications30 = () => {
     }
   };
 };
+
+export const updateCartQuantity = (productId, newQuantity) => {
+  return {
+    type: UPDATE_CART_QUANTITY,
+    payload: {
+      productId,
+      newQuantity,
+    },
+  };
+};
+
+export const getMarcas = () => {
+  return {
+    type: GET_MARCAS,
+  };
+};
+
+export const filterByMarcas = (filter) => {
+  return {
+    type: FILTER_BY_MARCAS,
+    payload: filter,
+  };
+};
+

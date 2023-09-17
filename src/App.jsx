@@ -5,7 +5,7 @@ import Admin from "./views/Admin/Admin";
 import Usuarios from "./views/Admin/Usuarios/Usuarios";
 import ProductosAdmin from "./views/Admin/Productos/Productos";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Home from "./views/Home/Home";
@@ -16,24 +16,54 @@ import Productos from "./views/Productos/Productos";
 import ModificadorModalAdmin from "./components/ModificadorModalAdmin/ModificadorModalAdmin";
 import Footer from "./components/footer/Footer";
 import Carrito from "./components/carrito/Carrito";
-
+import Pedidos from "./views/Admin/Pedidos/Pedidos";
 import UserClient from "./views/userClient/userClient";
 import UserDireccion from "./views/userClient/Dirección/userDirección";
 import { UserFavoritos } from "./views/userClient/favoritos/userFavoritos";
 import { UserPedidos } from "./views/userClient/pedidos/userPedidos";
 
 import ArmaTuPc from "./views/ArmaTuPc/ArmaTuPc";
+import { useDispatch, useSelector } from "react-redux";
+//import { guardarToken } from "./redux/actions/actionsUsers";
+import { useAuth0 } from "@auth0/auth0-react";
+import { guardarToken, guardarUsuario } from "./redux/actions/actionsUsers";
+import Restaurar from "./views/Admin/Restaurar/Restaurar";
 
 function App() {
   const location = useLocation();
+
+  const { loginWithPopup, user, isAuthenticated } = useAuth0();
+
+  const token = useSelector((state) => state.infoToken);
+  const tokenLocalStorage = localStorage.getItem("token");
+  const dispatch = useDispatch();
+  const infouser = useSelector((state) => state.token);
+  useEffect(() => {
+    if (user && !tokenLocalStorage) {
+      dispatch(guardarUsuario(user));
+
+      setTimeout(() => {
+        dispatch(guardarToken(user));
+      }, 100);
+
+      setTimeout(() => {
+        localStorage.setItem("token", token);
+      }, 500);
+    }
+  }, [user, isAuthenticated, token]);
+
+  const orderLocalStorage = localStorage.getItem("order");
+  console.log("order en local storage", typeof orderLocalStorage);
   return (
     <div>
       {!location.pathname.includes("/admin") && <Navbar />}
       <Routes>
         <Route path="/admin/Productos/create" element={<ProductForm />} />
+        <Route path="/admin/restaurar" element={<Restaurar />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/Usuarios" element={<Usuarios />} />
         <Route path="/admin/Productos" element={<ProductosAdmin />} />
+        <Route path="/admin/Usuarios/:id" element={<Pedidos />} />
 
         <Route path={"/"} element={<Home />} />
         <Route path={"/home"} element={<Home />} />
@@ -50,10 +80,7 @@ function App() {
 
         <Route path="/armatupc" element={<ArmaTuPc />} />
 
-
-
         <Route path="/carrito" element={<Carrito />} />
-
       </Routes>
       {!location.pathname.includes("/admin") && <Footer />}
     </div>
