@@ -39,7 +39,6 @@ const Carrito = () => {
 
   useEffect(() => {
     dispatch(guardarToken(user));
-  ;
   }, [dispatch]);
 
   const handlePagarClick = async () => {
@@ -64,14 +63,11 @@ const Carrito = () => {
 
       const initPoint = responseMercadoPago.data.init_point;
       console.log(initPoint);
-      
+
       // Extraer el ID de preferencia (pref_id) de la URL de initPoint
       const url = new URL(initPoint);
       const searchParams = new URLSearchParams(url.search);
       const idPreferencia = searchParams.get("pref_id");
-
-      // Actualizar el estado con el ID de preferencia
-      setPreferenciaId(idPreferencia);
 
       // Crear un objeto que contenga id_producto, quantity e id_preferencia
       const productosParaActualizar = {
@@ -84,22 +80,11 @@ const Carrito = () => {
 
       console.log("Productos para actualizar:", productosParaActualizar);
 
-      // Luego, realizar la solicitud PUT para actualizar el carrito
-      const responseActualizar = await axios.put(
-        "http://localhost:3001/order/update",
-        productosParaActualizar,
-        {
-          headers: {
-            "X-Init-Point": initPoint, // Enviar el init point en las cabeceras de la solicitud PUT
-          },
-        }
-      );
-
-      // Manejar la respuesta de la actualización del carrito
-      console.log(
-        "Respuesta del servidor para actualizar el carrito:",
-        responseActualizar.data
-      );
+      await axios.put("order/payment-success", user.id, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       // Redirigir al usuario al proceso de pago en Mercado Pago
       window.location.href = initPoint;
