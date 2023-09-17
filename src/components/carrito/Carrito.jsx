@@ -33,6 +33,9 @@ const Carrito = () => {
 
   useEffect(() => {
     dispatch(guardarToken(user));
+    return () => {
+      dispatch(guardarToken(user));
+    };
   }, [dispatch]);
 
   // Calcular el subtotal
