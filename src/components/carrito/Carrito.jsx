@@ -1,7 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
 
-import { removeFromCart, updateCarrito } from "../../redux/actions/actionsUsers";
-
 import {
   guardarToken,
   removeFromCart,
@@ -10,7 +8,6 @@ import {
 
 import { formatCurrency } from "../../../utils/format";
 import { useEffect, useState } from "react";
-import { Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,7 +23,6 @@ const Carrito = () => {
   console.log(" desde el carrito", cart);
   const handleRemoveFromCart = (infoEliminada) => {
     dispatch(removeFromCart(infoEliminada));
-
   };
 
   // const handleQuantityChange = (producto, newQuantity) => {
@@ -43,9 +39,7 @@ const Carrito = () => {
 
   useEffect(() => {
     dispatch(guardarToken(user));
-    return () => {
-      dispatch(guardarToken(user));
-    };
+  ;
   }, [dispatch]);
 
   const handlePagarClick = async () => {
@@ -55,35 +49,41 @@ const Carrito = () => {
         "http://localhost:3001/mercadoPago/checkout",
         {
           products: cart.map((producto) => ({
-            title: producto.producto.nombre,
-            price: Math.floor(producto.producto.precio),
-            quantity: producto.cantidad,
+            title: producto.nombre,
+            price: Math.floor(producto.precio),
+            quantity: producto.quantity,
             description: ".",
           })),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
-  
+
       const initPoint = responseMercadoPago.data.init_point;
-  
+      console.log(initPoint);
+      
       // Extraer el ID de preferencia (pref_id) de la URL de initPoint
       const url = new URL(initPoint);
       const searchParams = new URLSearchParams(url.search);
       const idPreferencia = searchParams.get("pref_id");
-  
+
       // Actualizar el estado con el ID de preferencia
       setPreferenciaId(idPreferencia);
-  
+
       // Crear un objeto que contenga id_producto, quantity e id_preferencia
       const productosParaActualizar = {
         id_orden: idPreferencia,
         productos: cart.map((producto) => ({
-          id_producto: producto.producto.id_producto,
-          quantity: producto.cantidad,
+          id_producto: producto.id_producto,
+          quantity: producto.quantity,
         })),
       };
-  
+
       console.log("Productos para actualizar:", productosParaActualizar);
-  
+
       // Luego, realizar la solicitud PUT para actualizar el carrito
       const responseActualizar = await axios.put(
         "http://localhost:3001/order/update",
@@ -94,13 +94,13 @@ const Carrito = () => {
           },
         }
       );
-  
+
       // Manejar la respuesta de la actualización del carrito
       console.log(
         "Respuesta del servidor para actualizar el carrito:",
         responseActualizar.data
       );
-  
+
       // Redirigir al usuario al proceso de pago en Mercado Pago
       window.location.href = initPoint;
     } catch (error) {
@@ -110,6 +110,7 @@ const Carrito = () => {
       );
     }
   };
+
   return (
     <div className="w-full my-8 flex flex-row ">
       <div className=" mx-auto max-w-5xl w-[900px] min-h-screen justify-center px-6 md:flex md:space-x-6 xl:px-0">
@@ -120,9 +121,7 @@ const Carrito = () => {
               className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
             >
               <img
-
                 src={producto.Images[2]?.url || producto.Images[0]?.url}
-
                 alt="producto-image"
                 className="w-full rounded-lg sm:w-40"
               />
@@ -141,21 +140,20 @@ const Carrito = () => {
                     </p>
                   </div>
                   <p className="mt-1 text-xs text-gray-700">
-
                     Precio por item: $
                     {formatCurrency(Math.floor(producto.precio))}
                   </p>
                   <div className="flex flex-row justify-between">
                     {/* <input
-                      type="number"
-                      value={producto.OrderProduct.quantity}
-                      onChange={(e) =>
-                        handleQuantityChange(producto, e.target.value)
-                      }
-                      className="w-16 h-8 border text-center text-xs outline-none my-4 py-1"
-                      min="1"
-                      max={producto.stock}
-                    /> */}
+                    type="number"
+                    value={producto.OrderProduct.quantity}
+                    onChange={(e) =>
+                      handleQuantityChange(producto, e.target.value)
+                    }
+                    className="w-16 h-8 border text-center text-xs outline-none my-4 py-1"
+                    min="1"
+                    max={producto.stock}
+                  /> */}
                     <button
                       onClick={() =>
                         handleRemoveFromCart({
@@ -164,7 +162,6 @@ const Carrito = () => {
                         })
                       }
                       className=" m-4 bg-blue-700 text-white px-3 py-1 rounded"
-
                     >
                       X
                     </button>
@@ -196,15 +193,14 @@ const Carrito = () => {
             </div>
           </div>
           <button
-            onClick={handlePagarClick}
             className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+            onClick={handlePagarClick}
           >
             Pagar
           </button>
         </div>
       </div>
 
-      <Wallet initialization={{ preferenceId: preferenciaId }} />
       <ToastContainer
         position="top-right"
         autoClose={3000}
