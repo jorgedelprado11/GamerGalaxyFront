@@ -33,6 +33,11 @@ import {
   CLEAR,
   GET_TOKEN,
   GET_PEDIDOS_ID,
+  POST_COMENTS,
+  POST_CALIFICACION,
+  GET_COMENTARIOS,
+  GET_CALIFICACIONES,
+  POST_LOCATION,
 } from "./actions/actions-types";
 
 let initialState = {
@@ -70,6 +75,12 @@ let initialState = {
   //Usuario Token
   token: [],
   infoToken: [],
+  //comentarios
+  comentarios: [],
+  comentarioUser: [],
+  calificaciones: [],
+  calificacionUser: [],
+
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -334,7 +345,7 @@ export default function rootReducer(state = initialState, action) {
     //   };
 
     case GET_DIRECCIÓN:
-      console.log("reducer", action.payload);
+      console.log("reducer DIRECCION", action.payload);
       return {
         ...state,
         direccion: action.payload,
@@ -345,11 +356,40 @@ export default function rootReducer(state = initialState, action) {
         usuarioCreado: action.payload,
       };
     case GET_TOKEN:
-      console.log("Token reducer", action.payload);
       return {
         ...state,
         token: action.payload.order,
         infoToken: action.payload.token,
+      };
+    case POST_COMENTS:
+      console.log("Comentario", action.payload);
+      return {
+        ...state,
+        comentarioUser: action.payload,
+      };
+    case POST_CALIFICACION:
+      console.log("Calificacion", action.payload);
+      return {
+        ...state,
+        calificacionUser: action.payload,
+      };
+    case GET_CALIFICACIONES:
+      console.log("CALIFICACIONESSSSS", action.payload);
+      return {
+        ...state,
+        calificaciones: action.payload,
+      };
+    case GET_COMENTARIOS:
+      console.log("ComentarioSSSSS", action.payload);
+      return {
+        ...state,
+        comentarios: action.payload,
+      };
+    case POST_LOCATION:
+      console.log("POST LOCATION", action.payload);
+      return {
+        ...state,
+        direccion: action.payload,
       };
     default:
       return { ...state };

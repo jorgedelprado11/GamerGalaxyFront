@@ -21,14 +21,27 @@ import UserClient from "./views/userClient/userClient";
 import UserDireccion from "./views/userClient/Dirección/userDirección";
 import { UserFavoritos } from "./views/userClient/favoritos/userFavoritos";
 import { UserPedidos } from "./views/userClient/pedidos/userPedidos";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import ArmaTuPc from "./views/ArmaTuPc/ArmaTuPc";
 import { useDispatch, useSelector } from "react-redux";
-import { guardarToken } from "./redux/actions/actionsUsers";
+import { guardarToken, guardarUsuario } from "./redux/actions/actionsUsers";
 
 function App() {
   const location = useLocation();
+  const { loginWithPopup, user, isAuthenticated } = useAuth0();
 
+  const token = useSelector((state) => state.infoToken);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (user) {
+      dispatch(guardarUsuario(user));
+      setTimeout(() => {
+        dispatch(guardarToken(user));
+      }, 1000);
+    }
+  }, [user, isAuthenticated]);
+  localStorage.setItem("token", token);
   return (
     <div>
       {!location.pathname.includes("/admin") && <Navbar />}

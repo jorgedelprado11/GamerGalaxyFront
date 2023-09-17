@@ -12,8 +12,13 @@ export const GET_NAME = "GET_NAME";
 export const CLEAR = "CLEAR";
 
 export const GET_DIRECCIÓN = "GET_DIRECCIÓN";
+export const POST_LOCATION = "POST_LOCATION "
 export const POST_USUARIO = "POST_USUARIO";
 export const GET_TOKEN = "GET_TOKEN";
+export const POST_COMENTS = "COMENTS";
+export const GET_COMENTARIOS = "GET_COMENTARIOS";
+export const POST_CALIFICACION = "POST_CALIFICACION";
+export const GET_CALIFICACIONES = "GET_CALIFICACIONES";
 
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_CATEGORIES = "GET_CATEGORIES";
