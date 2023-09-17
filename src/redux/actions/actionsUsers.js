@@ -6,20 +6,33 @@ import {
   GET_BY_CATEGORIES,
   GET_SUBCATEGORIES,
   ORDER_BY_PRICE,
+
+  FETCH_SPECIFICATIONS_30,
+  FETCH_SPECIFICATIONS_9,
+  FETCH_SPECIFICATIONS_3,
+
   FILTER_BY_MARCAS,
   FILTER_ARMA_TU_PC,
   FILTER_COMPONENTES_ARMATUPC,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+
+  UPDATE_CARRITO,
+
   UPDATE_CART_QUANTITY,
+
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
   GET_DIRECCIÓN,
   POST_USUARIO,
+
+  CREATE_MERCADO_PAGO_PREFERENCE,
+
   GET_TOKEN,
   REMOVE_TOKEN,
   GET_MARCAS,
+
 } from "./actions-types";
 
 import axios from "axios";
@@ -129,7 +142,16 @@ export const filterComponentesArmaTuPc = (producto) => {
   };
 };
 
+export const updateCarrito = (id_producto, id_order, quantity) =>{
+  return{
+    type:UPDATE_CARRITO,
+    payload:{id_producto, id_order, quantity},
+  }
+}
+
+
 //Actions Users
+
 
 export const postDireccion = (id, direccion) => async (dispatch) => {
   const informacion = direccion;
@@ -250,6 +272,52 @@ export const removeToken = () => ({
   type: REMOVE_TOKEN,
 });
 
+
+export const fetchSpecifications3 = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get('http://localhost:3001/specifications/3');
+      console.log('Datos recibidos para ID 3:', response.data);
+      dispatch({
+        type: FETCH_SPECIFICATIONS_3,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error('Error al obtener datos para ID 3:', error.message);
+    }
+  };
+};
+
+export const fetchSpecifications9 = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get('http://localhost:3001/specifications/9');
+      console.log('Datos recibidos para ID 9:', response.data);
+      dispatch({
+        type: FETCH_SPECIFICATIONS_9,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error('Error al obtener datos para ID 9:', error.message);
+    }
+  };
+};
+
+export const fetchSpecifications30 = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get('http://localhost:3001/specifications/30');
+      console.log('Datos recibidos para ID 30:', response.data);
+      dispatch({
+        type: FETCH_SPECIFICATIONS_30,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error('Error al obtener datos para ID 30:', error.message);
+    }
+  };
+};
+
 export const updateCartQuantity = (productId, newQuantity) => {
   return {
     type: UPDATE_CART_QUANTITY,
@@ -272,3 +340,4 @@ export const filterByMarcas = (filter) => {
     payload: filter,
   };
 };
+

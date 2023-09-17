@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories, createProduct } from "../../../redux/actions/actionsAdmin";
+import {fetchSpecifications3, fetchSpecifications9, fetchSpecifications30} from "../../../redux/actions/actionsUsers"
 import validate from "../../Home/Admin/validation";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -9,10 +10,17 @@ const ProductForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const categorias = useSelector((state) => state.categories);
+  const specifications = useSelector((state) => state.specifications9);
+  const specificationsSocket = useSelector((state) => state.specifications3);
   const [uploadedImage, setUploadedImage] = useState(null);
 
   useEffect(() => {
     dispatch(fetchCategories());
+    dispatch(fetchSpecifications3())
+      .then((response) => {
+        console.log(response, "asivan");
+      });
+    dispatch(fetchSpecifications9());
   }, [dispatch]);
 
   const [productData, setProductData] = useState({
@@ -23,17 +31,56 @@ const ProductForm = () => {
     stock: "",
     imagen: null,
     descuento: "",
+    specificationValues: {},
   });
   console.log(productData, "aca la produccion")
   const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProductData({ ...productData, [name]: value });
+    let updatedSpecifications = { ...productData.specifications };
 
-    const validationErrors = validate({ ...productData, [name]: value });
-    setErrors({ ...errors, [name]: validationErrors[name] });
+    if (productData.categoriaSeleccionada === "9") {
+      // Si la categoría seleccionada es "9" (por ejemplo, tipo_memoria)
+      updatedSpecifications = {
+        ...updatedSpecifications,
+        [name]: {
+          value: value,
+          Specification: {
+            name: name,
+          },
+        },
+      };
+    } else if (productData.categoriaSeleccionada === "5") {
+      // Si la categoría seleccionada es "5" (por ejemplo, socket)
+      updatedSpecifications = {
+        ...updatedSpecifications,
+        socket: {
+          value: value,
+          Specification: {
+            name: "socket",
+          },
+        },
+      };
+    }
+  
+    setProductData({
+      ...productData,
+      [name]: value,
+      specificationValues: updatedSpecifications,
+    });
+
+    const validationErrors = validate({
+      ...productData,
+      [name]: value,
+      specifications: updatedSpecifications,
+    });
+    setErrors({
+      ...errors,
+      [name]: validationErrors[name],
+    });
   };
+
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
 
@@ -65,6 +112,7 @@ const ProductForm = () => {
       }
     }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const datosProducto = {
@@ -75,13 +123,13 @@ const ProductForm = () => {
       stock: productData.stock,
       imagen: uploadedImage,
       descuento: productData.descuento,
+      specificationValues: productData.specifications,
     };
-    console.log("Información del producto a crear:", datosProducto);
+
     const validationErrors = validate(productData);
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      console.log("Producto a enviar:", datosProducto);
       dispatch(createProduct(datosProducto));
       alert("Producto creado");
       navigate("/admin");
@@ -91,6 +139,7 @@ const ProductForm = () => {
   const cancelar = () => {
     navigate("/admin");
   };
+
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-slate-700 pb-3">
@@ -139,7 +188,96 @@ const ProductForm = () => {
             <div className="text-red-600">{errors.categoriaSeleccionada}</div>
           )}
         </div>
-
+        {productData.categoriaSeleccionada === "9"|| productData.categoriaSeleccionada === "5"&& (
+  <div className="flex flex-col text-start">
+    <label className="text-black">Selecciona un tipo de memoria:</label>
+    <select
+      name="tipo_memoria"
+      value={productData.tipo_memoria}
+      onChange={handleInputChange}
+      className="text-black mb-2 border border-black w-80 h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+    >
+      <option value="" className="text-black">
+        Selecciona un tipo de memoria
+      </option>
+      {specifications
+        .find((spec) => spec.name === "tipo_memoria")
+        ?.SpecificationValues.map((valueObj, index) => (
+          <option
+            key={index}
+            value={valueObj.value}
+            className="text-black border border-black mb-2 w-80 h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+          >
+            {valueObj.value}
+          </option>
+        ))}
+    </select>
+    {errors.tipo_memoria && (
+      <div className="text-red-600">{errors.tipo_memoria}</div>
+    )}
+  </div>
+)}
+ {productData.categoriaSeleccionada === "5" && (
+  <div className="flex flex-col text-start">
+    <label className="text-black">Selecciona un tipo de socket:</label>
+    <select
+      name="socket"
+      value={productData.socket}
+      onChange={handleInputChange}
+      className="text-black mb-2 border border-black w-80 h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+    >
+      <option value="" className="text-black">
+        Selecciona un tipo de socket
+      </option>
+      {specificationsSocket
+        .find((spec) => spec.name === "socket")
+        ?.SpecificationValues.map((valueObj, index) => (
+          <option
+            key={index}
+            value={valueObj.value}
+            className="text-black border border-black mb-2 w-80 h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+          >
+            {valueObj.value}
+          </option>
+        ))}
+    </select>
+    {errors.socket && (
+      <div className="text-red-600">{errors.socket}</div>
+    )}
+  </div>
+)}
+{productData.categoriaSeleccionada === "3" && (
+  <div className="flex flex-col text-start">
+    <label className="text-black">Selecciona un tipo de socket:</label>
+    <select
+      name="socket"
+      value={productData.socket}
+      onChange={handleInputChange}
+      className="text-black mb-2 border border-black w-80 h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+    >
+      <option value="" className="text-black">
+        Selecciona un tipo de socket
+      </option>
+      {specificationsSocket
+        .find((spec) => spec.name === "socket")
+        ?.SpecificationValues.filter((valueObj, index) => (
+          (index >= 0 && index <= 7) || (index >= 17 && index <= 21)
+        ))
+        .map((valueObj, index) => (
+          <option
+            key={index}
+            value={valueObj.value}
+            className="text-black border border-black mb-2 w-80 h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
+          >
+            {valueObj.value}
+          </option>
+        ))}
+    </select>
+    {errors.socket && (
+      <div className="text-red-600">{errors.socket}</div>
+    )}
+  </div>
+)}
         <div className="flex flex-col text-start mt-1">
           <label className="text-black">Precio:</label>
           <input
