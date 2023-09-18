@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 export const UserPedidos = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.usuarioCreado);
   const userInfo = useSelector((state) => state.token);
@@ -53,7 +53,9 @@ export const UserPedidos = () => {
     setComentario("");
     setEditar(false);
     dispatch(guardarToken(user));
-    // window.location.reload(false)
+    setTimeout(() => {
+      navigate("/user");
+    }, 500);
   };
 
   useEffect(() => {
