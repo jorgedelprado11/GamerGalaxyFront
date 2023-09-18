@@ -40,10 +40,18 @@ import {
   UPDATE_CARRITO,
   GET_TOKEN,
   GET_PEDIDOS_ID,
+
+  POST_COMENTS,
+  POST_CALIFICACION,
+  GET_COMENTARIOS,
+  GET_CALIFICACIONES,
+  POST_LOCATION,
+
   PUT_ORDER_STATUS,
   GET_ELIMINADOS,
   REMOVE_TOKEN,
   GET_MARCAS,
+
 } from "./actions/actions-types";
 
 let initialState = {
@@ -89,8 +97,18 @@ let initialState = {
   direccion: [],
   usuarioCreado: [],
   //Usuario Token
+
+ 
+  //comentarios
+  comentarios: [],
+  comentarioUser: [],
+  calificaciones: [],
+  calificacionUser: [],
+
+
   token: "",
   infoToken: "",
+
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -334,7 +352,7 @@ export default function rootReducer(state = initialState, action) {
       };
 
     case GET_DIRECCIÓN:
-      console.log("reducer", action.payload);
+      console.log("reducer DIRECCION", action.payload);
       return {
         ...state,
         direccion: action.payload,
@@ -368,11 +386,7 @@ export default function rootReducer(state = initialState, action) {
       };
 
     case GET_TOKEN:
-      console.log(
-        ".....",
-        action.payload.order.filter((order) => order.status == "cart")[0]
-          .Products
-      );
+
       return {
         ...state,
         token: action.payload.order,
@@ -461,6 +475,38 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         marcas: [...marcas],
       };
+
+    case POST_COMENTS:
+      console.log("Comentario", action.payload);
+      return {
+        ...state,
+        comentarioUser: action.payload,
+      };
+    case POST_CALIFICACION:
+      console.log("Calificacion", action.payload);
+      return {
+        ...state,
+        calificacionUser: action.payload,
+      };
+    case GET_CALIFICACIONES:
+      console.log("CALIFICACIONESSSSS", action.payload);
+      return {
+        ...state,
+        calificaciones: action.payload,
+      };
+    case GET_COMENTARIOS:
+      console.log("ComentarioSSSSS", action.payload);
+      return {
+        ...state,
+        comentarios: action.payload,
+      };
+    case POST_LOCATION:
+      console.log("POST LOCATION", action.payload);
+      return {
+        ...state,
+        direccion: action.payload,
+      };
+
     case FILTER_BY_MARCAS:
       let filtrados;
 
@@ -485,6 +531,7 @@ export default function rootReducer(state = initialState, action) {
 
     case SAVE_ID:
       return { ...state, idmarca: action.payload };
+
 
     default:
       return { ...state };

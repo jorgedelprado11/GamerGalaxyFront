@@ -16,6 +16,10 @@ import {
   FILTER_COMPONENTES_ARMATUPC,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  GET_COMENTARIOS,
+  GET_CALIFICACIONES,
+  POST_LOCATION,
+
 
   UPDATE_CARRITO,
 
@@ -30,8 +34,13 @@ import {
   CREATE_MERCADO_PAGO_PREFERENCE,
 
   GET_TOKEN,
+
+  POST_COMENTS,
+  POST_CALIFICACION,
+
   REMOVE_TOKEN,
   GET_MARCAS,
+
 
 } from "./actions-types";
 
@@ -152,21 +161,50 @@ export const updateCarrito = (id_producto, id_order, quantity) =>{
 
 //Actions Users
 
+export const postDireccion = (token) => {
+  let reset = {
+    provincia: "",
+    ciudad: "",
+    calle: "",
+    codigo_postal: "",
+  };
+  return async (dispatch) => {
+    console.log("TOKEN", token);
+    const { data } = await axios.post(`/location/createLocation`, reset, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-export const postDireccion = (id, direccion) => async (dispatch) => {
-  const informacion = direccion;
-  try {
-    await axios.put(`/location/${id}`, informacion);
-    const { data } = await axios(`/users/${id}`);
     dispatch({
-      type: GET_DIRECCIÓN,
+      type: POST_LOCATION,
       payload: data,
     });
-  } catch (error) {
-    console.error("Error al modificar:", error);
-  }
+  };
 };
-
+export const putDireccion = (direccion, id) => {
+  let reset = {
+    provincia: direccion.provincia,
+    ciudad: direccion.ciudad,
+    calle: direccion.calle,
+    codigo_postal: direccion.codigo_postal,
+  };
+  return async (dispatch) => {
+    const { data } = await axios.put(`/location/${id}`, reset);
+    console.log("PUT DIRECC", data);
+    dispatch({ type: GET_DIRECCIÓN, payload: data });
+  };
+};
+export const getDireccion = (id) => {
+  return async (dispatch) => {
+    const response = await axios.get(`/location/${id}/user`);
+    console.log("ACTION USERS", response.data);
+    dispatch({
+      type: GET_DIRECCIÓN,
+      payload: response.data,
+    });
+  };
+};
 export const guardarUsuario = (user) => {
   let infoFormateada;
   if (user.given_name) {
@@ -199,7 +237,6 @@ export const guardarUsuario = (user) => {
 };
 
 export const guardarToken = (user) => {
-  console.log("guardar token Id", user);
   const userFormat = {
     id: user.id,
     email: user.email,
@@ -208,9 +245,8 @@ export const guardarToken = (user) => {
 
   return async function (dispatch) {
     const { data } = await axios.post(`/users/login`, userFormat);
-    const order = data.order;
 
-    console.log("token Ddd", order);
+
     dispatch({
       type: GET_TOKEN,
       payload: data,
@@ -239,10 +275,50 @@ export const guardarToken = (user) => {
   };
 };
 
-// export const addToCart = (producto) => ({
-//   type: ADD_TO_CART,
-//   payload: producto,
-// });
+
+export const guardarComentario = (product, id) => {
+  const coments = {
+    description: product.comentario,
+  };
+  const id_producto = product.id_producto;
+
+  return async (dispatch) => {
+    const { data } = await axios.post(
+      `/comments/${id}/${id_producto}`,
+      coments
+    );
+
+    dispatch({ type: POST_COMENTS, payload: data });
+  };
+};
+
+export const getComentarios = () => {
+  return async (dispatch) => {
+    const { data } = await axios.get(`/comments`);
+    dispatch({ type: GET_COMENTARIOS, payload: data });
+  };
+};
+
+export const guardarCalificacion = (product, id) => {
+  const info = {
+    value: product.calificacion,
+  };
+  const id_producto = product.id_producto;
+
+  return async (dispatch) => {
+    const { data } = await axios.post(`/ratings/${id}/${id_producto}`, info);
+    dispatch({ type: POST_CALIFICACION, payload: data });
+  };
+};
+
+export const getCalificaciones = () => {
+  return async (dispatch) => {
+    const response = await axios(`/ratings`);
+    dispatch({ type: GET_CALIFICACIONES, payload: response.data });
+  };
+};
+
+
 
 export const addToCart = (info) => {
   return async function (dispatch) {
@@ -267,6 +343,7 @@ export const removeFromCart = (info) => {
     });
   };
 };
+
 
 export const removeToken = () => ({
   type: REMOVE_TOKEN,
