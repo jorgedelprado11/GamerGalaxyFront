@@ -42,9 +42,9 @@ const UserClient = () => {
               <div className="mb-1">
                 <p>Email: {usuario?.email}</p>
               </div>
-              <div className="bg-transparent text-transparent shadow-md p-2">
-                {usuario?.email}
-              </div>
+              <div className="mb-1">
+                <p>Nombre: {usuario?.firstName}  {usuario?.lastName}</p>
+              </div> 
             </div>
           )}
         </div>

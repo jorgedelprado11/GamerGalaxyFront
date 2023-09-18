@@ -21,7 +21,7 @@ import UserClient from "./views/userClient/userClient";
 import UserDireccion from "./views/userClient/Dirección/userDirección";
 import { UserFavoritos } from "./views/userClient/favoritos/userFavoritos";
 import { UserPedidos } from "./views/userClient/pedidos/userPedidos";
-import { useAuth0 } from "@auth0/auth0-react";
+
 
 import ArmaTuPc from "./views/ArmaTuPc/ArmaTuPc";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,7 +34,7 @@ import Restaurar from "./views/Admin/Restaurar/Restaurar";
 
 function App() {
   const location = useLocation();
-  const { loginWithPopup, user, isAuthenticated } = useAuth0();
+
 
 
   const { loginWithPopup, user, isAuthenticated } = useAuth0();

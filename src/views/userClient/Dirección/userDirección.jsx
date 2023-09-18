@@ -61,7 +61,7 @@ const UserDireccion = () => {
       <SidebarUser />
 
       {/* Contenido principal */}
-      <main className="flex-1 p-4 bg-gray-200 shadow-md ">
+      <main className="flex-1 p-4 bg-gray-200 shadow-md w-auto">
         <div className="max-w-lg shadow-md mx-auto mt-2 p-4 flex flex-col border-t-8 border-r-blue-700">
           {/* Información de dirección */}
 

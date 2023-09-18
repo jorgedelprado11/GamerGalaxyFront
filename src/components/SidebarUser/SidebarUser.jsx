@@ -68,11 +68,7 @@ const SidebarUser = () => {
               Mis pedidos
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/user/Favoritos" className="hover:text-blue-200">
-              Mis Favoritos
-            </NavLink>
-          </li>
+   
           <li>
             <button
               onClick={handleLogout}
