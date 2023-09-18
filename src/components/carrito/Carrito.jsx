@@ -37,6 +37,10 @@ const Carrito = () => {
   //   dispatch(updateCartQuantity(producto.id_producto, newQuantity));
   // };
 
+  console.log(
+    "carrito-->",
+    cart.map((cesta) => cesta.OrderProduct.price).reduce((a, b) => a + b)
+  );
   // const calcularTotal = () => {
   //   let tot = 0;
   //   for (const item of cart) {
@@ -49,6 +53,9 @@ const Carrito = () => {
     dispatch(guardarToken(user));
   }, [dispatch]);
 
+  const calcularTotal = cart
+    .map((cesta) => cesta.OrderProduct.price)
+    .reduce((a, b) => a + b);
   const handlePagarClick = async () => {
     try {
       // Realizar la solicitud para obtener el init point de Mercado Pago
@@ -168,12 +175,13 @@ const Carrito = () => {
         <div className="mt-6 rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3 w-[300px] h-[350px]">
           <div className="mb-2 flex justify-between">
             <p className="text-gray-700">Subtotal</p>
+            {formatCurrency(calcularTotal)}
             {/* <p className="text-gray-700">${formatCurrency(total)}</p> */}
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Costo de envío</p>
             <p className="text-gray-700">
-              {/* $ {formatCurrency(total === 0 ? 0 : 2000)} */}
+              {formatCurrency(calcularTotal === 0 ? 0 : 2000)}
             </p>
           </div>
           <hr className="my-4" />
