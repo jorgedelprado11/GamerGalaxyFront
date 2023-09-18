@@ -49,7 +49,7 @@ import {
   GET_ELIMINADOS,
   REMOVE_TOKEN,
   GET_MARCAS,
-  PUT_DIRECCION,
+  PUT_LOCATION,
 } from "./actions/actions-types";
 
 let initialState = {
@@ -93,9 +93,8 @@ let initialState = {
   subCategorias: [],
   //estado direcciones de users
   direccion: [],
+  id_location: [],
   usuarioCreado: [],
-  id_location: "",
-  vacio: "",
   //Usuario Token
 
   //comentarios
@@ -280,26 +279,27 @@ export default function rootReducer(state = initialState, action) {
           (especificaciones) =>
             especificaciones.Specification.name == "tipo_memoria"
         )[0].value;
-        console.log("tipo de memoria", buscador);
       }
       action.payload.i == 0
-        ? (filterComponentes = state.backup
-            .filter((producto) => producto?.id_categoria == 5)
-            .filter((producto) =>
-              producto.SpecificationValues.filter(
+        ? (filterComponentes = state.backup.filter(
+            (producto) =>
+              producto?.id_categoria == 5 &&
+              producto.SpecificationValues.map(
                 (especificaciones) =>
-                  especificaciones.Specification.name == "socket"
-              )[0].value.includes(buscador)
-            ))
+                  especificaciones.Specification.name == "socket" &&
+                  especificaciones.value.includes(buscador)
+              )
+          ))
         : action.payload.i == 1
-        ? (filterComponentes = state.backup
-            .filter((producto) => producto?.id_categoria == 9)
-            .filter((producto) =>
-              producto.SpecificationValues.filter(
+        ? (filterComponentes = state.backup.filter(
+            (producto) =>
+              producto?.id_categoria == 9 &&
+              producto.SpecificationValues.map(
                 (especificaciones) =>
-                  especificaciones.Specification.name == "tipo_memoria"
-              )[0].value.includes(buscador)
-            ))
+                  especificaciones.Specification.name == "tipo_memoria" &&
+                  especificaciones.value.includes(buscador)
+              )
+          ))
         : action.payload.i == 2
         ? (filterComponentes = [
             ...state.backup.filter((producto) => producto?.id_categoria == 12),
@@ -327,7 +327,6 @@ export default function rootReducer(state = initialState, action) {
             (producto) => producto?.id_categoria == 17
           ));
 
-      console.log("que llega aca", filterComponentes);
       return {
         ...state,
         productos: [...filterComponentes],
@@ -348,12 +347,6 @@ export default function rootReducer(state = initialState, action) {
         }),
       };
 
-    case GET_DIRECCION:
-      console.log("REDUCER DIRECCION-->", action.payload);
-      return {
-        ...state,
-        direccion: action.payload,
-      };
     case UPDATE_CARRITO:
       return {
         ...state,
@@ -497,34 +490,13 @@ export default function rootReducer(state = initialState, action) {
         comentarios: action.payload,
       };
     case POST_LOCATION:
-      console.log(
-        "POST LOCATION id_location!!!!!!!",
-        action.payload.user.id_location
-      );
+      console.log("POST LOCATION", action.payload);
       return {
         ...state,
         id_location: action.payload.user.id_location,
       };
-
-    /*     case POST_LOCATION:
-      console.log(
-        "POST LOCATION id_location!!!!!!!",
-        action.payload.user.id_location
-      );
-
-      if (state.id_location !== undefined) {
-        CONS
-        return state;
-      } else {
-        return {
-          ...state,
-          id_location: action.payload.user.id_location,
-        };
-      }
-       */
-    case PUT_DIRECCION:
-      console.log("PUT DIRECCION", action.payload.location);
-
+    case PUT_LOCATION:
+      console.log("reducer DIRECCION-->", action.payload);
       return {
         ...state,
         direccion: {
@@ -534,6 +506,12 @@ export default function rootReducer(state = initialState, action) {
           ciudad: action.payload.location.ciudad,
         },
         id_location: action.payload.location.id_location,
+      };
+    case GET_DIRECCION:
+      console.log("reducer DIRECCION-->", action.payload.Location);
+      return {
+        ...state,
+        direccion: action.payload,
       };
 
     case FILTER_BY_MARCAS:
