@@ -65,7 +65,7 @@ export const UserPedidos = () => {
   }, [dispatch]);
 
   const finalizado = userInfo?.filter(
-    (use) => use.status !== "cart" && use.status !== "Cancelado"
+    (use) => use.status !== "cart"
   );
 
   return (
