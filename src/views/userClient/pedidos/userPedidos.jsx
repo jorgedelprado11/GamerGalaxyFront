@@ -52,6 +52,10 @@ export const UserPedidos = () => {
     setComentario("");
 
     setEditar(false);
+    dispatch(guardarToken(user));
+    setTimeout(() => {
+      navigate("/user");
+    }, 500);
   };
 
   useEffect(() => {
