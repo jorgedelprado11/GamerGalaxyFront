@@ -280,27 +280,26 @@ export default function rootReducer(state = initialState, action) {
           (especificaciones) =>
             especificaciones.Specification.name == "tipo_memoria"
         )[0].value;
+        console.log("tipo de memoria", buscador);
       }
       action.payload.i == 0
-        ? (filterComponentes = state.backup.filter(
-            (producto) =>
-              producto?.id_categoria == 5 &&
-              producto.SpecificationValues.map(
+        ? (filterComponentes = state.backup
+            .filter((producto) => producto?.id_categoria == 5)
+            .filter((producto) =>
+              producto.SpecificationValues.filter(
                 (especificaciones) =>
-                  especificaciones.Specification.name == "socket" &&
-                  especificaciones.value.includes(buscador)
-              )
-          ))
+                  especificaciones.Specification.name == "socket"
+              )[0].value.includes(buscador)
+            ))
         : action.payload.i == 1
-        ? (filterComponentes = state.backup.filter(
-            (producto) =>
-              producto?.id_categoria == 9 &&
-              producto.SpecificationValues.map(
+        ? (filterComponentes = state.backup
+            .filter((producto) => producto?.id_categoria == 9)
+            .filter((producto) =>
+              producto.SpecificationValues.filter(
                 (especificaciones) =>
-                  especificaciones.Specification.name == "tipo_memoria" &&
-                  especificaciones.value.includes(buscador)
-              )
-          ))
+                  especificaciones.Specification.name == "tipo_memoria"
+              )[0].value.includes(buscador)
+            ))
         : action.payload.i == 2
         ? (filterComponentes = [
             ...state.backup.filter((producto) => producto?.id_categoria == 12),
@@ -328,6 +327,7 @@ export default function rootReducer(state = initialState, action) {
             (producto) => producto?.id_categoria == 17
           ));
 
+      console.log("que llega aca", filterComponentes);
       return {
         ...state,
         productos: [...filterComponentes],
