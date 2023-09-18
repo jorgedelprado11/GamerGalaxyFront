@@ -101,8 +101,8 @@ let initialState = {
   calificaciones: [],
   calificacionUser: [],
 
-  token: "",
-  infoToken: "",
+  token: [],
+  infoToken: [],
 };
 
 export default function rootReducer(state = initialState, action) {

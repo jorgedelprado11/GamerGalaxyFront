@@ -183,8 +183,8 @@ const Carrito = () => {
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Costo de envío</p>
-            <p className="text-gray-700">
-              $ {formatCurrency(calcularTotal === 0 ? 0 : 2000)}
+            <p className={`${calcularTotal === 0 ? "text-gray-700" :"text-green-700"}`}>
+              {(calcularTotal === 0 ? '$ 0' : 'Gratis')}
             </p>
           </div>
           <hr className="my-4" />
@@ -192,7 +192,7 @@ const Carrito = () => {
             <p className="text-lg font-bold">Total</p>
             <div>
               <p className="mb-1 text-lg font-bold">
-                ${formatCurrency(calcularTotal === 0 ? 0 : calcularTotal + 2000)}
+                ${formatCurrency(calcularTotal === 0 ? 0 : calcularTotal )}
               </p>
             </div>
           </div>
