@@ -5,18 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDescuentos } from "../../redux/actions/actionsUsers";
 import { CardsContainer } from "../../components/CardsContainerHome/CardsContainerHome";
 import { useAuth0 } from "@auth0/auth0-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
-
   const { user, isAuthenticated } = useAuth0();
 
   useEffect(() => {
     // console.log(user);
     // console.log(isAuthenticated)
-  }, [user, isAuthenticated])
-
-
-
+  }, [user, isAuthenticated]);
 
   const dispatch = useDispatch();
   const descuentos = useSelector((state) => state.destacados);
@@ -43,11 +41,9 @@ const Home = () => {
         <button
           key={i}
           onClick={() => setCurrentPage(i)}
-
           className={`w-4 h-4 rounded-full ${
             i === currentPage ? "bg-blue-500" : "bg-gray-300"
           }`}
-
         >
           {""}
         </button>
@@ -97,11 +93,19 @@ const Home = () => {
           <div className="flex items-center space-x-2 mb-1 ">
             {Array.from({ length: totalPages }, (_, i) => (
               <span className="w-1 h-1 text-xs p-0 m-0" key={i}></span>
-
             ))}
           </div>
         </div>
       </div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
     </div>
   );
 };

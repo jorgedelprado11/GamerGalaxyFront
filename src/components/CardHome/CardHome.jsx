@@ -73,15 +73,6 @@ export const Card = ({ producto }) => {
           producto={producto}
         />
       )}
-
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        closeOnClick
-        pauseOnHover
-        draggable
-      />
     </div>
   );
 };

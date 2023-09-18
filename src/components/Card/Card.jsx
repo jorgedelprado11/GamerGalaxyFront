@@ -19,7 +19,8 @@ const Card = ({ producto, handleClickPaquete }) => {
   const [quantity, setQuantity] = useState(1);
   const [productoEnCarrito, setProductoEnCarrito] = useState(null);
 
-  const agregado = (id) => {
+  const agregado = () => {
+    console.log("Hola");
     toast.success(`El producto se ha añadido exitosamente`, {
       position: toast.POSITION.TOP_RIGHT,
       theme: "colored",
@@ -40,9 +41,6 @@ const Card = ({ producto, handleClickPaquete }) => {
       return;
     }
 
-    setProductoEnCarrito(producto, () => {
-      // console.log("Producto agregado al carrito:", productoEnCarrito);
-    });
     dispatch(
       addToCart({
         id_producto: producto.id_producto,
@@ -50,13 +48,9 @@ const Card = ({ producto, handleClickPaquete }) => {
         id_user: user.id,
       })
     );
-
+    console.log("Cuantas veces ejecuto esto");
     agregado();
   };
-
-  useEffect(() => {
-    // console.log(producto);
-  }, []);
 
   const handleQuantityChange = (event) => {
     const newQuantity = parseInt(event.target.value, 10);
@@ -108,7 +102,7 @@ const Card = ({ producto, handleClickPaquete }) => {
               />
               <button
                 className="text-sm text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500 hover:bg-blue-600 shadow-lg"
-                onClick={handleAddToCart}
+                onClick={() => handleAddToCart()}
               >
                 AGREGAR AL CARRITO
               </button>
@@ -124,15 +118,6 @@ const Card = ({ producto, handleClickPaquete }) => {
           producto={producto}
         />
       )}
-
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        closeOnClick
-        pauseOnHover
-        draggable
-      />
     </div>
   );
 };

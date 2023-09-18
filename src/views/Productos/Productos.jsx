@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Categorias from "../../components/Categorias/Categorias";
 import OrdenadorPrecio from "../../components/Filtros/Ordenadores";
 import FiltrosMarcas from "../../components/Filtros/FiltrosMarcas";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Productos = () => {
   const dispatch = useDispatch();
@@ -115,6 +117,15 @@ const Productos = () => {
           </nav>
         </div>
       </div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
     </div>
   );
 };
