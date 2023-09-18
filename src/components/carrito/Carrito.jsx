@@ -37,10 +37,11 @@ const Carrito = () => {
   //   dispatch(updateCartQuantity(producto.id_producto, newQuantity));
   // };
 
-  console.log(
+  /* console.log(
     "carrito-->",
-    cart.map((cesta) => cesta.OrderProduct.price).reduce((a, b) => a + b)
-  );
+
+    cart.map((cesta) => cesta.OrderProduct.price)?.reduce((a, b) => a + b)
+  ); */
   // const calcularTotal = () => {
   //   let tot = 0;
   //   for (const item of cart) {
@@ -53,9 +54,11 @@ const Carrito = () => {
     dispatch(guardarToken(user));
   }, [dispatch]);
 
-  const calcularTotal = cart
-    .map((cesta) => cesta.OrderProduct.price)
-    .reduce((a, b) => a + b);
+  const calcularTotal =
+    cart.length > 0
+      ? cart.map((cesta) => cesta.OrderProduct.price).reduce((a, b) => a + b, 0)
+      : 0;
+
   const handlePagarClick = async () => {
     try {
       // Realizar la solicitud para obtener el init point de Mercado Pago
