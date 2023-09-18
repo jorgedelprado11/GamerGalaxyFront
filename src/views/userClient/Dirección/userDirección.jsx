@@ -108,8 +108,9 @@ const UserDireccion = () => {
           <button
             className="mt-2  bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
             onClick={() => {
+              if (!usuarioDireccion) crearIdLocation();
               editarDireccion(true);
-              //crearIdLocation();
+              //
             }} //Agregar una función para manejar la edición
           >
             Editar Dirección
