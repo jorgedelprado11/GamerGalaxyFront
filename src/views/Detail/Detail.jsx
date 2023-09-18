@@ -1,7 +1,7 @@
 import { formatCurrency } from "../../../utils/format";
 
 function Detail({ setOpen, producto }) {
-  // console.log("desde el detail ahora", producto);
+
 
   return (
     <div>

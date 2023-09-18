@@ -55,7 +55,7 @@ const Productos = () => {
           </div>
         </div>
 
-        {!productos ? (
+        {!productos.length ? (
           <div className="m-8">
             <h2>No se encontraron productos</h2>
           </div>
