@@ -54,10 +54,11 @@ const Carrito = () => {
     dispatch(guardarToken(user));
   }, [dispatch]);
 
-  const calcularTotal =
+  const calcularTotal = Math.floor(
     cart.length > 0
       ? cart.map((cesta) => cesta.OrderProduct.price).reduce((a, b) => a + b, 0)
-      : 0;
+      : 0
+  );
 
   const handlePagarClick = async () => {
     try {
@@ -177,14 +178,18 @@ const Carrito = () => {
         {/* Sub total */}
         <div className="mt-6 rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3 w-[300px] h-[210px]">
           <div className="mb-2 flex justify-between">
-            <p className="text-gray-700">Subtotal</p>
-             ${formatCurrency(calcularTotal)}
+            <p className="text-gray-700">Subtotal</p>$
+            {formatCurrency(calcularTotal)}
             {/* <p className="text-gray-700">${formatCurrency(total)}</p> */}
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Costo de envío</p>
-            <p className={`${calcularTotal === 0 ? "text-gray-700" :"text-green-700"}`}>
-              {(calcularTotal === 0 ? '$ 0' : 'Gratis')}
+            <p
+              className={`${
+                calcularTotal === 0 ? "text-gray-700" : "text-green-700"
+              }`}
+            >
+              {calcularTotal === 0 ? "$ 0" : "Gratis"}
             </p>
           </div>
           <hr className="my-4" />
@@ -192,7 +197,7 @@ const Carrito = () => {
             <p className="text-lg font-bold">Total</p>
             <div>
               <p className="mb-1 text-lg font-bold">
-                ${formatCurrency(calcularTotal === 0 ? 0 : calcularTotal )}
+                ${formatCurrency(calcularTotal === 0 ? 0 : calcularTotal)}
               </p>
             </div>
           </div>
