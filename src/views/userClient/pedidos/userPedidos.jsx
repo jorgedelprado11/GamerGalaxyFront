@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 export const UserPedidos = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.usuarioCreado);
   const userInfo = useSelector((state) => state.token);
@@ -64,7 +64,9 @@ export const UserPedidos = () => {
 
   return (
     <div className="min-h-screen flex">
-      <SidebarUser />
+      <aside className="bg-gray-800 w-64 p-4 text-white">
+        <SidebarUser />
+      </aside>
       <main className="flex-1 p-4 bg-gray-200 mx-3 w-screen">
         <h1 className="text-2xl font-bold mb-4">
           <b>Mis Pedidos</b>

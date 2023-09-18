@@ -34,7 +34,7 @@ const UserClient = () => {
   }, [user, isAuthenticated]);
 
   return (
-    <div className="h-screen flex">
+    <div className="min-h-screen flex">
       <aside className="bg-gray-800 w-64 p-4 text-white">
         <SidebarUser />
       </aside>
