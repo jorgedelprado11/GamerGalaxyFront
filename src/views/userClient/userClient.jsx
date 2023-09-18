@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import SidebarUser from "../../components/SidebarUser/SidebarUser";
 import UserDireccion from "./Dirección/userDirección";
@@ -8,18 +8,29 @@ import { UserFavoritos } from "./favoritos/userFavoritos";
 import { UserPedidos } from "./pedidos/userPedidos";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { guardarUsuario } from "../../redux/actions/actionsUsers";
+import {
+  guardarUsuario,
+  postDireccion,
+} from "../../redux/actions/actionsUsers";
 
 const UserClient = () => {
   const usuario = useSelector((state) => state.usuarioCreado);
-
+  const token = localStorage.getItem("token");
+  const [direccion, setDireccion] = useState({
+    provincia: "",
+    ciudad: "",
+    calle: "",
+    codigo_postal: "",
+  });
   //Info de Auth0
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useAuth0();
   console.log(user, "linea 6");
 
   useEffect(() => {
-    if (user) dispatch(guardarUsuario(user));
+    if (user) {
+      dispatch(guardarUsuario(user));
+    }
   }, [user, isAuthenticated]);
 
   return (
@@ -43,8 +54,10 @@ const UserClient = () => {
                 <p>Email: {usuario?.email}</p>
               </div>
               <div className="mb-1">
-                <p>Nombre: {usuario?.firstName}  {usuario?.lastName}</p>
-              </div> 
+                <p>
+                  Nombre: {usuario?.firstName} {usuario?.lastName}
+                </p>
+              </div>
             </div>
           )}
         </div>

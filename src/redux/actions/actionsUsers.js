@@ -30,6 +30,7 @@ import {
   POST_CALIFICACION,
   REMOVE_TOKEN,
   GET_MARCAS,
+  PUT_DIRECCION,
 } from "./actions-types";
 
 import axios from "axios";
@@ -162,6 +163,7 @@ export const postDireccion = (token, direccion) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("DATA POST LOCATION REDUCER", data);
 
     dispatch({
       type: POST_LOCATION,
@@ -170,6 +172,8 @@ export const postDireccion = (token, direccion) => {
   };
 };
 export const putDireccion = (direccion, id) => {
+  console.log("ALERTA AA id en put", id);
+  console.log("ALERTAAAA direccion en put", direccion);
   let reset = {
     provincia: direccion.provincia,
     ciudad: direccion.ciudad,
@@ -179,7 +183,7 @@ export const putDireccion = (direccion, id) => {
   return async (dispatch) => {
     const { data } = await axios.put(`/location/${id}`, reset);
     console.log("PUT DIRECC", data);
-    dispatch({ type: GET_DIRECCION, payload: data.Location });
+    dispatch({ type: PUT_DIRECCION, payload: data });
   };
 };
 export const getDireccion = (id) => {

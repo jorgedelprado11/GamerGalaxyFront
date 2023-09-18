@@ -7,24 +7,24 @@ import {
   postDireccion,
   putDireccion,
 } from "../../../redux/actions/actionsUsers";
+import { useNavigate } from "react-router-dom";
 
 const UserDireccion = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   const user = useSelector((state) => state.usuarioCreado);
-  let id = user.id_location;
+
   const usuarioDireccion = useSelector((state) => state.direccion);
+  const id_location_reducer = useSelector((state) => state.id_location);
+  const [mostrarToggle, setMostrarToggle] = useState(false);
 
-  const [editar, setEditar] = useState(false);
-
+  console.log("location-->", id_location_reducer);
   // Función para activar o desactivar la edición de la dirección
-  const editarDireccion = (value) => {
-    setEditar(value);
+  const desplegarDomocilio = (value) => {
+    setMostrarToggle(value);
   };
 
-  const crearIdLocation = (e) => {
-    dispatch(postDireccion(token, direccion));
-  };
   //formulario de dirección
   const [direccion, setDireccion] = useState({
     provincia: "",
@@ -34,24 +34,32 @@ const UserDireccion = () => {
   });
 
   const handleForm = (e) => {
-    e.preventDefault();
     const { name, value } = e.target;
+    console.log(name, value);
     setDireccion({ ...direccion, [name]: value });
   };
-
-  const handleButton = (e) => {
+  console.log("primera direccion", direccion);
+  const handleGuardarDomicilio = (e) => {
     e.preventDefault();
-    dispatch(putDireccion(direccion, id));
+
+    dispatch(putDireccion(direccion, id_location_reducer));
+
+    setMostrarToggle(false);
     setDireccion({
       provincia: "",
       ciudad: "",
       calle: "",
       codigo_postal: "",
     });
-    setEditar(false);
+    dispatch(getDireccion(user.id));
+    console.log("segunda direccion", direccion);
   };
 
-  console.log("token-->", token);
+  const crearDireccion = () => {
+    dispatch(postDireccion(token, direccion));
+  };
+  console.log("id_location_reducer-->", id_location_reducer);
+  console.log("usuarioDireccion-->", usuarioDireccion);
   /*  const handleButton = (e) => {
     e.preventDefault();
     dispatch(postDireccion(token));
@@ -66,13 +74,9 @@ const UserDireccion = () => {
     });
     setEditar(false);
   }; */
-
-  const idUser = user.id;
   useEffect(() => {
-    dispatch(getDireccion(idUser));
+    dispatch(getDireccion(user.id));
   }, [dispatch]);
-
-  console.log("holaaaaaaaaaaaa", usuarioDireccion);
 
   return (
     <div className="h-screen flex">
@@ -103,20 +107,27 @@ const UserDireccion = () => {
               <br />
             </p>
           </div>
-
+          <button
+            className="mt-2  bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+            onClick={() => crearDireccion()}
+          >
+            Crear dirección
+          </button>
           {/* Botón para editar dirección */}
           <button
             className="mt-2  bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
             onClick={() => {
-              if (!usuarioDireccion) crearIdLocation();
-              editarDireccion(true);
+              desplegarDomocilio(true);
+              //if (!usuarioDireccion) crearIdLocation();
+
+              //dispatch(getDireccion(idUser));
               //
             }} //Agregar una función para manejar la edición
           >
             Editar Dirección
           </button>
           {/* Formulario de edición de dirección (mostrar u ocultar según sea necesario) */}
-          {editar && (
+          {mostrarToggle && (
             <div className="mt-1 ">
               <h3 className="text-lg font-semibold mb-2">Editar Dirección</h3>
               <form className="space-y-2">
@@ -161,14 +172,20 @@ const UserDireccion = () => {
                     <button
                       type="button"
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2"
-                      onClick={() => editarDireccion(false)} // Cancelar edición
+                      onClick={() => {
+                        desplegarDomocilio(false);
+                        setDireccion({
+                          provincia: "",
+                          ciudad: "",
+                          calle: "",
+                          codigo_postal: "",
+                        });
+                      }} // Cancelar edición
                     >
                       Cancelar
                     </button>
                     <button
-                      type="submit"
-                      onClick={handleButton}
-                      //onClick={crearIdLocation()}
+                      onClick={handleGuardarDomicilio}
                       className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
                     >
                       Guardar

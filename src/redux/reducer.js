@@ -49,6 +49,7 @@ import {
   GET_ELIMINADOS,
   REMOVE_TOKEN,
   GET_MARCAS,
+  PUT_DIRECCION,
 } from "./actions/actions-types";
 
 let initialState = {
@@ -93,6 +94,8 @@ let initialState = {
   //estado direcciones de users
   direccion: [],
   usuarioCreado: [],
+  id_location: "",
+  vacio: "",
   //Usuario Token
 
   //comentarios
@@ -346,7 +349,7 @@ export default function rootReducer(state = initialState, action) {
       };
 
     case GET_DIRECCION:
-      console.log("reducer DIRECCION-->", action.payload);
+      console.log("REDUCER DIRECCION-->", action.payload);
       return {
         ...state,
         direccion: action.payload,
@@ -494,10 +497,43 @@ export default function rootReducer(state = initialState, action) {
         comentarios: action.payload,
       };
     case POST_LOCATION:
-      console.log("POST LOCATION", action.payload.Location);
+      console.log(
+        "POST LOCATION id_location!!!!!!!",
+        action.payload.user.id_location
+      );
       return {
         ...state,
-        direccion: action.payload.Location,
+        id_location: action.payload.user.id_location,
+      };
+
+    /*     case POST_LOCATION:
+      console.log(
+        "POST LOCATION id_location!!!!!!!",
+        action.payload.user.id_location
+      );
+
+      if (state.id_location !== undefined) {
+        CONS
+        return state;
+      } else {
+        return {
+          ...state,
+          id_location: action.payload.user.id_location,
+        };
+      }
+       */
+    case PUT_DIRECCION:
+      console.log("PUT DIRECCION", action.payload.location);
+
+      return {
+        ...state,
+        direccion: {
+          calle: action.payload.location.calle,
+          provincia: action.payload.location.provincia,
+          codigo_postal: action.payload.location.codigo_postal,
+          ciudad: action.payload.location.ciudad,
+        },
+        id_location: action.payload.location.id_location,
       };
 
     case FILTER_BY_MARCAS:
