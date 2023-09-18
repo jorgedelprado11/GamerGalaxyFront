@@ -106,8 +106,8 @@ let initialState = {
   calificacionUser: [],
 
 
-  token: "",
-  infoToken: "",
+  token: [],
+  infoToken: [],
 
 };
 

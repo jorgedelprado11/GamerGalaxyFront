@@ -9,9 +9,12 @@ import {
   getComentarios,
   guardarCalificacion,
   guardarComentario,
+  guardarToken,
 } from "../../../redux/actions/actionsUsers";
+import { useNavigate } from "react-router-dom";
 
 export const UserPedidos = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const user = useSelector((state) => state.usuarioCreado);
   const userInfo = useSelector((state) => state.token);
@@ -23,7 +26,6 @@ export const UserPedidos = () => {
   const [selectedProduct, setSelectedProduct] = useState([null]); // Para almacenar el producto seleccionado
 
   const finalizado = userInfo?.filter((use) => use.status !== "cart");
-  console.log("CALIFICACIONES", calificaciones);
 
   const handleCalificacionChange = (valor) => {
     setCalificacion(valor);
@@ -50,13 +52,13 @@ export const UserPedidos = () => {
     setCalificacion(0);
     setComentario("");
     setEditar(false);
+    dispatch(guardarToken(user));
+    // window.location.reload(false)
   };
 
   useEffect(() => {
+    dispatch(guardarToken(user));
     dispatch(getComentarios());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(getCalificaciones());
   }, [dispatch]);
 
@@ -96,16 +98,19 @@ export const UserPedidos = () => {
                             .map((comentario) => comentario.description)[0]
                         }
                       </p>
+
+                      <p>
+                        Calificación:
+                        {
+                          calificaciones?.filter(
+                            (cali) =>
+                              cali.id_user == user.id &&
+                              cali.id_producto == info.id_producto
+                          )[0]?.value
+                        }
+                      </p>
                     </div>
                   }
-                  {calificaciones?.map(
-                    (cali) =>
-                      cali.id_producto === info.id_producto && (
-                        <div>
-                          <p>Calificación: {cali.value}</p>
-                        </div>
-                      )
-                  )}
                 </div>
 
                 <div className="mt-6">
@@ -119,29 +124,15 @@ export const UserPedidos = () => {
                       className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full`}
                       onClick={() => {
                         setEditar(true);
-                        setSelectedProduct(info); // Guardar el producto seleccionado
+                        setSelectedProduct(info);
+                        // Guardar el producto seleccionado
                       }}
                     >
                       Calificación y Comentario
                     </button>
                   )}
                 </div>
-                <div className="mt-6">
-                  {calificaciones?.filter(
-                    (cali) => cali.id_producto == info.id_producto || cali === 0
-                  ).length ? null : (
-                    <button
-                      type="button"
-                      className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full`}
-                      onClick={() => {
-                        setEditar(true);
-                        setSelectedProduct(info); // Guardar el producto seleccionado
-                      }}
-                    >
-                      Calificación y Comentario
-                    </button>
-                  )}
-                </div>
+
                 {editar && selectedProduct === info && (
                   <div>
                     {/* Calificación */}
