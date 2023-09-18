@@ -30,6 +30,7 @@ import {
   POST_CALIFICACION,
   REMOVE_TOKEN,
   GET_MARCAS,
+  PUT_LOCATION,
 } from "./actions-types";
 
 import axios from "axios";
@@ -149,20 +150,15 @@ export const updateCarrito = (id_producto, id_order, quantity) => {
 //Actions Users
 
 export const postDireccion = (token, direccion) => {
-  /*   let domicilio = {
-    provincia: "",
-    ciudad: "",
-    calle: "",
-    codigo_postal: "",
-  }; */
   return async (dispatch) => {
     console.log("TOKEN", token);
+    console.log("DIRECCIÓN EN ACTION", direccion);
     const { data } = await axios.post(`/location/createLocation`, direccion, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
+    console.log("DATA EN ACTION", data);
     dispatch({
       type: POST_LOCATION,
       payload: data,
@@ -170,6 +166,7 @@ export const postDireccion = (token, direccion) => {
   };
 };
 export const putDireccion = (direccion, id) => {
+  console.log("ID PUT", id);
   let reset = {
     provincia: direccion.provincia,
     ciudad: direccion.ciudad,
@@ -179,13 +176,13 @@ export const putDireccion = (direccion, id) => {
   return async (dispatch) => {
     const { data } = await axios.put(`/location/${id}`, reset);
     console.log("PUT DIRECC", data);
-    dispatch({ type: GET_DIRECCION, payload: data.Location });
+    dispatch({ type: PUT_LOCATION, payload: data });
   };
 };
-export const getDireccion = (id) => {
-  console.log("usuario-->", id);
+export const getDireccion = (idUser) => {
+  console.log("usuario-->", idUser);
   return async (dispatch) => {
-    const response = await axios.get(`/location/user/${id}`);
+    const response = await axios.get(`/location/user/${idUser}`);
     console.log("ACTION USERS", response.data);
     dispatch({
       type: GET_DIRECCION,

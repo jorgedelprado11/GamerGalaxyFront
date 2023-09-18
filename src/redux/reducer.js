@@ -49,6 +49,7 @@ import {
   GET_ELIMINADOS,
   REMOVE_TOKEN,
   GET_MARCAS,
+  PUT_LOCATION,
 } from "./actions/actions-types";
 
 let initialState = {
@@ -92,6 +93,7 @@ let initialState = {
   subCategorias: [],
   //estado direcciones de users
   direccion: [],
+  id_location: [],
   usuarioCreado: [],
   //Usuario Token
 
@@ -345,12 +347,6 @@ export default function rootReducer(state = initialState, action) {
         }),
       };
 
-    case GET_DIRECCION:
-      console.log("reducer DIRECCION-->", action.payload);
-      return {
-        ...state,
-        direccion: action.payload,
-      };
     case UPDATE_CARRITO:
       return {
         ...state,
@@ -494,10 +490,28 @@ export default function rootReducer(state = initialState, action) {
         comentarios: action.payload,
       };
     case POST_LOCATION:
-      console.log("POST LOCATION", action.payload.Location);
+      console.log("POST LOCATION", action.payload);
       return {
         ...state,
-        direccion: action.payload.Location,
+        id_location: action.payload.user.id_location,
+      };
+    case PUT_LOCATION:
+      console.log("reducer DIRECCION-->", action.payload);
+      return {
+        ...state,
+        direccion: {
+          calle: action.payload.location.calle,
+          provincia: action.payload.location.provincia,
+          codigo_postal: action.payload.location.codigo_postal,
+          ciudad: action.payload.location.ciudad,
+        },
+        id_location: action.payload.location.id_location,
+      };
+    case GET_DIRECCION:
+      console.log("reducer DIRECCION-->", action.payload.Location);
+      return {
+        ...state,
+        direccion: action.payload,
       };
 
     case FILTER_BY_MARCAS:

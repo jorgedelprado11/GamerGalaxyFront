@@ -12,7 +12,7 @@ const UserDireccion = () => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   const user = useSelector((state) => state.usuarioCreado);
-  let id = user.id_location;
+  const id_location_reducer = useSelector((state) => state.id_location);
   const usuarioDireccion = useSelector((state) => state.direccion);
 
   const [editar, setEditar] = useState(false);
@@ -22,9 +22,10 @@ const UserDireccion = () => {
     setEditar(value);
   };
 
-  const crearIdLocation = (e) => {
+  const crearIdLocation = () => {
     dispatch(postDireccion(token, direccion));
   };
+
   //formulario de dirección
   const [direccion, setDireccion] = useState({
     provincia: "",
@@ -41,7 +42,7 @@ const UserDireccion = () => {
 
   const handleButton = (e) => {
     e.preventDefault();
-    dispatch(putDireccion(direccion, id));
+    dispatch(putDireccion(direccion, id_location_reducer));
     setDireccion({
       provincia: "",
       ciudad: "",
@@ -51,13 +52,9 @@ const UserDireccion = () => {
     setEditar(false);
   };
 
-  console.log("token-->", token);
   /*  const handleButton = (e) => {
     e.preventDefault();
     dispatch(postDireccion(token));
-
-   
-
     setDireccion({
       provincia: "",
       ciudad: "",
@@ -67,12 +64,11 @@ const UserDireccion = () => {
     setEditar(false);
   }; */
 
+  console.log("holaaaaaaaaaaaa", usuarioDireccion);
   const idUser = user.id;
   useEffect(() => {
     dispatch(getDireccion(idUser));
-  }, [dispatch]);
-
-  console.log("holaaaaaaaaaaaa", usuarioDireccion);
+  }, [dispatch, idUser]);
 
   return (
     <div className="h-screen flex">
@@ -82,39 +78,49 @@ const UserDireccion = () => {
       {/* Contenido principal */}
       <main className="flex-1 p-4 bg-gray-200 shadow-md w-auto">
         <div className="max-w-lg shadow-md mx-auto mt-2 p-4 flex flex-col border-t-8 border-r-blue-700">
-          {/* Información de dirección */}
-
-          <div className="mt-0">
-            <h3 className="text-lg font-semibold text-blue-800 mb-2">
-              Dirección
-            </h3>
-            <p className="text-gray-800">
-              <span className="font-semibold">Provincia:</span>{" "}
-              {usuarioDireccion?.provincia}
-              <br />
-              <span className="font-semibold">Ciudad:</span>{" "}
-              {usuarioDireccion?.ciudad}
-              <br />
-              <span className="font-semibold">Calle:</span>{" "}
-              {usuarioDireccion?.calle}
-              <br />
-              <span className="font-semibold">Código Postal:</span>{" "}
-              {usuarioDireccion?.codigo_postal}
-              <br />
-            </p>
-          </div>
-
-          {/* Botón para editar dirección */}
-          <button
-            className="mt-2  bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-            onClick={() => {
-              if (!usuarioDireccion) crearIdLocation();
-              editarDireccion(true);
-              //
-            }} //Agregar una función para manejar la edición
-          >
-            Editar Dirección
-          </button>
+          {usuarioDireccion.length === 0 ? (
+            <div>
+              <button
+                className="mt-2  bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                onClick={() => {
+                  crearIdLocation();
+                  editarDireccion(true);
+                }}
+              >
+                Añadir Dirección
+              </button>
+            </div>
+          ) : (
+            // Información de dirección
+            <div className="mt-0">
+              <h3 className="text-lg font-semibold text-blue-800 mb-2">
+                Dirección
+              </h3>
+              <p className="text-gray-800">
+                <span className="font-semibold">Provincia:</span>{" "}
+                {usuarioDireccion?.provincia}
+                <br />
+                <span className="font-semibold">Ciudad:</span>{" "}
+                {usuarioDireccion?.ciudad}
+                <br />
+                <span className="font-semibold">Calle:</span>{" "}
+                {usuarioDireccion?.calle}
+                <br />
+                <span className="font-semibold">Código Postal:</span>{" "}
+                {usuarioDireccion?.codigo_postal}
+                <br />
+              </p>
+              <button
+                className="mt-2  bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                onClick={() => {
+                  crearIdLocation();
+                  editarDireccion(true);
+                }} //Agregar una función para manejar la edición
+              >
+                Editar Dirección
+              </button>
+            </div>
+          )}
           {/* Formulario de edición de dirección (mostrar u ocultar según sea necesario) */}
           {editar && (
             <div className="mt-1 ">
