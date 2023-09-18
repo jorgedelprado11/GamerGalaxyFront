@@ -25,28 +25,47 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import ArmaTuPc from "./views/ArmaTuPc/ArmaTuPc";
 import { useDispatch, useSelector } from "react-redux";
+
+//import { guardarToken } from "./redux/actions/actionsUsers";
+import { useAuth0 } from "@auth0/auth0-react";
 import { guardarToken, guardarUsuario } from "./redux/actions/actionsUsers";
+import Restaurar from "./views/Admin/Restaurar/Restaurar";
+
 
 function App() {
   const location = useLocation();
   const { loginWithPopup, user, isAuthenticated } = useAuth0();
 
+
+  const { loginWithPopup, user, isAuthenticated } = useAuth0();
+
   const token = useSelector((state) => state.infoToken);
+  const tokenLocalStorage = localStorage.getItem("token");
   const dispatch = useDispatch();
+  const infouser = useSelector((state) => state.token);
   useEffect(() => {
-    if (user) {
+    if (user && !tokenLocalStorage) {
       dispatch(guardarUsuario(user));
+
       setTimeout(() => {
         dispatch(guardarToken(user));
-      }, 1000);
+      }, 100);
+
+      setTimeout(() => {
+        localStorage.setItem("token", token);
+      }, 500);
     }
-  }, [user, isAuthenticated]);
-  localStorage.setItem("token", token);
+  }, [user, isAuthenticated, token]);
+
+  const orderLocalStorage = localStorage.getItem("order");
+
+
   return (
     <div>
       {!location.pathname.includes("/admin") && <Navbar />}
       <Routes>
         <Route path="/admin/Productos/create" element={<ProductForm />} />
+        <Route path="/admin/restaurar" element={<Restaurar />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/Usuarios" element={<Usuarios />} />
         <Route path="/admin/Productos" element={<ProductosAdmin />} />

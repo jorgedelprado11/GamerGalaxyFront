@@ -2,25 +2,31 @@ import { toast, ToastContainer } from "react-toastify";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
-import { formatCurrency } from "../../../../utils/format";
+
 import ModificadorStatusOrderModalAdmin from "../../../components/ModificadorStatusOrderModalAdmin/ModificadorStatusOrderModalAdmin";
 import SidebarAdmin from "../../../components/SidebarAdmin/SidebarAdmin";
 
-import { obtenerPedidosId } from "../../../redux/actions/actionsAdmin";
-import { useParams } from "react-router-dom";
+import {
+  obtenerEliminados,
+  restaurarUsuarios,
+} from "../../../redux/actions/actionsAdmin";
 
-const Pedidos = () => {
-  const pedidos = useSelector((state) => state.pedidos_id);
-  const { id } = useParams();
+const Restaurar = () => {
+  const eliminados = useSelector((state) => state.usuariosEliminados);
+
   const dispatch = useDispatch();
+  //const token = localStorage.getItem("token");
 
   useEffect(() => {
-    dispatch(obtenerPedidosId(id));
+    dispatch(obtenerEliminados());
+
+    console.log("en restaurar-->", eliminados);
   }, [dispatch]);
 
+  console.log("en restaurar-->", eliminados);
   const [isModalStatusOpen, setIsModalStatusOpen] = useState(false);
   const [modifyNumber, setModifyNumber] = useState("");
-  /*  
+  /*   const usuarios = useSelector((state) => state.usuarios);
   const dispatch = useDispatch();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deleteNumber, setDeleteNumber] = useState("");
@@ -35,44 +41,53 @@ const Pedidos = () => {
   const currentUsuarios = usuarios.slice(indexOfFirstProduct, indexOfLastUser);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  useEffect(() => {
+    dispatch(obtenerUsuarios());
+  }, [dispatch]);
 
-  };
+
  */
+
+  const onConfirm = (id) => {
+    dispatch(restaurarUsuarios(id));
+  };
 
   return (
     <div className="flex text-right bg-slate-700 min-h-screen w-full">
       <SidebarAdmin />
       <div className="flex flex-col items-center min-h-screen bg-slate-700 justify-right w-full">
         <h1 className="mt-10 text-white text-center text-4xl">
-          Pedidos del usuario {id}
+          Restauración de usuarios
         </h1>
 
         <div className="w-full flex flex-col items-center">
           <table className="text-white border border-collapse border-black m-8 w-5/6 ">
             <thead>
               <th className=" border border-black text-center w-1/3">
-                ID order
+                ID user
               </th>
 
-              <th className=" border border-black text-center w-1/2">Status</th>
+              <th className=" border border-black text-center w-1/2">Email</th>
 
-              <th className="border border-black text-center w-1/2">Precio</th>
               <th className="border border-black text-center w-1/2">
-                Modificar
+                Teléfono
+              </th>
+              <th className="border border-black text-center w-1/2">
+                Restaurar
               </th>
             </thead>
 
-            {pedidos.length ? (
-              pedidos.map((pedido) => (
+            {eliminados.length ? (
+              eliminados.map((eliminado) => (
                 <tbody>
                   <td className="h-3 text-xs text-center border border-black w-1/8">
-                    {pedido.id_order}
+                    {eliminado.id}
                   </td>
                   <td className="h-5 text-xs text-center border border-black w-1/8">
-                    {pedido.status}
+                    {eliminado.email}
                   </td>
                   <td className="h-5 text-xs text-center border border-black w-1/4">
-                    ${formatCurrency(pedido.price)}
+                    {eliminado.phoneNumber}
                   </td>
                   <td>
                     <button
@@ -80,11 +95,12 @@ const Pedidos = () => {
                         "scroll-to-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg  w-full"
                       }
                       onClick={() => {
-                        setIsModalStatusOpen(true);
-                        setModifyNumber(pedido);
+                        //setIsModalStatusOpen(true);
+
+                        onConfirm(eliminado.id);
                       }}
                     >
-                      Editar
+                      Restaurar
                     </button>
                   </td>
                 </tbody>
@@ -92,7 +108,7 @@ const Pedidos = () => {
             ) : (
               <tbody className="text-center">
                 <th></th>
-                <th>No existen pedidos</th>
+                <th>No existen usuarios eliminados</th>
                 <th></th>
               </tbody>
             )}
@@ -186,4 +202,4 @@ const Pedidos = () => {
   );
 };
 
-export default Pedidos;
+export default Restaurar;

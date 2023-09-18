@@ -67,7 +67,7 @@ function ModificadorProductsModalAdmin({ setOpen, modifyNumber }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(event);
+
     if (!email && !firstName && !lastName && !phoneNumber && !username)
       return alert("No has ingresado valores");
     if (
@@ -103,6 +103,12 @@ function ModificadorProductsModalAdmin({ setOpen, modifyNumber }) {
         token
       )
     );
+
+    setEmail("");
+    setFirstName("");
+    setLastName("");
+    setPhoneNumber("");
+    setUsername("");
     setOpen(false);
     modificado(modifyNumber.id);
   };
@@ -139,51 +145,71 @@ function ModificadorProductsModalAdmin({ setOpen, modifyNumber }) {
                             </label>
                           </div>
                           <div className="ml-3">
-                            <label htmlFor="">UserName: </label>
+                            <label htmlFor="">Usuario: </label>
                             <input
                               type="text"
+                              name="username"
+                              value={username}
                               onChange={handleUsername}
                               placeholder={modifyNumber.username}
                             />
                           </div>
-                          <span>{errorUsername.username}</span>
+                          <span className="text-red-500 ml-3">
+                            {errorUsername.username}
+                          </span>
                           <div className="ml-3">
                             <label htmlFor="">Email: </label>
                             <input
                               type="text"
+                              name="email"
+                              value={email}
                               onChange={handleEmailChange}
                               placeholder={modifyNumber.email}
                               className="w-56"
                             />
                           </div>
-                          <span>{errorEmail.email}</span>
+                          <span className="text-red-500 ml-3">
+                            {errorEmail.email}
+                          </span>
                           <div className="ml-3">
-                            <label htmlFor="">FirstName: </label>
+                            <label htmlFor="">Nombre: </label>
                             <input
                               type="text"
+                              name="firstName"
+                              value={firstName}
                               onChange={handleFirstName}
                               placeholder={modifyNumber.firstName}
                             />
                           </div>
-                          <span>{errorFirstName.firstName}</span>
+                          <span className="text-red-500 ml-3">
+                            {errorFirstName.firstName}
+                          </span>
                           <div className="ml-3">
-                            <label htmlFor="">LastName: </label>
+                            <label htmlFor="">Apellido: </label>
                             <input
                               type="text"
+                              name="lastName"
+                              value={lastName}
                               onChange={handleLastName}
                               placeholder={modifyNumber.lastName}
                             />
                           </div>
-                          <span>{errorLastName.lastName}</span>
+                          <span className="text-red-500 ml-3">
+                            {errorLastName.lastName}
+                          </span>
                           <div className="ml-3">
-                            <label htmlFor="">Phone: </label>
+                            <label htmlFor="">Telefono: </label>
                             <input
                               type="text"
+                              name="phoneNumber"
+                              value={phoneNumber}
                               onChange={handlePhoneNumber}
                               placeholder={modifyNumber.phoneNumber}
                             />
                           </div>
-                          <span>{errorPhoneNumber.phoneNumber}</span>
+                          <span className="text-red-500 ml-3">
+                            {errorPhoneNumber.phoneNumber}
+                          </span>
                           <div className="flex mb-3 ml-3 mr-3 mt-5">
                             <button
                               type="submit"
