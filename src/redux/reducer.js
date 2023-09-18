@@ -25,7 +25,7 @@ import {
   FILTER_ARMA_TU_PC,
   FILTER_BY_MARCAS,
   FILTER_COMPONENTES_ARMATUPC,
-  GET_DIRECCIÓN,
+  GET_DIRECCION,
   POST_USUARIO,
   ADD_TO_CART,
   REMOVE_FROM_CART,
@@ -40,18 +40,15 @@ import {
   UPDATE_CARRITO,
   GET_TOKEN,
   GET_PEDIDOS_ID,
-
   POST_COMENTS,
   POST_CALIFICACION,
   GET_COMENTARIOS,
   GET_CALIFICACIONES,
   POST_LOCATION,
-
   PUT_ORDER_STATUS,
   GET_ELIMINADOS,
   REMOVE_TOKEN,
   GET_MARCAS,
-
 } from "./actions/actions-types";
 
 let initialState = {
@@ -98,17 +95,14 @@ let initialState = {
   usuarioCreado: [],
   //Usuario Token
 
- 
   //comentarios
   comentarios: [],
   comentarioUser: [],
   calificaciones: [],
   calificacionUser: [],
 
-
   token: "",
   infoToken: "",
-
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -351,8 +345,8 @@ export default function rootReducer(state = initialState, action) {
         }),
       };
 
-    case GET_DIRECCIÓN:
-      console.log("reducer DIRECCION", action.payload);
+    case GET_DIRECCION:
+      console.log("reducer DIRECCION-->", action.payload);
       return {
         ...state,
         direccion: action.payload,
@@ -386,7 +380,6 @@ export default function rootReducer(state = initialState, action) {
       };
 
     case GET_TOKEN:
-
       return {
         ...state,
         token: action.payload.order,
@@ -501,10 +494,10 @@ export default function rootReducer(state = initialState, action) {
         comentarios: action.payload,
       };
     case POST_LOCATION:
-      console.log("POST LOCATION", action.payload);
+      console.log("POST LOCATION", action.payload.Location);
       return {
         ...state,
-        direccion: action.payload,
+        direccion: action.payload.Location,
       };
 
     case FILTER_BY_MARCAS:
@@ -531,7 +524,6 @@ export default function rootReducer(state = initialState, action) {
 
     case SAVE_ID:
       return { ...state, idmarca: action.payload };
-
 
     default:
       return { ...state };

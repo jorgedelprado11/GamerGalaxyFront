@@ -6,11 +6,9 @@ import {
   GET_BY_CATEGORIES,
   GET_SUBCATEGORIES,
   ORDER_BY_PRICE,
-
   FETCH_SPECIFICATIONS_30,
   FETCH_SPECIFICATIONS_9,
   FETCH_SPECIFICATIONS_3,
-
   FILTER_BY_MARCAS,
   FILTER_ARMA_TU_PC,
   FILTER_COMPONENTES_ARMATUPC,
@@ -19,29 +17,19 @@ import {
   GET_COMENTARIOS,
   GET_CALIFICACIONES,
   POST_LOCATION,
-
-
   UPDATE_CARRITO,
-
   UPDATE_CART_QUANTITY,
-
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
-  GET_DIRECCIÓN,
+  GET_DIRECCION,
   POST_USUARIO,
-
   CREATE_MERCADO_PAGO_PREFERENCE,
-
   GET_TOKEN,
-
   POST_COMENTS,
   POST_CALIFICACION,
-
   REMOVE_TOKEN,
   GET_MARCAS,
-
-
 } from "./actions-types";
 
 import axios from "axios";
@@ -151,26 +139,25 @@ export const filterComponentesArmaTuPc = (producto) => {
   };
 };
 
-export const updateCarrito = (id_producto, id_order, quantity) =>{
-  return{
-    type:UPDATE_CARRITO,
-    payload:{id_producto, id_order, quantity},
-  }
-}
-
+export const updateCarrito = (id_producto, id_order, quantity) => {
+  return {
+    type: UPDATE_CARRITO,
+    payload: { id_producto, id_order, quantity },
+  };
+};
 
 //Actions Users
 
-export const postDireccion = (token) => {
-  let reset = {
+export const postDireccion = (token, direccion) => {
+  /*   let domicilio = {
     provincia: "",
     ciudad: "",
     calle: "",
     codigo_postal: "",
-  };
+  }; */
   return async (dispatch) => {
     console.log("TOKEN", token);
-    const { data } = await axios.post(`/location/createLocation`, reset, {
+    const { data } = await axios.post(`/location/createLocation`, direccion, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -192,16 +179,17 @@ export const putDireccion = (direccion, id) => {
   return async (dispatch) => {
     const { data } = await axios.put(`/location/${id}`, reset);
     console.log("PUT DIRECC", data);
-    dispatch({ type: GET_DIRECCIÓN, payload: data });
+    dispatch({ type: GET_DIRECCION, payload: data.Location });
   };
 };
 export const getDireccion = (id) => {
+  console.log("usuario-->", id);
   return async (dispatch) => {
-    const response = await axios.get(`/location/${id}/user`);
+    const response = await axios.get(`/location/user/${id}`);
     console.log("ACTION USERS", response.data);
     dispatch({
-      type: GET_DIRECCIÓN,
-      payload: response.data,
+      type: GET_DIRECCION,
+      payload: response.data.Location,
     });
   };
 };
@@ -246,7 +234,6 @@ export const guardarToken = (user) => {
   return async function (dispatch) {
     const { data } = await axios.post(`/users/login`, userFormat);
 
-
     dispatch({
       type: GET_TOKEN,
       payload: data,
@@ -274,7 +261,6 @@ export const guardarToken = (user) => {
     //     }
   };
 };
-
 
 export const guardarComentario = (product, id) => {
   const coments = {
@@ -318,8 +304,6 @@ export const getCalificaciones = () => {
   };
 };
 
-
-
 export const addToCart = (info) => {
   return async function (dispatch) {
     const { data } = await axios.put(`/order/update`, info);
@@ -344,23 +328,23 @@ export const removeFromCart = (info) => {
   };
 };
 
-
 export const removeToken = () => ({
   type: REMOVE_TOKEN,
 });
 
-
 export const fetchSpecifications3 = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('http://localhost:3001/specifications/3');
-      console.log('Datos recibidos para ID 3:', response.data);
+      const response = await axios.get(
+        "http://localhost:3001/specifications/3"
+      );
+      console.log("Datos recibidos para ID 3:", response.data);
       dispatch({
         type: FETCH_SPECIFICATIONS_3,
         payload: response.data,
       });
     } catch (error) {
-      console.error('Error al obtener datos para ID 3:', error.message);
+      console.error("Error al obtener datos para ID 3:", error.message);
     }
   };
 };
@@ -368,14 +352,16 @@ export const fetchSpecifications3 = () => {
 export const fetchSpecifications9 = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('http://localhost:3001/specifications/9');
-      console.log('Datos recibidos para ID 9:', response.data);
+      const response = await axios.get(
+        "http://localhost:3001/specifications/9"
+      );
+      console.log("Datos recibidos para ID 9:", response.data);
       dispatch({
         type: FETCH_SPECIFICATIONS_9,
         payload: response.data,
       });
     } catch (error) {
-      console.error('Error al obtener datos para ID 9:', error.message);
+      console.error("Error al obtener datos para ID 9:", error.message);
     }
   };
 };
@@ -383,14 +369,16 @@ export const fetchSpecifications9 = () => {
 export const fetchSpecifications30 = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('http://localhost:3001/specifications/30');
-      console.log('Datos recibidos para ID 30:', response.data);
+      const response = await axios.get(
+        "http://localhost:3001/specifications/30"
+      );
+      console.log("Datos recibidos para ID 30:", response.data);
       dispatch({
         type: FETCH_SPECIFICATIONS_30,
         payload: response.data,
       });
     } catch (error) {
-      console.error('Error al obtener datos para ID 30:', error.message);
+      console.error("Error al obtener datos para ID 30:", error.message);
     }
   };
 };
@@ -417,4 +405,3 @@ export const filterByMarcas = (filter) => {
     payload: filter,
   };
 };
-
