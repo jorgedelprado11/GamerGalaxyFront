@@ -76,10 +76,11 @@ const UserDireccion = () => {
   }, [dispatch, idUser]);
 
   return (
-    <div className="h-screen flex">
+    <div className="min-h-screen flex">
       {/* Barra lateral */}
-      <SidebarUser />
-
+      <aside className="bg-gray-800 w-64 p-4 text-white">
+        <SidebarUser />
+      </aside>
       {/* Contenido principal */}
       <main className="flex-1 p-4 bg-gray-200 shadow-md w-auto">
         <div className="max-w-lg shadow-md mx-auto mt-2 p-4 flex flex-col border-t-8 border-r-blue-700">
