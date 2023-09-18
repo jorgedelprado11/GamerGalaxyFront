@@ -11,6 +11,7 @@ import {
   PUT_USUARIOS_ID,
   PUT_PRECIOS_ID,
   GET_PEDIDOS_ID,
+  GET_PEDIDOS,
   PUT_ORDER_STATUS,
   GET_ELIMINADOS,
 } from "./actions-types";
@@ -276,16 +277,22 @@ export const cambiarPrecioSegunDolar = (value) => async (dispatch) => {
 
 export const modificarOrderStatus = (id, data) => async (dispatch) => {
   const informacion = data;
-
+  const idUser = id;
+  console.log("ID EN MODIFICAR ORDENES-->", id);
   try {
     await axios.put("/order/update/status", informacion);
     const { data } = await axios(`/order`);
-    const filter = data.filter(
+    /*   const filter = data.filter(
       (pedido) => +pedido.id_user === +id && pedido.status !== "cart"
-    );
+    ); */
+
+    const info = {
+      data: data,
+      id: idUser,
+    };
     dispatch({
       type: PUT_ORDER_STATUS,
-      payload: filter,
+      payload: info,
     });
   } catch (error) {
     console.error("Error al modificar producto:", error);
@@ -337,4 +344,19 @@ export const restaurarUsuarios = (id) => {
       alert("error:", error.message);
     }
   };
+};
+
+export const obtenerPedidos = () => async (dispatch) => {
+  try {
+    const { data } = await axios(`/order`);
+
+    const filter = data.filter((pedido) => pedido.status !== "cart");
+
+    dispatch({
+      type: GET_PEDIDOS,
+      payload: filter,
+    });
+  } catch (error) {
+    alert("No existe pedidos para ese usuario");
+  }
 };

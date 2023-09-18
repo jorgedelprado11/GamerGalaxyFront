@@ -50,6 +50,7 @@ import {
   REMOVE_TOKEN,
   GET_MARCAS,
   PUT_LOCATION,
+  GET_PEDIDOS,
 } from "./actions/actions-types";
 
 let initialState = {
@@ -66,6 +67,7 @@ let initialState = {
   usuarioId: {},
   pedidos_id: [],
   usuariosEliminados: [],
+  pedidosTodos: [],
   // estados globales de productos
   productos: [],
   backup: [],
@@ -158,11 +160,28 @@ export default function rootReducer(state = initialState, action) {
     case GET_PEDIDOS_ID:
       return { ...state, pedidos_id: action.payload };
 
+    case GET_PEDIDOS:
+      return { ...state, pedidosTodos: action.payload };
+
     case PUT_USUARIOS_ID:
       return { ...state, usuarios: action.payload };
 
     case PUT_ORDER_STATUS:
-      return { ...state, pedidos_id: action.payload };
+      console.log("PUT ORDER STATUS REDUCER->", action.payload.id);
+
+      const filterId = action.payload.data.filter(
+        (pedido) =>
+          +pedido.id_user === +action.payload.id && pedido.status !== "cart"
+      );
+
+      const filterAll = action.payload.data.filter(
+        (pedido) => pedido.status !== "cart"
+      );
+
+      console.log("FILTER ID EN REDUCER-->", filterId);
+      console.log("FILTER TODOS EN REDUCER-->", filterAll); //ok
+
+      return { ...state, pedidos_id: filterId, pedidosTodos: filterAll };
 
     case GET_DESCUENTOS:
       return { ...state, destacados: action.payload };

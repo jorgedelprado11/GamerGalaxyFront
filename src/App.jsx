@@ -19,6 +19,7 @@ import Carrito from "./components/carrito/Carrito";
 import Pedidos from "./views/Admin/Pedidos/Pedidos";
 import UserClient from "./views/userClient/userClient";
 import UserDireccion from "./views/userClient/Dirección/userDirección";
+import Ordenes from "./views/Admin/Ordenes/Ordenes";
 import { UserFavoritos } from "./views/userClient/favoritos/userFavoritos";
 import { UserPedidos } from "./views/userClient/pedidos/userPedidos";
 
@@ -65,6 +66,7 @@ function App() {
         <Route path="/admin/Usuarios" element={<Usuarios />} />
         <Route path="/admin/Productos" element={<ProductosAdmin />} />
         <Route path="/admin/Usuarios/:id" element={<Pedidos />} />
+        <Route path="/admin/Ordenes" element={<Ordenes />} />
 
         <Route path={"/"} element={<Home />} />
         <Route path={"/home"} element={<Home />} />
