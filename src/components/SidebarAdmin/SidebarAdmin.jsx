@@ -56,6 +56,32 @@ const SidebarAdmin = () => {
               Productos
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/admin/Ordenes"
+              className="hover:text-blue-200 "
+              /*               style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#2563eb" : "white",
+                };
+              }} */
+            >
+              Ordenes
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              /* to="/admin/productos" */
+              className="hover:text-blue-200 "
+              /*               style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#2563eb" : "white",
+                };
+              }} */
+            >
+              Reviews
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </>
