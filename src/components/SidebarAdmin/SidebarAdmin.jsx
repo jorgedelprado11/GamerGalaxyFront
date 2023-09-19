@@ -19,19 +19,7 @@ const SidebarAdmin = () => {
               Inicio
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/admin"
-              className="hover:text-blue-200 "
-              /*          style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "white" : "white",
-                };
-              }} */
-            >
-              Dashboard
-            </NavLink>
-          </li>
+        
           <NavLink
             to="/admin/usuarios"
             className="hover:text-blue-200 "
