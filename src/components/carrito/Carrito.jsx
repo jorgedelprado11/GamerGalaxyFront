@@ -48,7 +48,7 @@ const Carrito = () => {
   const idUser = user.id;
   useEffect(() => {
     dispatch(guardarToken(user));
-    getDireccion(idUser);
+    dispatch(getDireccion(idUser));
   }, [dispatch, idUser]);
 
   const calcularTotal = Math.floor(
