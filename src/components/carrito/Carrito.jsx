@@ -2,9 +2,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 import {
   addToCart,
+  getDireccion,
   guardarToken,
   removeFromCart,
-  updateCartQuantity,
 } from "../../redux/actions/actionsUsers"; // Importa la acción para eliminar del carrito
 
 import { formatCurrency } from "../../../utils/format";
@@ -12,12 +12,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 const Carrito = () => {
-  const [total, setTotal] = useState(0);
   const cart = useSelector((state) => state.carrito);
   const dispatch = useDispatch();
-  const [quantity, setQuantity] = useState(1);
+  const direccion = useSelector((state) => state.direccion);
   const user = useSelector((state) => state.usuarioCreado);
   const token = localStorage.getItem("token");
 
@@ -45,10 +45,11 @@ const Carrito = () => {
       })
     );
   };
-
+  const idUser = user.id;
   useEffect(() => {
     dispatch(guardarToken(user));
-  }, [dispatch]);
+    getDireccion(idUser);
+  }, [dispatch, idUser]);
 
   const calcularTotal = Math.floor(
     cart.length > 0
@@ -57,6 +58,10 @@ const Carrito = () => {
   );
 
   const handlePagarClick = async () => {
+    if (typeof direccion.calle === "undefined") {
+      console.log("Entra?");
+      return alert("Debe tener una dirección asignada");
+    }
     try {
       // Realizar la solicitud para obtener el init point de Mercado Pago
       const responseMercadoPago = await axios.post(
@@ -171,7 +176,7 @@ const Carrito = () => {
           ))}
         </div>
         {/* Sub total */}
-        <div className="mt-6 rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3 w-[300px] h-[210px]">
+        <div className="mt-6 rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3 w-[300px] h-[280px]">
           <div className="mb-2 flex justify-between">
             <p className="text-gray-700">Subtotal</p>$
             {formatCurrency(calcularTotal)}
@@ -186,6 +191,23 @@ const Carrito = () => {
             >
               {calcularTotal === 0 ? "$ 0" : "Gratis"}
             </p>
+          </div>
+          <div className="mb-2 flex justify-between mt-1">
+            <p className="text-gray-700">Direccion</p>
+            {typeof direccion.calle !== "undefined" ? (
+              <div className="text-right">
+                <p>{direccion.calle}</p>
+
+                <p className="text-gray-700">CP {direccion.codigo_postal}</p>
+              </div>
+            ) : (
+              <Link to="/user/Dirección">
+                <button className="my-2 w-[100px] rounded-md bg-blue-500 py-1.5 text-[12px] text-blue-50 hover:bg-blue-600">
+                  Agregar Dirección
+                </button>
+              </Link>
+            )}
+            {/* <p className="text-gray-700">${formatCurrency(total)}</p> */}
           </div>
           <hr className="my-4" />
           <div className="flex justify-between">

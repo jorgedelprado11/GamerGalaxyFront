@@ -57,7 +57,7 @@ const SidebarUser = () => {
           </li>
           <li>
             <NavLink to="/user/Dirección" className="hover:text-blue-200 ">
-              Añadir Dirección
+              Dirección
             </NavLink>
           </li>
           <NavLink to="/ayuda" className="hover:text-blue-200">
