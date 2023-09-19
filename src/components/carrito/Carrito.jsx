@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 
 import {
+  addToCart,
   guardarToken,
   removeFromCart,
   updateCartQuantity,
@@ -16,7 +17,7 @@ const Carrito = () => {
   const [total, setTotal] = useState(0);
   const cart = useSelector((state) => state.carrito);
   const dispatch = useDispatch();
-
+  const [quantity, setQuantity] = useState(1);
   const user = useSelector((state) => state.usuarioCreado);
   const token = localStorage.getItem("token");
 
@@ -27,28 +28,23 @@ const Carrito = () => {
     });
   };
 
-  console.log(" desde el carrito", cart);
+  // console.log(" desde el carrito", cart);
   const handleRemoveFromCart = (infoEliminada) => {
     dispatch(removeFromCart(infoEliminada));
     eliminar();
   };
 
-  // const handleQuantityChange = (producto, newQuantity) => {
-  //   dispatch(updateCartQuantity(producto.id_producto, newQuantity));
-  // };
+  const handleQuantityChange = (producto, event) => {
+    let quantity = event.target.value;
 
-  /* console.log(
-    "carrito-->",
-
-    cart.map((cesta) => cesta.OrderProduct.price)?.reduce((a, b) => a + b)
-  ); */
-  // const calcularTotal = () => {
-  //   let tot = 0;
-  //   for (const item of cart) {
-  //     tot += Math.floor(producto.precio) * producto.OrderProduct.quantity;
-  //   }
-  //   setTotal(tot);
-  // };
+    dispatch(
+      addToCart({
+        id_producto: producto.id_producto,
+        quantity,
+        id_user: user.id,
+      })
+    );
+  };
 
   useEffect(() => {
     dispatch(guardarToken(user));
@@ -140,7 +136,8 @@ const Carrito = () => {
                       {producto.OrderProduct.quantity}
                     </p>
                     <p className="mt-1 text-xs text-gray-700 ml-4">
-                      Disponibilidad: {producto.stock}
+                      Disponibilidad:{" "}
+                      {+producto.OrderProduct.quantity + producto.stock}
                     </p>
                   </div>
                   <p className="mt-1 text-xs text-gray-700">
@@ -148,16 +145,14 @@ const Carrito = () => {
                     {formatCurrency(Math.floor(producto.precio))}
                   </p>
                   <div className="flex flex-row justify-between">
-                    {/* <input
-                    type="number"
-                    value={producto.OrderProduct.quantity}
-                    onChange={(e) =>
-                      handleQuantityChange(producto, e.target.value)
-                    }
-                    className="w-16 h-8 border text-center text-xs outline-none my-4 py-1"
-                    min="1"
-                    max={producto.stock}
-                  /> */}
+                    <input
+                      type="number"
+                      value={producto.OrderProduct.quantity}
+                      onChange={() => handleQuantityChange(producto, event)}
+                      className="w-16 h-8 border text-center text-xs outline-none"
+                      min="1"
+                      max={+producto.OrderProduct.quantity + producto.stock}
+                    />
                     <button
                       onClick={() =>
                         handleRemoveFromCart({
