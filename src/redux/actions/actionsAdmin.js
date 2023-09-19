@@ -14,6 +14,7 @@ import {
   GET_PEDIDOS,
   PUT_ORDER_STATUS,
   GET_ELIMINADOS,
+  GET_ALL_REVIEWS,
 } from "./actions-types";
 
 export const FETCH_CATEGORIES_SUCCESS = "FETCH_CATEGORIES_SUCCESS";
@@ -355,6 +356,19 @@ export const obtenerPedidos = () => async (dispatch) => {
     dispatch({
       type: GET_PEDIDOS,
       payload: filter,
+    });
+  } catch (error) {
+    alert("No existe pedidos para ese usuario");
+  }
+};
+
+export const obtenerReviews = () => async (dispatch) => {
+  try {
+    const { data } = await axios(`/comments`);
+
+    dispatch({
+      type: GET_ALL_REVIEWS,
+      payload: data,
     });
   } catch (error) {
     alert("No existe pedidos para ese usuario");

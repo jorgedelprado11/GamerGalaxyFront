@@ -51,6 +51,7 @@ import {
   GET_MARCAS,
   PUT_LOCATION,
   GET_PEDIDOS,
+  GET_ALL_REVIEWS,
 } from "./actions/actions-types";
 
 let initialState = {
@@ -68,6 +69,7 @@ let initialState = {
   pedidos_id: [],
   usuariosEliminados: [],
   pedidosTodos: [],
+  reviewsTodos: [],
   // estados globales de productos
   productos: [],
   backup: [],
@@ -482,6 +484,13 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         marcas: [...marcas],
+      };
+
+    case GET_ALL_REVIEWS:
+      console.log("GET REVIEWS REDUCER-->", action.payload);
+      return {
+        ...state,
+        reviewsTodos: action.payload,
       };
 
     case POST_COMENTS:

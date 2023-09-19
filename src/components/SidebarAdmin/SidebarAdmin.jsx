@@ -71,7 +71,7 @@ const SidebarAdmin = () => {
           </li>
           <li>
             <NavLink
-              /* to="/admin/productos" */
+              to="/admin/Reviews"
               className="hover:text-blue-200 "
               /*               style={({ isActive, isPending }) => {
                 return {
