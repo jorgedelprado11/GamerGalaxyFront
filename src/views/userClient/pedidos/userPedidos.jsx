@@ -11,7 +11,7 @@ import {
   guardarComentario,
   guardarToken,
 } from "../../../redux/actions/actionsUsers";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 export const UserPedidos = () => {
   const navigate = useNavigate();
@@ -24,8 +24,6 @@ export const UserPedidos = () => {
   const [calificacion, setCalificacion] = useState(0);
   const [comentario, setComentario] = useState("");
   const [selectedProduct, setSelectedProduct] = useState([null]); // Para almacenar el producto seleccionado
-
-  const finalizado = userInfo?.filter((use) => use.status !== "cart");
 
   const handleCalificacionChange = (valor) => {
     setCalificacion(valor);
@@ -49,8 +47,10 @@ export const UserPedidos = () => {
       dispatch(guardarCalificacion(product, id));
     }
     // Reiniciar los campos de calificación y comentario y ocultar el formulario
+
     setCalificacion(0);
     setComentario("");
+
     setEditar(false);
     dispatch(guardarToken(user));
     setTimeout(() => {
@@ -63,6 +63,10 @@ export const UserPedidos = () => {
     dispatch(getComentarios());
     dispatch(getCalificaciones());
   }, [dispatch]);
+
+  const finalizado = userInfo?.filter(
+    (use) => use.status !== "cart"
+  );
 
   return (
     <div className="min-h-screen flex">
@@ -183,9 +187,10 @@ export const UserPedidos = () => {
                     <div className="mt-4">
                       <button
                         type="button"
-                        value={info.id_producto}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                        onClick={handleCalificacionYComentario}
+                        onClick={() => {
+                          handleCalificacionYComentario();
+                        }}
                       >
                         Enviar
                       </button>
