@@ -64,7 +64,7 @@ const Carrito = () => {
     try {
       // Realizar la solicitud para obtener el init point de Mercado Pago
       const responseMercadoPago = await axios.post(
-        "http://localhost:3001/mercadoPago/checkout",
+        /* "http://localhost:3001/mercadoPago/checkout" */ "mercadoPago/checkout",
         {
           products: cart.map((producto) => ({
             title: producto.nombre,
