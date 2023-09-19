@@ -6,7 +6,7 @@ import Usuarios from "./views/Admin/Usuarios/Usuarios";
 import ProductosAdmin from "./views/Admin/Productos/Productos";
 
 import React, { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Home from "./views/Home/Home";
 import Ayuda from "./views/Ayuda/Ayuda";
@@ -34,7 +34,7 @@ import Restaurar from "./views/Admin/Restaurar/Restaurar";
 
 function App() {
   const location = useLocation();
-
+  const userLogin = useSelector((state) => state.usuarioCreado);
   const { loginWithPopup, user, isAuthenticated } = useAuth0();
 
   const token = useSelector((state) => state.infoToken);
@@ -61,14 +61,42 @@ function App() {
     <div>
       {!location.pathname.includes("/admin") && <Navbar />}
       <Routes>
-        <Route path="/admin/Productos/create" element={<ProductForm />} />
-        <Route path="/admin/restaurar" element={<Restaurar />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/admin/Usuarios" element={<Usuarios />} />
-        <Route path="/admin/Productos" element={<ProductosAdmin />} />
-        <Route path="/admin/Usuarios/:id" element={<Pedidos />} />
-        <Route path="/admin/Ordenes" element={<Ordenes />} />
-        <Route path="/admin/Reviews" element={<Reviews />} />
+        <Route
+          path="/admin/Productos/create"
+          element={
+            userLogin.id_role == 1 ? <ProductForm /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/admin/restaurar"
+          element={userLogin.id_role == 1 ? <Restaurar /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/admin"
+          element={userLogin.id_role == 1 ? <Admin /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/admin/Usuarios"
+          element={userLogin.id_role == 1 ? <Usuarios /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/admin/Productos"
+          element={
+            userLogin.id_role == 1 ? <ProductosAdmin /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/admin/Usuarios/:id"
+          element={userLogin.id_role == 1 ? <Pedidos /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/admin/Ordenes"
+          element={userLogin.id_role == 1 ? <Ordenes /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/admin/Reviews"
+          element={userLogin.id_role == 1 ? <Reviews /> : <Navigate to="/" />}
+        />
         <Route path={"/"} element={<Home />} />
         <Route path={"/home"} element={<Home />} />
         <Route path="ayuda" element={<Ayuda />} />
