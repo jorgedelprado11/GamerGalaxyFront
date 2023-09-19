@@ -12,9 +12,9 @@ const About = () => {
   return (
     <div>
       <div className="flex">
-        <div className="bg-white py-24 sm:py-32">
-          <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
-            <div className="max-w-2xl">
+        <div className="bg-white h-[650px] shadow-lg rounded-xl mx-8 my-2 sm:py-32 w-2/4">
+          <div className="mx-auto max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3 flex flex-col items-center justify-center">
+            <div className="max-w-2xl flex items-center justify-center">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 Meet our Front Team
               </h2>
@@ -99,9 +99,9 @@ const About = () => {
             </ul>
           </div>
         </div>
-        <div className="bg-white py-24 sm:py-32 m-0 ">
-          <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3 ">
-            <div className="max-w-2xl">
+        <div className="bg-white h-[650px] shadow-lg rounded-xl mx-8 my-2 sm:py-32  w-2/4">
+          <div className="mx-auto max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3 flex flex-col items-center justify-center ">
+            <div className="max-w-2xl flex items-center justify-center">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 Meet our Back Team
               </h2>
