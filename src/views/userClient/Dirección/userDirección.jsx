@@ -7,6 +7,7 @@ import {
   postDireccion,
   putDireccion,
 } from "../../../redux/actions/actionsUsers";
+import { validation } from "./validation";
 
 const UserDireccion = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,8 @@ const UserDireccion = () => {
   const usuarioDireccion = useSelector((state) => state.direccion);
 
   const [editar, setEditar] = useState(false);
+  const [error, setError] = useState({});
+  const [formValido, setFormValido] = useState(true);
 
   // Función para activar o desactivar la edición de la dirección
   const editarDireccion = (value) => {
@@ -38,6 +41,10 @@ const UserDireccion = () => {
     e.preventDefault();
     const { name, value } = e.target;
     setDireccion({ ...direccion, [name]: value });
+    const validarResultado = validation({ ...direccion, [name]: value });
+    const valido = Object.values(validarResultado).every((error) => !error);
+    setFormValido(valido);
+    setError(validarResultado);
   };
 
   const handleButton = (e) => {
@@ -57,19 +64,7 @@ const UserDireccion = () => {
     setEditar(false);
   };
 
-  /*  const handleButton = (e) => {
-    e.preventDefault();
-    dispatch(postDireccion(token));
-    setDireccion({
-      provincia: "",
-      ciudad: "",
-      calle: "",
-      codigo_postal: "",
-    });
-    setEditar(false);
-  }; */
-
-  console.log("holaaaaaaaaaaaa", user);
+  console.log("holaaa", user);
   const idUser = user.id;
   useEffect(() => {
     dispatch(getDireccion(idUser));
@@ -84,7 +79,7 @@ const UserDireccion = () => {
       {/* Contenido principal */}
       <main className="flex-1 p-4 bg-gray-200 shadow-md w-auto">
         <div className="max-w-lg shadow-md mx-auto mt-2 p-4 flex flex-col border-t-8 border-r-blue-700">
-          {usuarioDireccion.length === 0 ? (
+          {usuarioDireccion?.length === 0 ? (
             <div>
               <button
                 className="mt-2  bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
@@ -103,7 +98,7 @@ const UserDireccion = () => {
                 Dirección
               </h3>
               <p className="text-gray-800">
-                <span className="font-semibold">Provincia:</span>{" "}
+                <span className="font-semibold">Provincia: </span>
                 {usuarioDireccion?.provincia}
                 <br />
                 <span className="font-semibold">Ciudad:</span>{" "}
@@ -140,6 +135,7 @@ const UserDireccion = () => {
                     onChange={handleForm}
                     className="border rounded-lg px-3 py-2"
                   />
+                  <span className="text-red-500">{error?.provincia}</span>
                   <label htmlFor="ciudad">Ciudad</label>
                   <input
                     type="text"
@@ -149,6 +145,7 @@ const UserDireccion = () => {
                     onChange={handleForm}
                     className="border rounded-lg px-3 py-2"
                   />
+                  <span className="text-red-500">{error?.ciudad}</span>
                   <label htmlFor="calle">Calle</label>
                   <input
                     type="text"
@@ -157,6 +154,7 @@ const UserDireccion = () => {
                     onChange={handleForm}
                     className="border rounded-lg px-3 py-2"
                   />
+                  <span className="text-red-500">{error?.calle}</span>
                   <label htmlFor="codigo postal">Código Postal</label>
                   <input
                     type="text"
@@ -166,6 +164,7 @@ const UserDireccion = () => {
                     onChange={handleForm}
                     className="border rounded-lg px-3 py-2"
                   />
+                  <span className="text-red-500">{error?.codigo_postal}</span>
                 </div>
                 <div className="flex flex-col">
                   <div className="flex justify-center">
@@ -179,7 +178,7 @@ const UserDireccion = () => {
                     <button
                       type="submit"
                       onClick={handleButton}
-                      //onClick={crearIdLocation()}
+                      disabled={!formValido}
                       className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
                     >
                       Guardar
