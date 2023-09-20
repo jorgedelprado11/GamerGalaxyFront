@@ -21,7 +21,6 @@ const Carrito = () => {
   const user = useSelector((state) => state.usuarioCreado);
   const token = localStorage.getItem("token");
 
-  console.log("antes del cart", cart);
   const eliminar = () => {
     toast.error(`El producto ha sido eliminado del carrito`, {
       position: toast.POSITION.TOP_RIGHT,
@@ -60,7 +59,6 @@ const Carrito = () => {
 
   const handlePagarClick = async () => {
     if (!direccion) {
-      console.log("Entra?");
       return alert("Debe tener una dirección asignada");
     }
 
@@ -87,7 +85,6 @@ const Carrito = () => {
       );
 
       const initPoint = responseMercadoPago.data.init_point;
-      console.log(initPoint);
 
       // Extraer el ID de preferencia (pref_id) de la URL de initPoint
       const url = new URL(initPoint);
@@ -102,8 +99,6 @@ const Carrito = () => {
           quantity: producto.quantity,
         })),
       };
-
-      console.log("Productos para actualizar:", productosParaActualizar);
 
       await axios.put("order/payment-success", user.id, {
         headers: {
@@ -120,8 +115,6 @@ const Carrito = () => {
       );
     }
   };
-
-  console.log("DESPUES del cart", cart);
 
   return (
     <div className="w-full my-8 flex flex-row ">

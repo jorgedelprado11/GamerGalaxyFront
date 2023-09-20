@@ -6,9 +6,6 @@ import {
   GET_BY_CATEGORIES,
   GET_SUBCATEGORIES,
   ORDER_BY_PRICE,
-  FETCH_SPECIFICATIONS_30,
-  FETCH_SPECIFICATIONS_9,
-  FETCH_SPECIFICATIONS_3,
   FILTER_BY_MARCAS,
   FILTER_ARMA_TU_PC,
   FILTER_COMPONENTES_ARMATUPC,
@@ -329,7 +326,7 @@ export const removeToken = () => ({
   type: REMOVE_TOKEN,
 });
 
-export const fetchSpecifications3 = () => {
+/* export const fetchSpecifications3 = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
@@ -378,7 +375,7 @@ export const fetchSpecifications30 = () => {
       console.error("Error al obtener datos para ID 30:", error.message);
     }
   };
-};
+}; */
 
 export const updateCartQuantity = (productId, newQuantity) => {
   return {

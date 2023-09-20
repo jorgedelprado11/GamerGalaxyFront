@@ -35,7 +35,6 @@ import {
   CLEAR,
   FETCH_SPECIFICATIONS_3,
   FETCH_SPECIFICATIONS_9,
-  FETCH_SPECIFICATIONS_30,
   CREATE_MERCADO_PAGO_PREFERENCE,
   UPDATE_CARRITO,
   GET_TOKEN,
@@ -305,21 +304,19 @@ export default function rootReducer(state = initialState, action) {
         ? (filterComponentes = state.backup.filter(
             (producto) =>
               producto?.id_categoria == 5 &&
-              producto.SpecificationValues.map(
+              producto.SpecificationValues.filter(
                 (especificaciones) =>
-                  especificaciones.Specification.name == "socket" &&
-                  especificaciones.value.includes(buscador)
-              )
+                  especificaciones.Specification.name == "socket"
+              )[0].value.includes(buscador)
           ))
         : action.payload.i == 1
         ? (filterComponentes = state.backup.filter(
             (producto) =>
               producto?.id_categoria == 9 &&
-              producto.SpecificationValues.map(
+              producto.SpecificationValues.filter(
                 (especificaciones) =>
-                  especificaciones.Specification.name == "tipo_memoria" &&
-                  especificaciones.value.includes(buscador)
-              )
+                  especificaciones.Specification.name == "tipo_memoria"
+              )[0].value.includes(buscador)
           ))
         : action.payload.i == 2
         ? (filterComponentes = [
@@ -347,7 +344,6 @@ export default function rootReducer(state = initialState, action) {
           (filterComponentes = state.backup.filter(
             (producto) => producto?.id_categoria == 17
           ));
-
       return {
         ...state,
         productos: [...filterComponentes],
@@ -389,11 +385,6 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         specifications9: action.payload,
-      };
-    case FETCH_SPECIFICATIONS_30:
-      return {
-        ...state,
-        specifications30: action.payload,
       };
 
     case GET_TOKEN:

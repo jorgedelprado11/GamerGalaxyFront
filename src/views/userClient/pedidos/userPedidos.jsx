@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { useState, useEffect } from "react";
 import SidebarUser from "../../../components/SidebarUser/SidebarUser";
 import { useDispatch } from "react-redux";
@@ -12,7 +10,6 @@ import {
   guardarToken,
 } from "../../../redux/actions/actionsUsers";
 import { redirect, useNavigate } from "react-router-dom";
-
 export const UserPedidos = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,53 +21,56 @@ export const UserPedidos = () => {
   const [calificacion, setCalificacion] = useState(0);
   const [comentario, setComentario] = useState("");
   const [selectedProduct, setSelectedProduct] = useState([null]); // Para almacenar el producto seleccionado
-
+  const [calificacionError, setCalificacionError] = useState("");
+  const [comentarioError, setComentarioError] = useState("");
   const handleCalificacionChange = (valor) => {
     setCalificacion(valor);
   };
-
   const handleComentarioChange = (event) => {
     setComentario(event.target.value);
   };
-
   const handleCalificacionYComentario = () => {
+    if (calificacion === 0) {
+      setCalificacionError("Debes seleccionar una calificación.");
+      return;
+    } else {
+      setCalificacionError("");
+    }
+    // Validación de comentario
+    if (comentario.trim() === "") {
+      setComentarioError("Debes ingresar un comentario.");
+      return;
+    } else {
+      setComentarioError("");
+    }
     const id = user.id;
-
     if (selectedProduct) {
       const product = {
         ...selectedProduct,
         calificacion,
         comentario,
       };
-
       dispatch(guardarComentario(product, id));
       dispatch(guardarCalificacion(product, id));
     }
     // Reiniciar los campos de calificación y comentario y ocultar el formulario
-
     setCalificacion(0);
     setComentario("");
-
     setEditar(false);
     dispatch(guardarToken(user));
     setTimeout(() => {
       navigate("/user");
     }, 500);
   };
-
   useEffect(() => {
     dispatch(guardarToken(user));
     dispatch(getComentarios());
     dispatch(getCalificaciones());
   }, [dispatch]);
-
-  const finalizado = userInfo?.filter(
-    (use) => use.status !== "cart"
-  );
-
+  const finalizado = userInfo?.filter((use) => use.status !== "cart");
   return (
     <div className="min-h-screen flex">
-      <aside className="bg-gray-800 w-64 p-4 text-white">
+      <aside className="bg-gray-800 w-60 p-4 text-white">
         <SidebarUser />
       </aside>
       <main className="flex-1 p-4 bg-gray-200 mx-3 w-screen">
@@ -80,7 +80,6 @@ export const UserPedidos = () => {
         <h2 className="text-lg text-black font-semibold mb-2">
           Historial de Compras
         </h2>
-
         {finalizado?.map((info) => (
           <div key={info.id_order} className="bg-white p-4 rounded shadow mb-4">
             {/* Información del producto */}
@@ -89,9 +88,7 @@ export const UserPedidos = () => {
               <div className="border-t-2 border-gray-200 mt-4">
                 <div>
                   <h3 className="font-semibold">{info.nombre}</h3>
-
                   <p>Precio por Unidad: ${info.precio}</p>
-
                   {
                     <div>
                       <p>
@@ -106,7 +103,6 @@ export const UserPedidos = () => {
                             .map((comentario) => comentario.description)[0]
                         }
                       </p>
-
                       <p>
                         Calificación:
                         {
@@ -120,7 +116,6 @@ export const UserPedidos = () => {
                     </div>
                   }
                 </div>
-
                 <div className="mt-6">
                   {comentarios?.filter(
                     (comentario) =>
@@ -140,7 +135,6 @@ export const UserPedidos = () => {
                     </button>
                   )}
                 </div>
-
                 {editar && selectedProduct === info && (
                   <div>
                     {/* Calificación */}
@@ -166,6 +160,7 @@ export const UserPedidos = () => {
                       </div>
                       <p>Calificación seleccionada: {calificacion}</p>
                     </div>
+                    <p className="text-red-500">{calificacionError}</p>
                     {/* Cuadro de Comentario */}
                     <div className="mt-2">
                       <label
@@ -183,7 +178,7 @@ export const UserPedidos = () => {
                         rows="4"
                       ></textarea>
                     </div>
-
+                    <p className="text-red-500">{comentarioError}</p>
                     <div className="mt-4">
                       <button
                         type="button"

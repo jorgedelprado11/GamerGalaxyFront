@@ -15,6 +15,8 @@ import {
   PUT_ORDER_STATUS,
   GET_ELIMINADOS,
   GET_ALL_REVIEWS,
+  FETCH_SPECIFICATIONS_9,
+  FETCH_SPECIFICATIONS_3,
 } from "./actions-types";
 
 export const FETCH_CATEGORIES_SUCCESS = "FETCH_CATEGORIES_SUCCESS";
@@ -31,6 +33,36 @@ export const fetchCategories = () => async (dispatch) => {
   }
 };
 
+export const fetchSpecifications3 = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("specifications/3");
+
+      dispatch({
+        type: FETCH_SPECIFICATIONS_3,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error("Error al obtener datos para ID 30:", error.message);
+    }
+  };
+};
+
+export const fetchSpecifications9 = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("specifications/9");
+      console.log("Datos recibidos para ID 9:", response.data);
+      dispatch({
+        type: FETCH_SPECIFICATIONS_9,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error("Error al obtener datos para ID 9:", error.message);
+    }
+  };
+};
+
 export const createProduct = (productData) => async (dispatch) => {
   const datoFormateado = {
     nombre: productData.nombre,
@@ -40,6 +72,7 @@ export const createProduct = (productData) => async (dispatch) => {
     stock: Number(productData.stock),
     id_categoria: Number(productData.id_categoria),
     imagen: productData.imagen.toString(),
+    specificationValues: productData.specificationValues,
   };
 
   try {
