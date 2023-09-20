@@ -1,8 +1,18 @@
+import { useState } from "react";
 import { formatCurrency } from "../../../utils/format";
 
 function Detail({ setOpen, producto }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % producto.Images.length);
+  };
 
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? producto.Images.length - 1 : prevIndex - 1
+    );
+  };
   return (
     <div>
       {setOpen ? (
@@ -41,11 +51,27 @@ function Detail({ setOpen, producto }) {
                 <div className="bg-gray-50 px-4 py-3 flex flex-col items-center">
                   {producto && (
                     <>
-                      <img
-                        className="w-40 h-40"
-                        src={producto.Images[2]?.url || producto.Images[0]?.url}
-                        alt={producto.nombre}
-                      />
+                      <div>
+                        <img
+                          className="w-40 h-40"
+                          src={producto.Images[currentIndex].url}
+                          alt={`Image ${currentIndex + 1}`}
+                        />
+                      </div>
+                      <div>
+                        <button
+                          onClick={prevSlide}
+                          style={{ marginRight: "10px" }}
+                        >
+                          &lt;
+                        </button>
+                        <button
+                          onClick={nextSlide}
+                          style={{ marginLeft: "10px" }}
+                        >
+                          &gt;
+                        </button>
+                      </div>
                       <div className="flex flex-col border-b-4 border-blue-600 ml-4 w-5/6">
                         <div className="flex text-justify">
                           <h3 className="font-semibold">NOMBRE: </h3>
