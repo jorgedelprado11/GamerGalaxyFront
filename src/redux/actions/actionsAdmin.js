@@ -13,6 +13,31 @@ import {
   GET_PEDIDOS_ID,
   PUT_ORDER_STATUS,
   GET_ELIMINADOS,
+     FETCH_SPECIFICATIONS1,
+   FETCH_SPECIFICATIONS2,
+   FETCH_SPECIFICATIONS3,
+   FETCH_SPECIFICATIONS4,
+ FETCH_SPECIFICATIONS5,
+ FETCH_SPECIFICATIONS6,
+FETCH_SPECIFICATIONS7,
+FETCH_SPECIFICATIONS8,
+ FETCH_SPECIFICATIONS9,
+ FETCH_SPECIFICATIONS10,
+ FETCH_SPECIFICATIONS11,
+  FETCH_SPECIFICATIONS12, 
+  FETCH_SPECIFICATIONS13, 
+  FETCH_SPECIFICATIONS14,
+  FETCH_SPECIFICATIONS15, 
+  FETCH_SPECIFICATIONS16, 
+  FETCH_SPECIFICATIONS17, 
+  FETCH_SPECIFICATIONS18, 
+  FETCH_SPECIFICATIONS19, 
+  FETCH_SPECIFICATIONS20,
+  FETCH_SPECIFICATIONS21, 
+  FETCH_SPECIFICATIONS22, 
+  FETCH_SPECIFICATIONS23,
+  FETCH_SPECIFICATIONS24, 
+  FETCH_SPECIFICATIONS25, 
 } from "./actions-types";
 
 export const FETCH_CATEGORIES_SUCCESS = "FETCH_CATEGORIES_SUCCESS";
@@ -38,7 +63,9 @@ export const createProduct = (productData) => async (dispatch) => {
     stock: Number(productData.stock),
     id_categoria: Number(productData.id_categoria),
     imagen: productData.imagen.toString(),
+    specificationValues:productData.specificationValues
   };
+  console.log(datoFormateado,"aca dato formateado")
 
   try {
     await axios.post("/productos", datoFormateado);
@@ -337,4 +364,356 @@ export const restaurarUsuarios = (id) => {
       alert("error:", error.message);
     }
   };
-};
+}
+  export const fetchSpecifications1 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/1');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS1,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications2 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/2');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS2,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications3 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/3');
+       
+        dispatch({
+          type: FETCH_SPECIFICATIONS3,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications4 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/4');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS4,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications5 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/5');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS5,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications6 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/6');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS6,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications7 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/7');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS7,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications8 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/8');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS8,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications9 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/9');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS9,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications10 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/10');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS10,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications11 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/11');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS11,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications12 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/12');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS12,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications13 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/13');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS13,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications14 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/14');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS14,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications15 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/15');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS15,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications16 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/16');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS16,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications17 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/17');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS17,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications18 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/18');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS18,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications19 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/19');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS19,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications20 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/20');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS20,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications21 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/21');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS21,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications22 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/22');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS22,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications23 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/23');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS23,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications24 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/24');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS24,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+  export const fetchSpecifications25 = () => {
+    return async (dispatch) => {
+      try {
+        const response = await axios.get('http://localhost:3001/specifications/25');
+        
+        dispatch({
+          type: FETCH_SPECIFICATIONS25,
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error('Error al obtener datos para ID 30:', error.message);
+      }
+    };
+  };
+
+;

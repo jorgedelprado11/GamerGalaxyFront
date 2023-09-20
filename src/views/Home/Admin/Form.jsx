@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories, createProduct } from "../../../redux/actions/actionsAdmin";
-import {fetchSpecifications3, fetchSpecifications9, fetchSpecifications30} from "../../../redux/actions/actionsUsers"
+import { fetchCategories, createProduct,fetchSpecifications3,fetchSpecifications9 } from "../../../redux/actions/actionsAdmin";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import validate from "../../Home/Admin/validation";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -14,15 +15,20 @@ const ProductForm = () => {
   const specificationsSocket = useSelector((state) => state.specifications3);
   const [uploadedImage, setUploadedImage] = useState(null);
 
+
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchSpecifications3())
-      .then((response) => {
-        console.log(response, "asivan");
-      });
     dispatch(fetchSpecifications9());
   }, [dispatch]);
 
+  const crear = () => {
+    toast.success(`El producto ha sido eliminado del carrito`, {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: "colored",
+      autoClose: 2000
+    });
+  };
   const [productData, setProductData] = useState({
     nombre: "",
     categoriaSeleccionada: "",
@@ -31,39 +37,49 @@ const ProductForm = () => {
     stock: "",
     imagen: null,
     descuento: "",
-    specificationValues: {},
+    specificationValues: [],
   });
-  console.log(productData, "aca la produccion")
+  console.log(productData, "aca la produccion");
+
   const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    let updatedSpecifications = { ...productData.specifications };
+    const { name, value, type, checked } = e.target;
+    let updatedSpecifications = [...productData.specificationValues];
 
-    if (productData.categoriaSeleccionada === "9") {
-      // Si la categoría seleccionada es "9" (por ejemplo, tipo_memoria)
-      updatedSpecifications = {
-        ...updatedSpecifications,
-        [name]: {
-          value: value,
-          Specification: {
-            name: name,
-          },
-        },
-      };
-    } else if (productData.categoriaSeleccionada === "5") {
-      // Si la categoría seleccionada es "5" (por ejemplo, socket)
-      updatedSpecifications = {
-        ...updatedSpecifications,
-        socket: {
-          value: value,
-          Specification: {
-            name: "socket",
-          },
-        },
-      };
+    if (type === "checkbox") {
+      if (checked) {
+       
+        updatedSpecifications.push(Number(value));
+      } else {
+        
+        updatedSpecifications = updatedSpecifications.filter((val) => val !== Number(value));
+      }
+    } else {
+      if (productData.categoriaSeleccionada === "5") {
+        const tipoMemoriaSpec = specifications.find((spec) => spec.name === "tipo_memoria");
+
+        if (tipoMemoriaSpec) {
+          const tipoMemoriaValueObj = tipoMemoriaSpec.SpecificationValues.find((valObj) => valObj.value === value);
+
+          if (tipoMemoriaValueObj) {
+            const valueId = Number(tipoMemoriaValueObj.id);
+            updatedSpecifications = [valueId];
+          }
+        }
+      } else if (productData.categoriaSeleccionada === "3") {
+        const tipoSocketSpec = specificationsSocket.find((spec) => spec.name === "socket");
+
+        if (tipoSocketSpec) {
+          const tipoSocketValueObj = tipoSocketSpec.SpecificationValues.find((valObj) => valObj.value === value);
+
+          if (tipoSocketValueObj) {
+            const valueId = Number(tipoSocketValueObj.id);
+            updatedSpecifications = [valueId];
+          }
+        }
+      }
     }
-  
     setProductData({
       ...productData,
       [name]: value,
@@ -75,12 +91,12 @@ const ProductForm = () => {
       [name]: value,
       specifications: updatedSpecifications,
     });
+
     setErrors({
       ...errors,
       [name]: validationErrors[name],
     });
   };
-
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
 
@@ -93,16 +109,13 @@ const ProductForm = () => {
         formData.append("file", file);
         formData.append("upload_preset", uploadPreset);
 
-        // Realiza la solicitud HTTP para cargar la imagen en Cloudinary
         const response = await axios.post(
           `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
           formData
         );
 
-        // Muestra la vista previa de la imagen cargada
         setUploadedImage(response.data.secure_url);
 
-        // Actualiza el estado productData con la URL de la imagen
         setProductData({
           ...productData,
           imagen: response.data.secure_url,
@@ -113,7 +126,7 @@ const ProductForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const datosProducto = {
       nombre: productData.nombre,
@@ -123,23 +136,26 @@ const ProductForm = () => {
       stock: productData.stock,
       imagen: uploadedImage,
       descuento: productData.descuento,
-      specificationValues: productData.specifications,
+      specificationValues: productData.specificationValues,
+      //recordar que imagen funciona con estado independiente y no con productData
     };
-
+  
     const validationErrors = validate(productData);
     setErrors(validationErrors);
-
+  
     if (Object.keys(validationErrors).length === 0) {
-      dispatch(createProduct(datosProducto));
-      alert("Producto creado");
-      navigate("/admin");
+      crear();      
+      setTimeout(() => {
+        dispatch(createProduct(datosProducto));
+        navigate("/admin");
+        // damos un tiempo a que despache a admin para que muestre el toast
+      }, 2000);
     }
   };
 
   const cancelar = () => {
     navigate("/admin");
   };
-
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-slate-700 pb-3">
@@ -188,7 +204,7 @@ const ProductForm = () => {
             <div className="text-red-600">{errors.categoriaSeleccionada}</div>
           )}
         </div>
-        {productData.categoriaSeleccionada === "9"|| productData.categoriaSeleccionada === "5"&& (
+        { productData.categoriaSeleccionada === "5"&& (
   <div className="flex flex-col text-start">
     <label className="text-black">Selecciona un tipo de memoria:</label>
     <select
@@ -216,21 +232,22 @@ const ProductForm = () => {
       <div className="text-red-600">{errors.tipo_memoria}</div>
     )}
   </div>
+  
 )}
- {productData.categoriaSeleccionada === "5" && (
+{ productData.categoriaSeleccionada === "9"&& (
   <div className="flex flex-col text-start">
-    <label className="text-black">Selecciona un tipo de socket:</label>
+    <label className="text-black">Selecciona un tipo de memoria:</label>
     <select
-      name="socket"
-      value={productData.socket}
+      name="tipo_memoria"
+      value={productData.tipo_memoria}
       onChange={handleInputChange}
       className="text-black mb-2 border border-black w-80 h-8 rounded-md transition duration-300 hover:ring-2 hover:ring-blue-500 hover:border-blue-500"
     >
       <option value="" className="text-black">
-        Selecciona un tipo de socket
+        Selecciona un tipo de memoria
       </option>
-      {specificationsSocket
-        .find((spec) => spec.name === "socket")
+      {specifications
+        .find((spec) => spec.name === "tipo_memoria")
         ?.SpecificationValues.map((valueObj, index) => (
           <option
             key={index}
@@ -241,6 +258,55 @@ const ProductForm = () => {
           </option>
         ))}
     </select>
+    {errors.tipo_memoria && (
+      <div className="text-red-600">{errors.tipo_memoria}</div>
+    )}
+  </div>
+  
+)}
+{productData.categoriaSeleccionada === "5" && (
+  <div className="flex flex-col text-start">
+    <label className="text-black">Selecciona un tipo de socket:</label>
+    <div className="socket-options ml-4">
+      {specificationsSocket
+        .find((spec) => spec.name === "socket")
+        ?.SpecificationValues.filter((valueObj, index) => (
+          (index >= 0 && index <= 7) || (index >= 17 && index <= 21)
+        ))
+        .map((valueObj, index) => (
+          <label key={index} className="socket-option text-black flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              id={`socket_${index}`}
+              name={`socket_${index}`}
+              value={Number(valueObj.id)} 
+              checked={productData.specificationValues.includes(Number(valueObj.id))}
+              onChange={(e) => {
+                const selectedSocketId = Number(e.target.value);
+                const currentSpecifications = [...productData.specificationValues];
+
+               
+                if (currentSpecifications.includes(selectedSocketId)) {
+                  const updatedSpecifications = currentSpecifications.filter(id => id !== selectedSocketId);
+                  setProductData({
+                    ...productData,
+                    specificationValues: updatedSpecifications,
+                  });
+                } else {
+
+                  const updatedSpecifications = [...currentSpecifications, selectedSocketId];
+                  setProductData({
+                    ...productData,
+                    specificationValues: updatedSpecifications,
+                  });
+                }
+              }}
+              className="mr-2"
+            />
+            {valueObj.value}
+          </label>
+        ))}
+    </div>
     {errors.socket && (
       <div className="text-red-600">{errors.socket}</div>
     )}
@@ -340,6 +406,7 @@ const ProductForm = () => {
                 <img src={uploadedImage} alt="Vista previa de la imagen" width="300" />
               </div>
             )}
+            {errors.stock && <div className="text-red-600">{errors.imagen}</div>}
           </div>
         </div>
         <div className="text-center">
@@ -374,6 +441,18 @@ const ProductForm = () => {
           </div>
         </div>
       </form>
+      <ToastContainer
+          position="bottom-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
     </div>
   );
 };

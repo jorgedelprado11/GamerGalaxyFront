@@ -7,9 +7,6 @@ import {
   GET_SUBCATEGORIES,
   ORDER_BY_PRICE,
 
-  FETCH_SPECIFICATIONS_30,
-  FETCH_SPECIFICATIONS_9,
-  FETCH_SPECIFICATIONS_3,
 
   FILTER_BY_MARCAS,
   FILTER_ARMA_TU_PC,
@@ -273,50 +270,7 @@ export const removeToken = () => ({
 });
 
 
-export const fetchSpecifications3 = () => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get('http://localhost:3001/specifications/3');
-      console.log('Datos recibidos para ID 3:', response.data);
-      dispatch({
-        type: FETCH_SPECIFICATIONS_3,
-        payload: response.data,
-      });
-    } catch (error) {
-      console.error('Error al obtener datos para ID 3:', error.message);
-    }
-  };
-};
 
-export const fetchSpecifications9 = () => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get('http://localhost:3001/specifications/9');
-      console.log('Datos recibidos para ID 9:', response.data);
-      dispatch({
-        type: FETCH_SPECIFICATIONS_9,
-        payload: response.data,
-      });
-    } catch (error) {
-      console.error('Error al obtener datos para ID 9:', error.message);
-    }
-  };
-};
-
-export const fetchSpecifications30 = () => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get('http://localhost:3001/specifications/30');
-      console.log('Datos recibidos para ID 30:', response.data);
-      dispatch({
-        type: FETCH_SPECIFICATIONS_30,
-        payload: response.data,
-      });
-    } catch (error) {
-      console.error('Error al obtener datos para ID 30:', error.message);
-    }
-  };
-};
 
 export const updateCartQuantity = (productId, newQuantity) => {
   return {

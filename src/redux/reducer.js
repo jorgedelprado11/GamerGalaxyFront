@@ -33,9 +33,6 @@ import {
   GET_DESCUENTOS,
   GET_NAME,
   CLEAR,
-  FETCH_SPECIFICATIONS_3,
-  FETCH_SPECIFICATIONS_9,
-  FETCH_SPECIFICATIONS_30,
   CREATE_MERCADO_PAGO_PREFERENCE,
   UPDATE_CARRITO,
   GET_TOKEN,
@@ -44,6 +41,31 @@ import {
   GET_ELIMINADOS,
   REMOVE_TOKEN,
   GET_MARCAS,
+  FETCH_SPECIFICATIONS1,
+   FETCH_SPECIFICATIONS2,
+   FETCH_SPECIFICATIONS3,
+   FETCH_SPECIFICATIONS4,
+ FETCH_SPECIFICATIONS5,
+ FETCH_SPECIFICATIONS6,
+FETCH_SPECIFICATIONS7,
+FETCH_SPECIFICATIONS8,
+ FETCH_SPECIFICATIONS9,
+ FETCH_SPECIFICATIONS10,
+ FETCH_SPECIFICATIONS11,
+  FETCH_SPECIFICATIONS12, 
+  FETCH_SPECIFICATIONS13, 
+  FETCH_SPECIFICATIONS14,
+  FETCH_SPECIFICATIONS15, 
+  FETCH_SPECIFICATIONS16, 
+  FETCH_SPECIFICATIONS17, 
+  FETCH_SPECIFICATIONS18, 
+  FETCH_SPECIFICATIONS19, 
+  FETCH_SPECIFICATIONS20,
+  FETCH_SPECIFICATIONS21, 
+  FETCH_SPECIFICATIONS22, 
+  FETCH_SPECIFICATIONS23,
+  FETCH_SPECIFICATIONS24, 
+  FETCH_SPECIFICATIONS25, 
 } from "./actions/actions-types";
 
 let initialState = {
@@ -67,9 +89,33 @@ let initialState = {
   backupFiltrados: [],
   destacados: [],
   mercadoPagoPreferenceId: [],
+  specifications1: [],
+  specifications2: [],
   specifications3: [],
+  specifications4: [],
+  specifications5: [],
+  specifications6: [],
+  specifications7: [],
+  specifications8: [],
   specifications9: [],
-  specifications30: [],
+  specifications10: [],
+  specifications11: [],
+  specifications12: [],
+  specifications13: [],
+  specifications14: [],
+  specifications15: [],
+  specifications16: [],
+  specifications17: [],
+  specifications18: [],
+  specifications19: [],
+  specifications20: [],
+  specifications21: [],
+  specifications22: [],
+  specifications23: [],
+  specifications24: [],
+  specifications25: [],
+
+  
 
   /*
   {
@@ -350,22 +396,132 @@ export default function rootReducer(state = initialState, action) {
         usuarioCreado: action.payload,
       };
 
-    case FETCH_SPECIFICATIONS_3:
-      console.log("Array en specifications3:", action.payload);
+    case FETCH_SPECIFICATIONS1:
       return {
         ...state,
-        specifications3: action.payload,
+        specifications1: action.payload,
       };
-    case FETCH_SPECIFICATIONS_9:
-      return {
-        ...state,
-        specifications9: action.payload,
-      };
-    case FETCH_SPECIFICATIONS_30:
-      return {
-        ...state,
-        specifications30: action.payload,
-      };
+      case FETCH_SPECIFICATIONS2:
+        return {
+          ...state,
+          specifications2: action.payload,
+        };
+        case FETCH_SPECIFICATIONS3:
+          return {
+            ...state,
+            specifications3: action.payload,
+          };
+          case FETCH_SPECIFICATIONS4:
+            return {
+              ...state,
+              specifications4: action.payload,
+            };
+            case FETCH_SPECIFICATIONS5:
+              return {
+                ...state,
+                specifications5: action.payload,
+              };
+              case FETCH_SPECIFICATIONS6:
+                return {
+                  ...state,
+                  specifications6: action.payload,
+                };
+                case FETCH_SPECIFICATIONS7:
+                  return {
+                    ...state,
+                    specifications7: action.payload,
+                  };
+                  case FETCH_SPECIFICATIONS8:
+                    return {
+                      ...state,
+                      specifications8: action.payload,
+                    };
+                    case FETCH_SPECIFICATIONS9:
+                      return {
+                        ...state,
+                        specifications9: action.payload,
+                      };
+                      case FETCH_SPECIFICATIONS10:
+                        return {
+                          ...state,
+                          specifications10: action.payload,
+                        };
+                        case FETCH_SPECIFICATIONS11:
+                          return {
+                            ...state,
+                            specifications11: action.payload,
+                          };
+                          case FETCH_SPECIFICATIONS12:
+                            return {
+                              ...state,
+                              specifications12: action.payload,
+                            };
+                            case FETCH_SPECIFICATIONS13:
+                              return {
+                                ...state,
+                                specifications13: action.payload,
+                              };
+                                case FETCH_SPECIFICATIONS14:
+                                  return {
+                                    ...state,
+                                    specifications14: action.payload,
+                                  };
+                                  case FETCH_SPECIFICATIONS15:
+                                    return {
+                                      ...state,
+                                      specifications15: action.payload,
+                                    };
+                                    case FETCH_SPECIFICATIONS16:
+                                      return {
+                                        ...state,
+                                        specifications16: action.payload,
+                                      };
+                                      case FETCH_SPECIFICATIONS17:
+                                        return {
+                                          ...state,
+                                          specifications17: action.payload,
+                                        };
+                                        case FETCH_SPECIFICATIONS18:
+                                          return {
+                                            ...state,
+                                            specifications18: action.payload,
+                                          };
+                                          case FETCH_SPECIFICATIONS19:
+                                            return {
+                                              ...state,
+                                              specifications19: action.payload,
+                                            };
+                                            case FETCH_SPECIFICATIONS20:
+                                              return {
+                                                ...state,
+                                                specifications20: action.payload,
+                                              };
+                                              case FETCH_SPECIFICATIONS21:
+                                                return {
+                                                  ...state,
+                                                  specifications21: action.payload,
+                                                };
+                                                case FETCH_SPECIFICATIONS22:
+                                                  return {
+                                                    ...state,
+                                                    specifications22: action.payload,
+                                                  };
+                                                  case FETCH_SPECIFICATIONS23:
+                                                    return {
+                                                      ...state,
+                                                      specifications23: action.payload,
+                                                    };
+                                                    case FETCH_SPECIFICATIONS24:
+                                                      return {
+                                                        ...state,
+                                                        specifications24: action.payload,
+                                                      };
+                                                      case FETCH_SPECIFICATIONS25:
+                                                        return {
+                                                          ...state,
+                                                          specifications25: action.payload,
+                                                        };
+
 
     case GET_TOKEN:
       console.log(

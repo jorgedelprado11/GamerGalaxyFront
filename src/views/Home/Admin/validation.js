@@ -10,6 +10,13 @@ const validate = (state) => {
     } else if (state.nombre.match(/\d/)) {
       errors.nombre = "*Nombre no puede contener números";
     }
+    if (state.specificationValues.length > 2) {
+      errors.socket = "*No se pueden seleccionar más de un tipo de socket";
+      
+    }else if(state.specificationValues.length > ""){
+      errors.socket = "*Tienes que elegir al menos un tipo de socket";
+    }
+   
 
     if (state.calificacion === undefined) {
       errors.calificacion = "*El campo calificacion no puede estar vacío";
