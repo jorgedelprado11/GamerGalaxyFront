@@ -1,14 +1,31 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+// import emailjs from '@emailjs/browser';
 
 const SidebarUser = () => {
   const { user, isAuthenticated, logout } = useAuth0();
-  useEffect(() => {
-    // console.log(isAuthenticated);
-  }, [user, isAuthenticated]);
+
+  // useEffect(() => {
+  //   if (!isAuthenticated && user.email_verified) {
+      
+  //     const emailParams = {
+  //       to_email: user.email, 
+  //       user_name: `${user.given_name} ${user.family_name}`
+  //     };
+
+  //     emailjs.send('service_cas3gvi', 'template_pcny90r', emailParams, 'gwuVD2p851Uv2YQf1')
+  //       .then((response) => {
+  //         console.log('Correo electrónico enviado con éxito!', response);
+  //         setEmailSent(true);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error al enviar el correo electrónico:', error);
+  //       });
+  //   }
+  // }, [user, isAuthenticated]);
 
   const handleLogout = () => {
     logout({ returnTo: window.location.origin });
@@ -40,7 +57,7 @@ const SidebarUser = () => {
           </li>
           <li>
             <NavLink to="/user/Dirección" className="hover:text-blue-200 ">
-              Añadir Dirección
+              Dirección
             </NavLink>
           </li>
           <NavLink to="/ayuda" className="hover:text-blue-200">
@@ -51,11 +68,7 @@ const SidebarUser = () => {
               Mis pedidos
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/user/Favoritos" className="hover:text-blue-200">
-              Mis Favoritos
-            </NavLink>
-          </li>
+   
           <li>
             <button
               onClick={handleLogout}

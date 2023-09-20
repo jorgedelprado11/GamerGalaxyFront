@@ -11,6 +11,7 @@ import store from "./redux/store.js";
 import { Auth0Provider } from "@auth0/auth0-react";
 
 axios.defaults.baseURL = "https://back-end-pf-production.up.railway.app/";
+//axios.defaults.baseURL = "http://localhost:3001/";
 
 //tenemos que crear el store y ahi recien utilizamos el provider, sino tira error
 

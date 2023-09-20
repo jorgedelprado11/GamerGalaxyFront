@@ -1,7 +1,8 @@
 import { formatCurrency } from "../../../utils/format";
 
 function Detail({ setOpen, producto }) {
-  // console.log("desde el detail", producto);
+
+
   return (
     <div>
       {setOpen ? (
@@ -42,7 +43,7 @@ function Detail({ setOpen, producto }) {
                     <>
                       <img
                         className="w-40 h-40"
-                        src={producto.Images[0].url}
+                        src={producto.Images[2]?.url || producto.Images[0]?.url}
                         alt={producto.nombre}
                       />
                       <div className="flex flex-col border-b-4 border-blue-600 ml-4 w-5/6">
@@ -57,7 +58,7 @@ function Detail({ setOpen, producto }) {
                         <div className="flex text-justify">
                           <h3 className="font-semibold">PRECIO: </h3>
                           <p className="ml-2">
-                            ${formatCurrency(producto.precio)}
+                            ${formatCurrency(Math.floor(producto.precio))}
                           </p>
                         </div>
                         <div className="flex text-justify ">

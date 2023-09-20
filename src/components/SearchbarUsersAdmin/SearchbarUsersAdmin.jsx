@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,6 +12,7 @@ import { NavLink } from "react-router-dom";
 //En el button de modificar
 
 const SearchbarUsersAdmin = ({ currentPage, setCurrentPage }) => {
+  const token = useSelector((state) => state.infoToken);
   const dispatch = useDispatch();
   const [input, setInput] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,11 +29,11 @@ const SearchbarUsersAdmin = ({ currentPage, setCurrentPage }) => {
   };
   const handleAll = () => {
     event.preventDefault();
-    dispatch(obtenerUsuarios());
+    dispatch(obtenerUsuarios(token));
     setCurrentPage(1);
   };
 
-  const createUser = () => {
+  const restaurarUsuario = () => {
     alert("Crear usuario");
   };
 
@@ -57,12 +60,14 @@ const SearchbarUsersAdmin = ({ currentPage, setCurrentPage }) => {
             Todos
           </button>
         </form>
-        <button
-          className="rounded-lg bg-blue-500 hover:bg-blue-600 text-white p-2 h-12 ml-1"
-          onClick={() => createUser()}
-        >
-          Crear Usuario
-        </button>
+        <NavLink to="/admin/restaurar">
+          <button
+            className="rounded-lg bg-blue-500 hover:bg-blue-600 text-white p-2 h-12 ml-1"
+            //onClick={() => restaurarUsuario()}
+          >
+            Restaurar usuarios
+          </button>
+        </NavLink>
       </div>
     </div>
   );

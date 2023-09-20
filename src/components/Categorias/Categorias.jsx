@@ -4,9 +4,10 @@ import {
   getCategories,
   getByCategories,
   getSubCategories,
+  getMarcas,
 } from "../../redux/actions/actionsUsers";
 
-const Categorias = ({setCurrentPage }) => {
+const Categorias = ({ setCurrentPage }) => {
   const dispatch = useDispatch();
   const categorias = useSelector((state) => state.categorias);
   const subCategorias = useSelector((state) => state.subCategorias);
@@ -35,8 +36,10 @@ const Categorias = ({setCurrentPage }) => {
 
   const onClickCategories = (event) => {
     event.preventDefault();
-    // console.log(event.target.value);
+    // console.log("que tiene este value", event.target.value);
     dispatch(getByCategories(event.target.value));
+
+    dispatch(getMarcas());
     setCurrentPage(1);
   };
   const toggleMenu = (event) => {
@@ -66,11 +69,13 @@ const Categorias = ({setCurrentPage }) => {
       {categorias?.map((categoria) => (
         <div className="w-full" key={categoria.nombre}>
           <button
-            className=" items-start m-0 bg-slate-50 flex w-full pb-1 border-b-2 border-gray-100"
+            className=" items-start m-0 bg-slate-50 flex w-full pb-1 border-b-2 border-gray-100 hover:bg-slate-100"
             value={categoria.id_agrupador}
             onClick={(event) => toggleMenu(event)}
           >
-            {categoria.nombre}
+            {categoria.nombre === "Perisféricos"
+              ? "Periféricos"
+              : categoria.nombre}
           </button>
 
           <div>

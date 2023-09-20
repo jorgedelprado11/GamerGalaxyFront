@@ -1,37 +1,56 @@
-
-
 import { Link, useLocation } from "react-router-dom";
 import Detail from "../../views/Detail/Detail";
 import { formatCurrency } from "./../../../utils/format";
 import ArmaTuPc from "../../views/ArmaTuPc/ArmaTuPc";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/actions/actionsUsers";
-
-
-
+import { useAuth0 } from "@auth0/auth0-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Card = ({ producto, handleClickPaquete }) => {
+  const { isAuthenticated, loginWithPopup } = useAuth0();
+  const user = useSelector((state) => state.usuarioCreado);
   const location = useLocation();
   //Para crear la carta necesito: id, nombre, imagen, precio y boton agregar al carrito.
-
-  //Tengo que crear un handler para agregar al carrito los productos
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [productoEnCarrito, setProductoEnCarrito] = useState(null);
 
-  const handleAddToCart = () => {
-    setProductoEnCarrito(producto, () => {
-      // console.log("Producto agregado al carrito:", productoEnCarrito);
+  const agregado = () => {
+    // console.log("Hola");
+    toast.success(`El producto se ha añadido exitosamente`, {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: "colored",
     });
-    dispatch(addToCart({producto, quantity}));
-    window.alert("Se ha agregado el producto al carrito exitosamente");
   };
 
-  useEffect(()=> {
-// console.log(producto);
-  },[])
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      window.alert(
+        "Debes iniciar sesión para agregar productos al carro de compras."
+      );
+      loginWithPopup();
+      return;
+    }
+
+    if (producto.stock <= 0 || producto.stock === "Sin Stock") {
+      window.alert("Este producto no está disponible en stock.");
+      return;
+    }
+
+    dispatch(
+      addToCart({
+        id_producto: producto.id_producto,
+        quantity,
+        id_user: user.id,
+      })
+    );
+    // console.log("Cuantas veces ejecuto esto");
+    agregado();
+  };
 
   const handleQuantityChange = (event) => {
     const newQuantity = parseInt(event.target.value, 10);
@@ -47,7 +66,7 @@ const Card = ({ producto, handleClickPaquete }) => {
             <img
               className="my-6 w-24 h-24"
               key={producto.id_producto}
-              src={producto.Images[0].url}
+              src={producto.Images[2]?.url || producto.Images[0]?.url}
               alt={producto.nombre}
             />
           </button>
@@ -60,14 +79,12 @@ const Card = ({ producto, handleClickPaquete }) => {
             {producto.nombre}
           </h4>
           <h5 className="mb-4 h-4 text-xl text-blue-700">
-
-            $ {formatCurrency(Math.floor(producto.precio)) }
-
+            $ {formatCurrency(Math.floor(producto.precio))}
           </h5>
 
           {location.pathname.includes("/armatupc") ? (
             <button
-              className="text-xs text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500"
+              className="text-xs text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500 hover:bg-blue-600 shadow-lg"
               value={producto.id_producto}
               onClick={(event) => handleClickPaquete(event)}
             >
@@ -75,25 +92,32 @@ const Card = ({ producto, handleClickPaquete }) => {
             </button>
           ) : (
             <div className="flex flex-col items-center">
-            <input
-              type="number"
-              value={quantity}
-              onChange={handleQuantityChange}
-              className="w-16 h-8 border text-center text-xs outline-none"
-              min="1"
-            />
-          <button className="text-sm text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500"
-          onClick={handleAddToCart}
-          >
-            AGREGAR AL CARRITO
-          </button>
-          </div>
+              <input
+                type="number"
+                value={quantity}
+                onChange={handleQuantityChange}
+                className="w-16 h-8 border text-center text-xs outline-none"
+                min="1"
+                max={producto.stock}
+              />
+              <button
+                className="text-sm text-white font-semibold border-2 p-1 mb-1.5 rounded-md bg-blue-500 hover:bg-blue-600 shadow-lg"
+                onClick={() => handleAddToCart()}
+              >
+                AGREGAR AL CARRITO
+              </button>
+            </div>
           )}
-
         </div>
       )}
 
-      {isModalOpen && <Detail setOpen={setIsModalOpen} producto={producto} />}
+      {isModalOpen && (
+        <Detail
+          key={producto.nombre}
+          setOpen={setIsModalOpen}
+          producto={producto}
+        />
+      )}
     </div>
   );
 };

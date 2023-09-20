@@ -11,15 +11,28 @@ import {
 import CategoriasArmaTuPc from "../../components/CategoriasArmaTuPc/CategoriasArmaTuPc";
 import { formatCurrency } from "../../../utils/format";
 import { useNavigate } from "react-router";
+import ReiniciarConfirmacion from "../../components/ReiniciarConfirmacion/ReiniciarConfirmacion";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 let i = 0;
 
 const ArmaTuPc = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const productos = useSelector((state) => state.productos);
+  const user = useSelector((state) => state.usuarioCreado);
   const [armaTuPc, setArmaTuPc] = useState([]);
+  const [showReiniciarConfirmacion, setShowReiniciarConfirmacion] =
+    useState(false);
   const [click, setClick] = useState(false);
   const quantity = 1;
+
+  const agregado = () => {
+    toast.success(`Tu pc se ha añadido al carrito!!!`, {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: "colored",
+    });
+  };
 
   // console.log("log de productos", productos);
   const handleClickMarca = (event) => {
@@ -43,21 +56,31 @@ const ArmaTuPc = () => {
   const reiniciar = () => {
     setArmaTuPc([]);
     setClick(false);
+    setShowReiniciarConfirmacion(false);
     i = 0;
   };
 
   // todo el carrito
 
   const agregarAlCarro = () => {
-    armaTuPc.map((producto) => dispatch(addToCart({ producto, quantity })));
-
+    armaTuPc.map((producto) =>
+      dispatch(
+        addToCart({
+          id_producto: producto.id_producto,
+          quantity: 1,
+          id_user: user.id,
+        })
+      )
+    );
+    agregado();
     setArmaTuPc([]);
     setClick(false);
     i = 0;
+
     navigate("/carrito");
   };
 
-  console.log("componentes arma tu pc desde el mismo", armaTuPc);
+  // console.log("componentes arma tu pc desde el mismo", armaTuPc);
   // console.log('clic', click);
 
   let subTotal = 0;
@@ -82,8 +105,8 @@ const ArmaTuPc = () => {
             <CategoriasArmaTuPc armaTuPc={armaTuPc} />
             <div className="flex flex-row h-8 pt-4 place-content-between">
               <button
-                className="p-2 mb-4 border-4 bg-red-500 text-white font-bold w-full h-fit rounded-xl"
-                onClick={reiniciar}
+                className="p-2 mb-4 border-4 bg-red-500 hover:bg-red-600 text-white font-bold w-full h-fit rounded-xl"
+                onClick={() => setShowReiniciarConfirmacion(true)}
               >
                 Reiniciar
               </button>
@@ -111,7 +134,9 @@ const ArmaTuPc = () => {
                   {armaTuPc.map((product) => (
                     <div className="flex flex-row justify-between mt-1">
                       <p className="mr-8">{product.nombre}</p>
-                      <span>$ {formatCurrency(Math.floor(product.precio))}</span>
+                      <span>
+                        $ {formatCurrency(Math.floor(product.precio))}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -142,13 +167,23 @@ const ArmaTuPc = () => {
                     />
                   </>
                 ) : (
-                  <p className="m-8">
-                    En este momento no contamos con productos compatibles con tu
-                    selección.
-                    <br />
-                    Por favor presiona en el botón Reiniciar y elige otro
-                    camino.
-                  </p>
+                  <div className="m-8">
+                    <p>
+                      En este momento no contamos con productos compatibles con
+                      tu selección.
+                      <br />
+                      Por favor presiona en el botón Reiniciar y elige otro
+                      camino.
+                    </p>
+                    <div className="flex justify-end">
+                      <button
+                        className="p-2 mb-4 border-4 bg-red-500 hover:bg-red-600 text-white font-bold w-24 h-fit rounded-xl"
+                        onClick={() => setShowReiniciarConfirmacion(true)}
+                      >
+                        Reiniciar
+                      </button>
+                    </div>
+                  </div>
                 )}
               </>
             )}
@@ -196,6 +231,20 @@ const ArmaTuPc = () => {
           </div>
         </div>
       )}
+      <ReiniciarConfirmacion
+        isOpen={showReiniciarConfirmacion}
+        setIsOpen={setShowReiniciarConfirmacion}
+        reiniciar={reiniciar}
+      />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
     </div>
   );
 };

@@ -10,7 +10,15 @@ import {
   GET_USUARIOS_ID,
   PUT_USUARIOS_ID,
   PUT_PRECIOS_ID,
+  GET_PEDIDOS_ID,
+  GET_PEDIDOS,
+  PUT_ORDER_STATUS,
+  GET_ELIMINADOS,
+  GET_ALL_REVIEWS,
+  FETCH_SPECIFICATIONS_9,
+  FETCH_SPECIFICATIONS_3,
 } from "./actions-types";
+
 export const FETCH_CATEGORIES_SUCCESS = "FETCH_CATEGORIES_SUCCESS";
 export const CREATE_PRODUCT_SUCCESS = "CREATE_PRODUCT_SUCCESS";
 
@@ -25,6 +33,36 @@ export const fetchCategories = () => async (dispatch) => {
   }
 };
 
+export const fetchSpecifications3 = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("specifications/3");
+
+      dispatch({
+        type: FETCH_SPECIFICATIONS_3,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error("Error al obtener datos para ID 30:", error.message);
+    }
+  };
+};
+
+export const fetchSpecifications9 = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("specifications/9");
+      console.log("Datos recibidos para ID 9:", response.data);
+      dispatch({
+        type: FETCH_SPECIFICATIONS_9,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error("Error al obtener datos para ID 9:", error.message);
+    }
+  };
+};
+
 export const createProduct = (productData) => async (dispatch) => {
   const datoFormateado = {
     nombre: productData.nombre,
@@ -34,6 +72,7 @@ export const createProduct = (productData) => async (dispatch) => {
     stock: Number(productData.stock),
     id_categoria: Number(productData.id_categoria),
     imagen: productData.imagen.toString(),
+    specificationValues: productData.specificationValues,
   };
 
   try {
@@ -135,12 +174,16 @@ export const modificarProducto = (id, data) => async (dispatch) => {
   }
 };
 
-export const obtenerUsuarios = () => {
+export const obtenerUsuarios = (token) => {
   const endpoint = "/users";
 
   return async (dispatch) => {
     try {
-      const { data } = await axios(endpoint);
+      const { data } = await axios(endpoint, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       return dispatch({
         type: GET_USUARIOS,
@@ -174,10 +217,15 @@ export const getUsuarioPorNombre = (name) => {
   };
 };
 
-export const borrarUsuario = (id) => async (dispatch) => {
+export const borrarUsuario = (id, token) => async (dispatch) => {
+  const endpoint = "/users";
   try {
     await axios.delete(`/users/${id}`);
-    const { data } = await axios("/users");
+    const { data } = await axios(endpoint, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     dispatch({
       type: DELETE_USUARIO,
@@ -202,12 +250,33 @@ export const getUsuarioPorId = (id) => async (dispatch) => {
   }
 };
 
-export const modificarUsuario = (id, data) => async (dispatch) => {
-  const informacion = data;
+export const obtenerPedidosId = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios(`/order`);
 
+    const filter = data.filter(
+      (pedido) => +pedido.id_user === +id && pedido.status !== "cart"
+    );
+
+    dispatch({
+      type: GET_PEDIDOS_ID,
+      payload: filter,
+    });
+  } catch (error) {
+    alert("No existe pedidos para ese usuario");
+  }
+};
+
+export const modificarUsuario = (id, data, token) => async (dispatch) => {
+  const informacion = data;
+  const endpoint = "/users";
   try {
     await axios.put(`/users/${id}`, informacion);
-    const { data } = await axios("/users");
+    const { data } = await axios(endpoint, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch({
       type: PUT_USUARIOS_ID,
       payload: data,
@@ -220,7 +289,7 @@ export const modificarUsuario = (id, data) => async (dispatch) => {
 export const cambiarPrecioSegunDolar = (value) => async (dispatch) => {
   try {
     const { data } = await axios("/productos");
-    console.log(data);
+
     for (const producto of data) {
       for (const key in producto) {
         if (key === "id_producto") {
@@ -237,5 +306,104 @@ export const cambiarPrecioSegunDolar = (value) => async (dispatch) => {
     });
   } catch (error) {
     console.error("Error al cambiar precios:", error);
+  }
+};
+
+export const modificarOrderStatus = (id, data) => async (dispatch) => {
+  const informacion = data;
+  const idUser = id;
+  console.log("ID EN MODIFICAR ORDENES-->", id);
+  try {
+    await axios.put("/order/update/status", informacion);
+    const { data } = await axios(`/order`);
+    /*   const filter = data.filter(
+      (pedido) => +pedido.id_user === +id && pedido.status !== "cart"
+    ); */
+
+    const info = {
+      data: data,
+      id: idUser,
+    };
+    dispatch({
+      type: PUT_ORDER_STATUS,
+      payload: info,
+    });
+  } catch (error) {
+    console.error("Error al modificar producto:", error);
+  }
+};
+
+export const obtenerEliminados = () => {
+  const endpoint = "/users/eliminados";
+
+  return async (dispatch) => {
+    try {
+      const { data } = await axios(
+        endpoint /* , {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      } */
+      );
+
+      console.log(data);
+
+      return dispatch({
+        type: GET_ELIMINADOS,
+        payload: data,
+      });
+    } catch (error) {
+      alert("error:", error.message);
+    }
+  };
+};
+
+export const restaurarUsuarios = (id) => {
+  const endpoint = "/users/eliminados";
+
+  return async (dispatch) => {
+    await axios.post(`users/restore-user/${id}`);
+    try {
+      const { data } = await axios(endpoint, {
+        /* headers: {
+          Authorization: `Bearer ${token}`,
+        },*/
+      });
+
+      return dispatch({
+        type: GET_ELIMINADOS,
+        payload: data,
+      });
+    } catch (error) {
+      alert("error:", error.message);
+    }
+  };
+};
+
+export const obtenerPedidos = () => async (dispatch) => {
+  try {
+    const { data } = await axios(`/order`);
+
+    const filter = data.filter((pedido) => pedido.status !== "cart");
+
+    dispatch({
+      type: GET_PEDIDOS,
+      payload: filter,
+    });
+  } catch (error) {
+    alert("No existe pedidos para ese usuario");
+  }
+};
+
+export const obtenerReviews = () => async (dispatch) => {
+  try {
+    const { data } = await axios(`/comments`);
+
+    dispatch({
+      type: GET_ALL_REVIEWS,
+      payload: data,
+    });
+  } catch (error) {
+    alert("No existe pedidos para ese usuario");
   }
 };

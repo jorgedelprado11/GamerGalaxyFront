@@ -1,34 +1,120 @@
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../../redux/actions/actionsUsers"; // Importa la acción para eliminar del carrito
+
+import {
+  addToCart,
+  getDireccion,
+  guardarToken,
+  removeFromCart,
+} from "../../redux/actions/actionsUsers"; // Importa la acción para eliminar del carrito
+
 import { formatCurrency } from "../../../utils/format";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 const Carrito = () => {
-  const [total, setTotal] = useState(0);
   const cart = useSelector((state) => state.carrito);
   const dispatch = useDispatch();
+  const direccion = useSelector((state) => state.direccion);
+  const user = useSelector((state) => state.usuarioCreado);
+  const token = localStorage.getItem("token");
 
-  const handleRemoveFromCart = (producto) => {
-    console.log(producto, "del remove");
-    dispatch(removeFromCart(producto.id_producto));
+  const eliminar = () => {
+    toast.error(`El producto ha sido eliminado del carrito`, {
+      position: toast.POSITION.TOP_RIGHT,
+      theme: "colored",
+    });
   };
 
+  // console.log(" desde el carrito", cart);
+  const handleRemoveFromCart = (infoEliminada) => {
+    dispatch(removeFromCart(infoEliminada));
+    eliminar();
+  };
+
+  const handleQuantityChange = (producto, event) => {
+    let quantity = event.target.value;
+
+    dispatch(
+      addToCart({
+        id_producto: producto.id_producto,
+        quantity,
+        id_user: user.id,
+      })
+    );
+  };
+  const idUser = user.id;
   useEffect(() => {
-    calcularTotal();
-  }, [cart]);
+    dispatch(guardarToken(user));
+    dispatch(getDireccion(idUser));
+  }, [dispatch, idUser]);
 
-  const calcularTotal = () => {
-    let tot = 0;
-    for (const item of cart) {
-      tot += Math.floor(item.producto.precio) * item.cantidad;
+  const calcularTotal = Math.floor(
+    cart.length > 0
+      ? cart.map((cesta) => cesta.OrderProduct.price).reduce((a, b) => a + b, 0)
+      : 0
+  );
+
+  const handlePagarClick = async () => {
+    if (!direccion) {
+      return alert("Debe tener una dirección asignada");
     }
-    setTotal(tot);
+
+    if (!cart.length) {
+      return alert("Debe tener productos en el carrito");
+    }
+    try {
+      // Realizar la solicitud para obtener el init point de Mercado Pago
+      const responseMercadoPago = await axios.post(
+        /* "http://localhost:3001/mercadoPago/checkout" */ "mercadoPago/checkout",
+        {
+          products: cart.map((producto) => ({
+            title: producto.nombre,
+            price: Math.floor(producto.precio),
+            quantity: producto.quantity,
+            description: ".",
+          })),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const initPoint = responseMercadoPago.data.init_point;
+
+      // Extraer el ID de preferencia (pref_id) de la URL de initPoint
+      const url = new URL(initPoint);
+      const searchParams = new URLSearchParams(url.search);
+      const idPreferencia = searchParams.get("pref_id");
+
+      // Crear un objeto que contenga id_producto, quantity e id_preferencia
+      const productosParaActualizar = {
+        id_orden: idPreferencia,
+        productos: cart.map((producto) => ({
+          id_producto: producto.id_producto,
+          quantity: producto.quantity,
+        })),
+      };
+
+      await axios.put("order/payment-success", user.id, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Redirigir al usuario al proceso de pago en Mercado Pago
+      window.location.href = initPoint;
+    } catch (error) {
+      console.error(
+        "Error al realizar el proceso de pago o actualizar el carrito:",
+        error
+      );
+    }
   };
-
-  // Calcular el subtotal
-
-  // const costoDeEnvio = cart.length > 0 ? 2000 : 0;
-  // const total = Suma + costoDeEnvio;
 
   return (
     <div className="w-full my-8 flex flex-row ">
@@ -36,32 +122,53 @@ const Carrito = () => {
         <div className="rounded-lg md:w-2/3">
           {cart.map((producto) => (
             <div
-              key={producto.producto.id}
+              key={producto.id_producto}
               className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
             >
               <img
-                src={producto.producto.Images[0].url}
+                src={producto.Images[2]?.url || producto.Images[0]?.url}
                 alt="producto-image"
                 className="w-full rounded-lg sm:w-40"
               />
               <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between h-40 w-full">
                 <div className="mt-5 sm:mt-0 h-full w-full">
                   <h2 className="flex text-lg font-bold text-gray-900 h-[60px] items-center">
-                    {producto.producto.nombre}
+                    {producto.nombre}
                   </h2>
+                  <div className="flex flex-row">
+                    <p className="mt-1 text-xs text-gray-700 mr-4">
+                      Cantidad:
+                      {producto.OrderProduct.quantity}
+                    </p>
+                    <p className="mt-1 text-xs text-gray-700 ml-4">
+                      Disponibilidad:{" "}
+                      {+producto.OrderProduct.quantity + producto.stock}
+                    </p>
+                  </div>
                   <p className="mt-1 text-xs text-gray-700">
-                    Cantidad: {producto.cantidad}
+                    Precio por item: $
+                    {formatCurrency(Math.floor(producto.precio))}
                   </p>
-                  <p className="mt-1 text-xs text-gray-700">
-                    Precio por item: ${formatCurrency(Math.floor(producto.producto.precio))}
-                  </p>
-                  <div className="h-20 w- flex items-end justify-end">
-                  <button
-                    onClick={() => handleRemoveFromCart(producto.producto)}
-                    className=" m-4 bg-blue-700 text-white px-3 py-1 rounded"
-                  >
-                    X
-                  </button>
+                  <div className="flex flex-row justify-between">
+                    <input
+                      type="number"
+                      value={producto.OrderProduct.quantity}
+                      onChange={() => handleQuantityChange(producto, event)}
+                      className="w-16 h-8 border text-center text-xs outline-none"
+                      min="1"
+                      max={+producto.OrderProduct.quantity + producto.stock}
+                    />
+                    <button
+                      onClick={() =>
+                        handleRemoveFromCart({
+                          id_producto: producto.id_producto,
+                          id_user: user.id,
+                        })
+                      }
+                      className=" m-4 bg-blue-700 text-white px-3 py-1 rounded"
+                    >
+                      X
+                    </button>
                   </div>
                 </div>
               </div>
@@ -69,31 +176,65 @@ const Carrito = () => {
           ))}
         </div>
         {/* Sub total */}
-        <div className="mt-6 h-min rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3 w-[300px] h-[350px]">
+        <div className="mt-6 rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3 w-[300px] h-[280px]">
           <div className="mb-2 flex justify-between">
-            <p className="text-gray-700">Subtotal</p>
-            <p className="text-gray-700">${formatCurrency(total)}</p>
+            <p className="text-gray-700">Subtotal</p>$
+            {formatCurrency(calcularTotal)}
+            {/* <p className="text-gray-700">${formatCurrency(total)}</p> */}
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Costo de envío</p>
-            <p className="text-gray-700">
-              $ {formatCurrency(total === 0 ? 0 : 2000)}
+            <p
+              className={`${
+                calcularTotal === 0 ? "text-gray-700" : "text-green-700"
+              }`}
+            >
+              {calcularTotal === 0 ? "$ 0" : "Gratis"}
             </p>
+          </div>
+          <div className="mb-2 flex justify-between mt-1">
+            <p className="text-gray-700">Direccion</p>
+            {direccion ? (
+              <div className="text-right">
+                <p>{direccion.calle}</p>
+
+                <p className="text-gray-700">CP {direccion.codigo_postal}</p>
+              </div>
+            ) : (
+              <Link to="/user/Dirección">
+                <button className="my-2 w-[100px] rounded-md bg-blue-500 py-1.5 text-[12px] text-blue-50 hover:bg-blue-600">
+                  Agregar Dirección
+                </button>
+              </Link>
+            )}
+            {/* <p className="text-gray-700">${formatCurrency(total)}</p> */}
           </div>
           <hr className="my-4" />
           <div className="flex justify-between">
             <p className="text-lg font-bold">Total</p>
             <div>
               <p className="mb-1 text-lg font-bold">
-                ${formatCurrency(total === 0 ? 0 : total + 2000)}
+                ${formatCurrency(calcularTotal === 0 ? 0 : calcularTotal)}
               </p>
             </div>
           </div>
-          <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
+          <button
+            className="my-2 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+            onClick={handlePagarClick}
+          >
             Pagar
           </button>
         </div>
       </div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
     </div>
   );
 };
