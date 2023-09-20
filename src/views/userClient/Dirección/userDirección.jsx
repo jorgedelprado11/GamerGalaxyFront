@@ -64,7 +64,7 @@ const UserDireccion = () => {
     setEditar(false);
   };
 
-  console.log("holaaa", user);
+  console.log("direccion en userdireccion", usuarioDireccion);
   const idUser = user.id;
   useEffect(() => {
     dispatch(getDireccion(idUser));
@@ -79,7 +79,7 @@ const UserDireccion = () => {
       {/* Contenido principal */}
       <main className="flex-1 p-4 bg-gray-200 shadow-md w-auto">
         <div className="max-w-lg shadow-md mx-auto mt-2 p-4 flex flex-col border-t-8 border-r-blue-700">
-          {usuarioDireccion?.length === 0 ? (
+          {usuarioDireccion === null ? (
             <div>
               <button
                 className="mt-2  bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"

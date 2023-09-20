@@ -20,7 +20,7 @@ const Card = ({ producto, handleClickPaquete }) => {
   const [productoEnCarrito, setProductoEnCarrito] = useState(null);
 
   const agregado = () => {
-    console.log("Hola");
+    // console.log("Hola");
     toast.success(`El producto se ha añadido exitosamente`, {
       position: toast.POSITION.TOP_RIGHT,
       theme: "colored",
@@ -48,7 +48,7 @@ const Card = ({ producto, handleClickPaquete }) => {
         id_user: user.id,
       })
     );
-    console.log("Cuantas veces ejecuto esto");
+    // console.log("Cuantas veces ejecuto esto");
     agregado();
   };
 

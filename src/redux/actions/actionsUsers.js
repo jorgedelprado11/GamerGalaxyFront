@@ -180,13 +180,13 @@ export const putDireccion = (direccion, id) => {
   };
 };
 export const getDireccion = (idUser) => {
-  console.log("usuario-->", idUser);
+  //console.log("usuario-->", idUser);
   return async (dispatch) => {
     const response = await axios.get(`/location/user/${idUser}`);
-    console.log("ACTION USERS", response.data);
+    //console.log("ACTION USERS", response.data);
     dispatch({
       type: GET_DIRECCION,
-      payload: response.data.Location,
+      payload: response.data,
     });
   };
 };
@@ -304,7 +304,7 @@ export const getCalificaciones = () => {
 export const addToCart = (info) => {
   return async function (dispatch) {
     const { data } = await axios.put(`/order/update`, info);
-    console.log("a ver los productos perrrro", data.Products);
+    // console.log("a ver los productos perrrro", data.Products);
     dispatch({
       type: ADD_TO_CART,
       payload: data.Products,

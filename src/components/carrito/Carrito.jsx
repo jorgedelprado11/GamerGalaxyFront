@@ -21,6 +21,7 @@ const Carrito = () => {
   const user = useSelector((state) => state.usuarioCreado);
   const token = localStorage.getItem("token");
 
+  console.log("antes del cart", cart);
   const eliminar = () => {
     toast.error(`El producto ha sido eliminado del carrito`, {
       position: toast.POSITION.TOP_RIGHT,
@@ -58,9 +59,13 @@ const Carrito = () => {
   );
 
   const handlePagarClick = async () => {
-    if (typeof direccion.calle === "undefined") {
+    if (!direccion) {
       console.log("Entra?");
       return alert("Debe tener una dirección asignada");
+    }
+
+    if (!cart.length) {
+      return alert("Debe tener productos en el carrito");
     }
     try {
       // Realizar la solicitud para obtener el init point de Mercado Pago
@@ -115,6 +120,8 @@ const Carrito = () => {
       );
     }
   };
+
+  console.log("DESPUES del cart", cart);
 
   return (
     <div className="w-full my-8 flex flex-row ">
@@ -194,7 +201,7 @@ const Carrito = () => {
           </div>
           <div className="mb-2 flex justify-between mt-1">
             <p className="text-gray-700">Direccion</p>
-            {typeof direccion.calle !== "undefined" ? (
+            {direccion ? (
               <div className="text-right">
                 <p>{direccion.calle}</p>
 

@@ -25,7 +25,7 @@ const UserClient = () => {
   //Info de Auth0
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useAuth0();
-  console.log(user, "linea 6");
+  /* console.log(user, "linea 6"); */
 
   useEffect(() => {
     if (user) {

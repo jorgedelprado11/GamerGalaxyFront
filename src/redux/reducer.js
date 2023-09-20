@@ -206,7 +206,7 @@ export default function rootReducer(state = initialState, action) {
 
     //carrito
     case ADD_TO_CART:
-      console.log("a ver que llega al reducer", action.payload);
+      //console.log("a ver que llega al reducer", action.payload);
       return {
         ...state,
         carrito: action.payload,
@@ -536,10 +536,10 @@ export default function rootReducer(state = initialState, action) {
         id_location: action.payload.location.id_location,
       };
     case GET_DIRECCION:
-      console.log("reducer DIRECCION-->", action.payload.Location);
+      //console.log("reducer DIRECCION-->", action.payload.Location);
       return {
         ...state,
-        direccion: action.payload,
+        direccion: action.payload.Location,
       };
 
     case FILTER_BY_MARCAS:
